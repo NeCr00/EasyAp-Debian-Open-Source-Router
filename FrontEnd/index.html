@@ -1,104 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bootstrap demo</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-      crossorigin="anonymous"
-    />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-      <link href="css/index.css"
-      rel="stylesheet">
-  </head>
-  <body>
-    <div class="container-fluid">
+    <title>EasyAP</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" />
+    <script defer src="/FrontEnd/js/index.js"></script>
+    
+ <!--Load the AJAX API-->
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+    <div class="container-fluid ">
         <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <!-- Navigation Bar-->
+            <div class="col-auto col-md-auto col-xl-auto  px-0 bg-dark border-end border-3 border-opacity-75 border-primary">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                    <p class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <span class="fs-5 d-none d-sm-inline">Dashboard</span>
+                    <p class="d-flex ">
+                        <span class=""><span class="fs-1">EasyAP</span></span>
                     </p>
-                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link align-middle px-2">
-                                <ion-icon name="home" size="medium"></ion-icon>
-                                <i class="fs-3 bi-house"></i>  <span class="ms-1 d-none d-sm-inline fs-6 fw-bolder">Dashboard</span>
-                                
-                            </a>
-                        </li>
-                       
-                        <li class="nav-item">
-                            <a href="#" class="nav-link align-middle px-2">
-                                <ion-icon name="server-outline" size="medium"></ion-icon>
-                                <i class="fs-3 bi-house"></i>  <span class="ms-1 d-none d-sm-inline fs-6 fw-bolder">DHCP Server</span>
-                                
+                    <div
+                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-1 border-bottom text ">
+                    </div>
+
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100 py-3"
+                        id="menu">
+                        <li
+                            class="nav-item w-100 border-bottom border-primary border-opacity-25 list-group-item-action menu-hover">
+                            <a href="#" class="nav-link align-middle px-2 py-2">
+                                <ion-icon name="home" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Dashboard</span>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link align-middle px-2">
-                                <ion-icon name="document-lock-outline"></ion-icon>
-                                <i class="fs-3 bi-house"></i>  <span class="ms-1 d-none d-sm-inline fs-6 fw-bolder">VPN</span>
-                                
+                        <li
+                            class="nav-item w-100 border-bottom border-primary border-opacity-25 list-group-item-action menu-hover">
+                            <a href="#" class="nav-link align-middle px-2 py-2">
+                                <ion-icon name="server-outline" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">DHCP Server</span>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link align-middle px-2">
-                                <ion-icon name="settings-outline"></ion-icon>
-                                <i class="fs-3 bi-house"></i>  <span class="ms-1 d-none d-sm-inline fs-6 fw-bolder">Settings</span>
-                                
+                        <li
+                            class="nav-item w-100 border-bottom border-primary border-opacity-25 list-group-item-action menu-hover">
+                            <a href="#" class="nav-link align-middle px-2 py-2">
+                                <ion-icon name="globe" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Dynamic DNS</span>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link align-middle px-2">
+                        <li
+                            class="nav-item w-100 border-bottom border-primary border-opacity-25 list-group-item-action menu-hover">
+                            <a href="#" class="nav-link align-middle px-2 py-2">
+                                <ion-icon name="document-lock-outline" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">VPN</span>
+                            </a>
+                        </li>
+                        <li
+                            class="nav-item w-100 border-bottom border-primary border-opacity-25 list-group-item-action menu-hover">
+                            <a href="#" class="nav-link align-middle px-2 py-2">
+                                <!-- <ion-icon name="logo-firebase"></ion-icon> -->
+                                <ion-icon name="flame"></ion-icon>
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Firewall</span>
+                            </a>
+                        </li>
+
+                        <li
+                            class="nav-item w-100 border-bottom border-primary border-opacity-25 list-group-item-action menu-hover">
+                            <a href="#" class="nav-link align-middle px-2 py-2">
+                                <ion-icon name="settings-outline" class=""></ion-icon>
+                                <span class="ms-1 fs-5 fw-bold ">Settings</span>
+
+                            </a>
+                        </li>
+
+                        <li
+                            class="nav-item w-100 border-bottom border-primary border-opacity-25 list-group-item-action menu-hover">
+                            <span class="border-bottom border-3 border-primary"></span>
+                            <a href="#" class="nav-link align-middle px-2 py-2">
                                 <ion-icon name="stats-chart-outline"></ion-icon>
-                                <i class="fs-3 bi-house"></i>  <span class="ms-1 d-none d-sm-inline fs-6 fw-bolder">Data Usage</span>
-                                
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Data Usage</span>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link align-middle px-2">
-                                <ion-icon name="help-outline"></ion-icon>
-                                <i class="fs-3 bi-house"></i>  <span class="ms-1 d-none d-sm-inline fs-6 fw-bolder">About</span>
-                                
+                        <li
+                            class="nav-item w-100 border-bottom border-primary border-opacity-25 list-group-item-action menu-hover">
+                            <a href="#" class="nav-link align-middle px-2 py-2">
+                                <ion-icon name="help-circle"></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder ">About</span>
+                                </span>
                             </a>
                         </li>
+
+
+
+
                     </ul>
-                    <hr>
-                    <div class=" pb-1">
-                        
-                        <button type="button" class="btn btn-light"><ion-icon class = logout-icon name="log-out-outline"></ion-icon> Logout</button>
 
-                        
+                    <hr />
+                    <div class="dropdown pb-4">
+                        <a href="#" class="d-flex align-items-center fs-4 logout-hover" id="dropdownUser1" 
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <ion-icon class="logout-icon" name="log-out-outline"></ion-icon>
+                            <span class="">Logout</span>
+                        </a>
+
                     </div>
                 </div>
             </div>
-            <div class="col py-3">
-                <h3>Left Sidebar with Submenus</h3>
-                <p class="lead">
-                    An example 2-level sidebar with collasible menu items. The menu functions like an "accordion" where only a single 
-                    menu is be open at a time. While the sidebar itself is not toggle-able, it does responsively shrink in width on smaller screens.</p>
-                <ul class="list-unstyled">
-                    <li><h5>Responsive</h5> shrinks in width, hides text labels and collapses to icons only on mobile</li>
-                </ul>
+            <div class="col py-3 bg-light vh-100 master-container">
+                <div class="col container-color border border-2 border-primary border-opacity-25 vh-100 rounded-3 ">
+                    <div class="conteiner-fluid ">
+                        <div class="alert alert-primary text-center fs-4" role="alert">
+                            
+                            <h3> <span>
+                                <ion-icon class="mt-0"name="speedometer-sharp">
+                                
+                                </ion-icon>
+                            </span>Dashboard</h3>
+                        </div>
+                    </div>
+               
+                    <div class="container-fluid ">
+
+                        <div class="row row-cols-2 row-cols-md-2  mt-5 justify-content-evenly ">
+                            <div class="col-md-6 col-auto ">
+                                <div class="card">
+                                    <div class="card-body border border-1 border-primary border-opacity-25">
+                                        <div class="row row-cols-2">
+                                            <div class="col-md-11 col-xl-10 mt-2 ">
+                                                <h3 class="fs-3 fw-normal"> Devices</h3>
+                                            </div>
+                                            <div class="col-2 float-lg-start">
+                                                <ion-icon class="user" name="desktop"></ion-icon>
+                                            </div>
+                                        </div>
+
+                                        <div class="container table-responsive m-3 align-content-center"> 
+                                            <table class="table table-bordered table-hover">
+                                              <thead class="thead-dark">
+                                                <tr>
+                                                  <th scope="col"># </th>
+                                                  <th scope="col">Device</th>
+                                                  <th scope="col">IP</th>
+                                                  <th scope="col">MAC Address</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <th scope="row">1</th>
+                                                  <td>Mark</td>
+                                                  <td>Otto</td>
+                                                  <td>@mdo</td>
+                                                </tr>
+                                                <tr>
+                                                  <th scope="row">2</th>
+                                                  <td>Jacob</td>
+                                                  <td>Thornton</td>
+                                                  <td>@fat</td>
+                                                </tr>
+                                                <tr>
+                                                  <th scope="row">3</th>
+                                                  <td>Larry</td>
+                                                  <td>the Bird</td>
+                                                  <td>@twitter</td>
+                                                </tr>
+                                                 <tr>
+                                                  <th scope="row">4</th>
+                                                  <td>Larry</td>
+                                                  <td>the Bird</td>
+                                                  <td>@twitter</td>
+                                                </tr>
+                                                <tr>
+                                                  <th scope="row">5</th>
+                                                  <td>Larry</td>
+                                                  <td>the Bird</td>
+                                                  <td>@twitter</td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-auto">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row row-cols-2">
+                                            <div class="col-md-11 col-xl-10 mt-2 ">
+                                                <h3 class="fs-3 fw-normal"> Perfomance</h3>
+                                            </div>
+                                            <div class="col-2 float-lg-start">
+                                                <ion-icon class="user" name="speedometer-sharp"></ion-icon>
+                                            </div>
+
+                                        </div>
+                                        <div id="chart_div"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                          
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
             </div>
         </div>
     </div>
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>    
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
+    </script>
+</body>
+
 </html>

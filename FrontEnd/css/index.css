@@ -1,8 +1,52 @@
 ion-icon {
-    font-size: 25px;
-    
+    font-size: 30px;
+    padding-top: 5px;
+    ;
   }
 
   .logout-icon {
     font-size: 45px;
   }
+
+  hr{
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: px solid rgb(255, 6, 6);
+    
+  }
+
+  .menu-hover:hover{
+    background-color: rgb(255, 255, 255)!important;
+    transform: scale(1.10) !important;
+}
+
+.menu-hover:active{
+  background-color: #f0f0f0a1 !important;
+  box-shadow: 0 5px #666 !important;
+  transform: translateY(4px) !important;
+}
+
+.logout-hover:active{
+  
+  box-shadow: 1 2px #666 !important;
+  transform: translateY(4px) !important;
+}
+
+.master-container{
+  background-color: #ffffff!important;
+}
+
+.container-color{
+background-color: #F5F7FA !important;
+}
+
+.myChart{
+  width: 5rem;
+}
+
+.user{
+  font-size: 50px;
+}
+
+
