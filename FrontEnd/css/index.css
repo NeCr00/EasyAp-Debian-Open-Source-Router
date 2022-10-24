@@ -4,6 +4,10 @@ ion-icon {
     ;
   }
 
+  .card-icon{
+    font-size: 50px;
+  }
+
   .logout-icon {
     font-size: 45px;
   }
@@ -43,10 +47,6 @@ background-color: #F5F7FA !important;
 
 .myChart{
   width: 5rem;
-}
-
-.user{
-  font-size: 50px;
 }
 
 
