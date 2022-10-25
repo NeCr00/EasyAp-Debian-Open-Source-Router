@@ -1,44 +1,40 @@
 ion-icon {
-    font-size: 30px;
-    padding-top: 5px;
-    ;
-  }
+  font-size: 30px;
+  padding-top: 5px;
+  ;
+}
 
-  .card-icon{
-    font-size: 50px;
-  }
+.logout-icon {
+  font-size: 45px;
+}
 
-  .logout-icon {
-    font-size: 45px;
-  }
+hr{
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: px solid rgb(255, 6, 6);
+  
+}
 
-  hr{
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-    border: 0;
-    border-top: px solid rgb(255, 6, 6);
-    
-  }
-
-  .menu-hover:hover{
-    background-color: rgb(255, 255, 255)!important;
-    transform: scale(1.10) !important;
+.menu-hover:hover{
+  background-color: rgb(255, 255, 255)!important;
+  transform: scale(1.10) !important;
 }
 
 .menu-hover:active{
-  background-color: #f0f0f0a1 !important;
-  box-shadow: 0 5px #666 !important;
-  transform: translateY(4px) !important;
+background-color: #f0f0f0a1 !important;
+box-shadow: 0 5px #666 !important;
+transform: translateY(4px) !important;
 }
 
 .logout-hover:active{
-  
-  box-shadow: 1 2px #666 !important;
-  transform: translateY(4px) !important;
+
+box-shadow: 1 2px #666 !important;
+transform: translateY(4px) !important;
 }
 
 .master-container{
-  background-color: #0d6dfde7!important;
+background-color: #0d6dfde7!important;
 }
 
 .container-color{
@@ -46,108 +42,105 @@ background-color: #0d6dfd96 !important;
 }
 
 .myChart{
-  width: 5rem;
+width: 5rem;
 }
 
-<<<<<<< HEAD
-=======
 .user{
-  font-size: 50px;
+font-size: 50px;
 }
 
 .fill{
-  width:100%!important;
-  height:100% !important;
-  min-height:100% !important;
-  background-color:#990000 !important;
-  color:#efefef important;
+width:100%!important;
+height:100% !important;
+min-height:100% !important;
+background-color:#990000 !important;
+color:#efefef important;
 }
->>>>>>> bbe37bc (Adding DDns Bash script and Usage)
 
 
 
 .circle-chart {
-  width: 150px;
-  height: 150px;
+width: 150px;
+height: 150px;
 }
 
 .circle-chart__circle {
-  stroke: #00acc1;
-  stroke-width: 2;
-  stroke-linecap: square;
-  fill: none;
-  animation: circle-chart-fill 2s reverse; /* 1 */ 
-  transform: rotate(-90deg); /* 2, 3 */
-  transform-origin: center; /* 4 */
+stroke: #00acc1;
+stroke-width: 2;
+stroke-linecap: square;
+fill: none;
+animation: circle-chart-fill 2s reverse; /* 1 */ 
+transform: rotate(-90deg); /* 2, 3 */
+transform-origin: center; /* 4 */
 }
 
 /**
- * 1. Rotate by -90 degree to make the starting point of the
- *    stroke the top of the circle.
- * 2. Scaling mirrors the circle to make the stroke move right
- *    to mark a positive chart value.
- * 3. Using CSS transforms on SVG elements is not supported by Internet Explorer
- *    and Edge, use the transform attribute directly on the SVG element as a
- * .  workaround.
- */
+* 1. Rotate by -90 degree to make the starting point of the
+*    stroke the top of the circle.
+* 2. Scaling mirrors the circle to make the stroke move right
+*    to mark a positive chart value.
+* 3. Using CSS transforms on SVG elements is not supported by Internet Explorer
+*    and Edge, use the transform attribute directly on the SVG element as a
+* .  workaround.
+*/
 
 .circle-chart__circle--negative {
-  transform: rotate(-90deg) scale(1,-1); /* 1, 2, 3 */
+transform: rotate(-90deg) scale(1,-1); /* 1, 2, 3 */
 }
 
 .circle-chart__background {
-  stroke: #efefef;
-  stroke-width: 2;
-  fill: none; 
+stroke: #efefef;
+stroke-width: 2;
+fill: none; 
 }
 
 .circle-chart__info {
-  animation: circle-chart-appear 2s forwards;
-  opacity: 0;
-  transform: translateY(0.3em);
+animation: circle-chart-appear 2s forwards;
+opacity: 0;
+transform: translateY(0.3em);
 }
 
 .circle-chart__percent {
-  alignment-baseline: central;
-  text-anchor: middle;
-  font-size: 8px;
+alignment-baseline: central;
+text-anchor: middle;
+font-size: 8px;
 }
 
 .circle-chart__subline {
-    alignment-baseline: central;
-    text-anchor: middle;
-    font-size:4px;
+  alignment-baseline: central;
+  text-anchor: middle;
+  font-size:4px;
 }
 
 .success-stroke {
-  stroke: #00C851;
+stroke: #00C851;
 }
 
 .warning-stroke {
-  stroke: #ffbb33;
+stroke: #ffbb33;
 }
 
 .danger-stroke {
-  stroke: #ff4444;
+stroke: #ff4444;
 }
 
 @keyframes circle-chart-fill {
-  to { stroke-dasharray: 0 100; }
+to { stroke-dasharray: 0 100; }
 }
 
 @keyframes circle-chart-appear {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+to {
+  opacity: 1;
+  transform: translateY(0);
+}
 }
 
 .circlechart {
- 
-  width: 200px !important;
-  padding: 30px !important;
+
+width: 200px !important;
+padding: 30px !important;
 }
 
 .card-01{
-  background-color: rgba(137, 138, 139, 0.452)!important;
+background-color: rgba(137, 138, 139, 0.452)!important;
 }
