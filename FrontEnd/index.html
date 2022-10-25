@@ -10,10 +10,25 @@
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link href="css/index.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
     <script defer src="/FrontEnd/js/index.js"></script>
+<<<<<<< HEAD
     
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+=======
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+>>>>>>> bbe37bc (Adding DDns Bash script and Usage)
 </head>
 
 <body>
@@ -21,7 +36,8 @@
     <div class="container-fluid ">
         <div class="row flex-nowrap">
             <!-- Navigation Bar-->
-            <div class="col-auto col-md-auto col-xl-auto  px-0 bg-dark border-end border-3 border-opacity-75 border-primary">
+            <div
+                class="col-auto col-md-auto col-xl-auto  px-0 bg-dark border-end border-3 border-opacity-75 border-primary">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <p class="d-flex ">
                         <span class=""><span class="fs-1">EasyAP</span></span>
@@ -108,7 +124,7 @@
 
                     <hr />
                     <div class="dropdown pb-4">
-                        <a href="#" class="d-flex align-items-center fs-4 logout-hover" id="dropdownUser1" 
+                        <a href="#" class="d-flex align-items-center fs-4 logout-hover" id="dropdownUser1"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <ion-icon class="logout-icon" name="log-out-outline"></ion-icon>
                             <span class="">Logout</span>
@@ -117,6 +133,7 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <!-- Page Content -->
             <div class="col py-3 bg-light vh-100 master-container">
                 <div class="col container-color border border-2 border-primary border-opacity-25 vh-100 rounded-3 ">
@@ -220,6 +237,301 @@
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
     </script>
     
+=======
+
+            <div class="col  bg-light vh-100 master-container ">
+
+                <div class="conteiner-fluid">
+                    <div class="alert alert-primary text-center fs-4" role="alert">
+
+                        <h3> <span>
+                                <ion-icon class="mt-0" name="speedometer-sharp">
+
+                                </ion-icon>
+                            </span>Dashboard</h3>
+                    </div>
+                </div>
+
+                <div class="container-fluid bg-black">
+
+                    <div class="row  row-cols-2 row-cols-md-2  mt-5 justify-content-evenly ">
+                        <div class="col-md-6 col-auto ">
+                            <div class="card rounded-3">
+                                <div class="container-fluid rounded-3 rounded-top">
+                                    <div class="row row-cols-1s  rounded-3">
+                                        <div
+                                            class="position-absolute rounded-top top-0 start-0 bg-primary bg-opacity-25 ">
+                                            <div class="col-md-3 col-sm-3 col-xs-3  py-1 rounded-3">&nbsp; <span
+                                                    class="fs-4">Devices</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="card-body border border-1 border-primary border-opacity-25 rounded-3 bg-info bg-opacity-10">
+                                    <div class="position-relative">
+                                        <div class="position-absolute top-0 start-0"></div>
+                                    </div>
+
+
+                                    <div class="container-fluid table-responsive mt-5 ">
+                                        <table class="table table-borderless table-hover   rounded-5">
+                                            <thead class="thead-dark">
+                                                <tr class=" border-bottom border-1  bg-opacity-100 fs-5 text-center">
+                                                    <th class="text-center" scope="col"># </th>
+                                                    <th class="" scope="col">Device</th>
+                                                    <th class="text-center" scope="col">IP</th>
+                                                    <th class="text-center" scope="col">MAC Address</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="border-bottom border-1">
+                                                    <th class="text-center" class="text-center" scope="row">1</th>
+                                                    <td>
+                                                        <ion-icon name="desktop-outline"></ion-icon> Desktop-test
+                                                    </td>
+                                                    <td class="text-center">192.168.1.23</td>
+                                                    <td class="text-center">FF-EB-56-55-38-2B
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom border-1">
+                                                    <th class="text-center" scope="row">2</th>
+                                                    <td>
+                                                        <ion-icon name="desktop-outline"></ion-icon> Desktop-432
+                                                    </td>
+                                                    <td class="text-center">192.168.1.11</td>
+                                                    <td class="text-center">68-72-54-11-F4-53
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom border-1">
+                                                    <th class="text-center" scope="row">3</th>
+                                                    <td>
+                                                        <ion-icon name="tablet-portrait-outline"></ion-icon> Samsung
+                                                        Galaxy S10
+                                                    </td>
+                                                    <td class="text-center">192.168.1.44</td>
+                                                    <td class="text-center">BC-73-2C-F1-59-96
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom border-1">
+                                                    <th class="text-center" scope="row">4</th>
+                                                    <td>
+                                                        <ion-icon name="desktop-outline"></ion-icon> 192.16.1.12
+                                                    </td>
+                                                    <td class="text-center">192.168.1.34</td>
+                                                    <td class="text-center">D3-27-A7-05-FE-10
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-bottom border-1">
+                                                    <th class="text-center" scope="row">5</th>
+                                                    <td>
+                                                        <ion-icon name="tablet-portrait-outline"></ion-icon>Iphone 13
+                                                    </td>
+                                                    <td class="text-center">192.168.1.2</td>
+                                                    <td class="text-center">A0-05-5C-A3-72-B3
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-auto ">
+                            <div class="card rounded-3">
+                                <div class="container-fluid rounded-3 rounded-top">
+                                    <div class="row row-cols-1s  rounded-3">
+                                        <div
+                                            class="position-absolute rounded-top top-0 start-0 bg-primary bg-opacity-25 ">
+                                            <div class="col-md-3 col-sm-3 col-xs-3  py-1 rounded-3">&nbsp; <span
+                                                    class="fs-4">Usage</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="card-body border border-1 border-primary border-opacity-25 rounded-3 bg-info bg-opacity-10">
+                                    <div class="position-relative">
+                                        <div class="position-absolute top-0 start-0"></div>
+                                    </div>
+
+
+                                    <div class="container-fluid table-responsive mt-5 ">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col">
+
+                                                    <div class="card card-01 ">
+                                                        <div class="profile-box ">
+                                                            <div class="circlechart" data-percentage="70">CPU</div>
+                                                        </div>
+                                                        <div class="card-body text-center">
+                                                          
+                                                            
+                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col">
+                                                    <div class="card card-01">
+                                                        <div class="profile-box">
+                                                            <div class="circlechart" data-percentage="-10">Memory</div>
+                                                        </div>
+                                                        <div class="card-body text-center">
+                                                           
+                                                            
+                                                
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card card-01">
+                                                        <div class="profile-box">
+                                                            <div class="circlechart" data-percentage="80">Disk</div>
+                                                        </div>
+                                                        <div class="card-body text-center">
+                                                            
+                                                            
+                                                            
+                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <hr>
+
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="container-fluid bg-black">
+
+                                <div class="row row-cols-1 row-cols-md-1  mt-5 justify-content-evenly ">
+                                    <div class="col-md-12 col-auto ">
+                                        <div class="card rounded-3">
+                                            <div class="container-fluid rounded-3 rounded-top">
+                                                <div class="row row-cols-1s  rounded-3">
+                                                    <div
+                                                        class="position-absolute rounded-top top-0 start-0 bg-primary bg-opacity-25 ">
+                                                        <div class="col-md-3 col-sm-3 col-xs-3  py-1 rounded-3">&nbsp;
+                                                            <span class="fs-4">Data Usage</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="card-body border border-1 border-primary border-opacity-25 rounded-3 bg-info bg-opacity-10">
+                                                <div class="position-relative">
+                                                    <div class="position-absolute top-0 start-0"></div>
+                                                </div>
+
+
+                                                <div class="container-fluid table-responsive mt-5 ">
+                                                    <table class="table table-borderless table-hover   rounded-5">
+                                                        <thead class="thead-dark">
+                                                            <tr
+                                                                class=" border-bottom border-1  bg-opacity-100 fs-5 text-center">
+                                                                <th class="text-center" scope="col"># </th>
+                                                                <th class="" scope="col">Device</th>
+                                                                <th class="text-center" scope="col">IP</th>
+                                                                <th class="text-center" scope="col">MAC Address</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="border-bottom border-1">
+                                                                <th class="text-center" class="text-center" scope="row">
+                                                                    1</th>
+                                                                <td>
+                                                                    <ion-icon name="desktop-outline"></ion-icon>
+                                                                    Desktop-test
+                                                                </td>
+                                                                <td class="text-center">192.168.1.23</td>
+                                                                <td class="text-center">FF-EB-56-55-38-2B
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="border-bottom border-1">
+                                                                <th class="text-center" scope="row">2</th>
+                                                                <td>
+                                                                    <ion-icon name="desktop-outline"></ion-icon>
+                                                                    Desktop-432
+                                                                </td>
+                                                                <td class="text-center">192.168.1.11</td>
+                                                                <td class="text-center">68-72-54-11-F4-53
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="border-bottom border-1">
+                                                                <th class="text-center" scope="row">3</th>
+                                                                <td>
+                                                                    <ion-icon name="tablet-portrait-outline"></ion-icon>
+                                                                    Samsung Galaxy S10
+                                                                </td>
+                                                                <td class="text-center">192.168.1.44</td>
+                                                                <td class="text-center">BC-73-2C-F1-59-96
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="border-bottom border-1">
+                                                                <th class="text-center" scope="row">4</th>
+                                                                <td>
+                                                                    <ion-icon name="desktop-outline"></ion-icon>
+                                                                    192.16.1.12
+                                                                </td>
+                                                                <td class="text-center">192.168.1.34</td>
+                                                                <td class="text-center">D3-27-A7-05-FE-10
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="border-bottom border-1">
+                                                                <th class="text-center" scope="row">5</th>
+                                                                <td>
+                                                                    <ion-icon name="tablet-portrait-outline"></ion-icon>
+                                                                    Iphone 13
+                                                                </td>
+                                                                <td class="text-center">192.168.1.2</td>
+                                                                <td class="text-center">A0-05-5C-A3-72-B3
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <hr>
+
+
+
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+                <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                    crossorigin="anonymous">
+                    </script>
+
+
+                <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                    crossorigin="anonymous"></script>
+                <script src="/FrontEnd/js/index.js"></script>
+                <script>
+                 
+                </script>
+>>>>>>> bbe37bc (Adding DDns Bash script and Usage)
 </body>
 
 </html>
