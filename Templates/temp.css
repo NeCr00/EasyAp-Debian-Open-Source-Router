@@ -1,0 +1,73 @@
+
+body{
+
+}
+
+.navbar1{
+  background-color: #0C1A32;
+}
+
+ion-icon {
+    font-size: 30px;
+    padding-top: 5px;
+
+  }
+  
+  .logout-icon {
+    font-size: 45px;
+  }
+ 
+  
+  .menu-hover:hover{
+    background-color: rgb(247, 247, 247)!important;
+    transform: scale(1.10) !important;
+  }
+  
+  .menu-hover:active{
+  background-color: #f0f0f0a1 !important;
+  box-shadow: 0 5px #666 !important;
+  transform: translateY(4px) !important;
+  }
+  
+  .logout-hover:active{
+  
+  box-shadow: 1 2px #666 !important;
+  transform: translateY(4px) !important;
+  }
+  
+  .master-container{
+    background-color: #e7e7e7 !important;
+  }
+  
+  .container-color{
+    background-color: #0C1A32;
+  }
+  
+  .table-header{
+    background-color: #0365f7;
+    color: #e9e9e9;
+  }
+  
+.table-text{
+  color: #e9e9e9;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #fff;
+}
+  
+.phone-icon{
+  color: tomato;
+}
+  
+.desktop-icon{
+  color:c;
+}
+
+.card-sizing{
+  width: 668px;
+  height: 358px;
+  background-color: #0C1A32;
+}
+
