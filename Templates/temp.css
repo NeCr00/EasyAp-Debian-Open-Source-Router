@@ -1,10 +1,14 @@
 
 body{
-
+  font-family: 'Courier New', Courier, monospace !important;
 }
 
 .navbar1{
-  background-color: #0C1A32;
+  background: linear-gradient(40deg,#606163,#0e1114);
+}
+
+.page-title{
+  background: linear-gradient(40deg,#0e1114,#606163);
 }
 
 ion-icon {
@@ -19,55 +23,200 @@ ion-icon {
  
   
   .menu-hover:hover{
-    background-color: rgb(247, 247, 247)!important;
-    transform: scale(1.10) !important;
+    background-color: #d36205cc!important;
+    transform: scale(1.15) !important;
   }
   
   .menu-hover:active{
-  background-color: #f0f0f0a1 !important;
-  box-shadow: 0 5px #666 !important;
+  background-color: #3d5a80 !important;
   transform: translateY(4px) !important;
   }
   
   .logout-hover:active{
-  
-  box-shadow: 1 2px #666 !important;
+  box-shadow: 1 2px #3d5a80 !important;
   transform: translateY(4px) !important;
   }
+
+  .logout-hover:hover{
+    box-shadow: 1 2px #98c1d9 !important;
+    }
   
   .master-container{
-    background-color: #e7e7e7 !important;
+    background: aliceblue
+    
   }
   
-  .container-color{
-    background-color: #0C1A32;
-  }
   
   .table-header{
-    background-color: #0365f7;
-    color: #e9e9e9;
+    background: linear-gradient(40deg,#131c25,#373838);
+    color: #e0fbfc;
   }
   
 .table-text{
-  color: #e9e9e9;
+  color: #141414;
   font-family: 'Courier New', Courier, monospace;
 }
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-  background-color: #fff;
+  background-color: rgb(214, 214, 214);
 }
   
 .phone-icon{
-  color: tomato;
+  color: #ee6d4dd2;
 }
   
 .desktop-icon{
-  color:c;
+  color:#06b396a4;
 }
 
 .card-sizing{
   width: 668px;
   height: 358px;
-  background-color: #0C1A32;
+  background-color: rgb(255, 255, 255);
 }
 
+.text-nav{
+  color:#e0fbfc !important;
+}
+
+
+
+.circle-chart {
+  width: 150px;
+  height: 150px;
+  }
+  
+  .circle-chart__circle {
+  stroke: #00acc1;
+  stroke-width: 2;
+  stroke-linecap: square;
+  fill: none;
+  animation: circle-chart-fill 2s reverse; /* 1 */ 
+  transform: rotate(-90deg); /* 2, 3 */
+  transform-origin: center; /* 4 */
+  }
+  
+  /**
+  * 1. Rotate by -90 degree to make the starting point of the
+  *    stroke the top of the circle.
+  * 2. Scaling mirrors the circle to make the stroke move right
+  *    to mark a positive chart value.
+  * 3. Using CSS transforms on SVG elements is not supported by Internet Explorer
+  *    and Edge, use the transform attribute directly on the SVG element as a
+  * .  workaround.
+  */
+  
+  .circle-chart__circle--negative {
+  transform: rotate(-90deg) scale(1,-1); /* 1, 2, 3 */
+  }
+  
+  .circle-chart__background {
+  stroke: #efefef;
+  stroke-width: 2;
+  fill: none; 
+  }
+  
+  .circle-chart__info {
+  animation: circle-chart-appear 2s forwards;
+  opacity: 0;
+  transform: translateY(0.3em);
+  }
+  
+  .circle-chart__percent {
+  alignment-baseline: central;
+  text-anchor: middle;
+  font-size: 8px;
+  }
+  
+  .circle-chart__subline {
+    alignment-baseline: central;
+    text-anchor: middle;
+    font-size:4px;
+  }
+  
+  .success-stroke {
+  stroke: #020202;
+  }
+  
+  .warning-stroke {
+  stroke: #020202;
+  }
+  
+  .danger-stroke {
+  stroke: #020202;
+  }
+  
+  @keyframes circle-chart-fill {
+  to { stroke-dasharray: 0 100; }
+  }
+  
+  @keyframes circle-chart-appear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  }
+  
+  .circlechart {
+  
+  
+  
+  }
+  
+  .card-01{
+  background-color: rgba(137, 138, 139, 0)!important;
+  }
+
+
+
+  .order-card {
+    color: #fff;
+  }
+  
+  .bg-c-blue {
+    background: linear-gradient(45deg,#4099ff,#8cc1fd);
+  }
+  
+  .bg-c-green {
+    background: linear-gradient(45deg,#2ed8b6,#7decd6);
+  }
+  
+  .bg-c-yellow {
+    background: linear-gradient(45deg,#FFB64D,#fdd69f);
+  }
+  
+  .bg-c-pink {
+    background: linear-gradient(45deg,#FF5370,#ffaebb);
+  }
+  
+  
+  .card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .card .card-block {
+    padding: 25px;
+  }
+  
+  .order-card i {
+    font-size: 26px;
+  }
+  
+  .f-left {
+    float: left;
+  }
+  
+  .f-right {
+    float: right;
+  }
+  tbody{
+    height:200px !important;
+    overflow-y:auto !important;
+    width: 100% !important;
+    }

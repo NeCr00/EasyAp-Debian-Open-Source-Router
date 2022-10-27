@@ -138,3 +138,10 @@ padding: 30px !important;
 .card-01{
 background-color: rgba(137, 138, 139, 0.452)!important;
 }
+
+
+tbody{
+  height:200px;
+  overflow-y:auto;
+  width: 100%;
+  }
