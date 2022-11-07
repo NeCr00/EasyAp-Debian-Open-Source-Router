@@ -1,147 +1,256 @@
-ion-icon {
-  font-size: 30px;
-  padding-top: 5px;
-  ;
-}
 
-.logout-icon {
-  font-size: 45px;
-}
-
-hr{
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-  border: 0;
-  border-top: px solid rgb(255, 6, 6);
-  
-}
-
-.menu-hover:hover{
-  background-color: rgb(255, 255, 255)!important;
-  transform: scale(1.10) !important;
-}
-
-.menu-hover:active{
-background-color: #f0f0f0a1 !important;
-box-shadow: 0 5px #666 !important;
-transform: translateY(4px) !important;
-}
-
-.logout-hover:active{
-
-box-shadow: 1 2px #666 !important;
-transform: translateY(4px) !important;
-}
-
-.master-container{
-background-color: #0d6dfde7!important;
-}
-
-.container-color{
-background-color: #0d6dfd96 !important;
-}
-
-.myChart{
-width: 5rem;
-}
-
-.user{
-font-size: 50px;
-}
-
-
-
-
-
-.circle-chart {
-width: 150px;
-height: 150px;
-}
-
-.circle-chart__circle {
-stroke: #00acc1;
-stroke-width: 2;
-stroke-linecap: square;
-fill: none;
-animation: circle-chart-fill 2s reverse; /* 1 */ 
-transform: rotate(-90deg); /* 2, 3 */
-transform-origin: center; /* 4 */
-}
-
-/**
-* 1. Rotate by -90 degree to make the starting point of the
-*    stroke the top of the circle.
-* 2. Scaling mirrors the circle to make the stroke move right
-*    to mark a positive chart value.
-* 3. Using CSS transforms on SVG elements is not supported by Internet Explorer
-*    and Edge, use the transform attribute directly on the SVG element as a
-* .  workaround.
-*/
-
-.circle-chart__circle--negative {
-transform: rotate(-90deg) scale(1,-1); /* 1, 2, 3 */
-}
-
-.circle-chart__background {
-stroke: #efefef;
-stroke-width: 2;
-fill: none; 
-}
-
-.circle-chart__info {
-animation: circle-chart-appear 2s forwards;
-opacity: 0;
-transform: translateY(0.3em);
-}
-
-.circle-chart__percent {
-alignment-baseline: central;
-text-anchor: middle;
-font-size: 8px;
-}
-
-.circle-chart__subline {
-  alignment-baseline: central;
-  text-anchor: middle;
-  font-size:4px;
-}
-
-.success-stroke {
-stroke: #00C851;
-}
-
-.warning-stroke {
-stroke: #ffbb33;
-}
-
-.danger-stroke {
-stroke: #ff4444;
-}
-
-@keyframes circle-chart-fill {
-to { stroke-dasharray: 0 100; }
-}
-
-@keyframes circle-chart-appear {
-to {
-  opacity: 1;
-  transform: translateY(0);
-}
-}
-
-.circlechart {
-
-width: 200px !important;
-padding: 30px !important;
-}
-
-.card-01{
-background-color: rgba(137, 138, 139, 0.452)!important;
-}
-
-
-tbody{
-  height:200px;
-  overflow-y:auto;
-  width: 100%;
+body{
+    font-family: 'Courier New', Courier, monospace !important;
   }
+  
+  .navbar1{
+    background: linear-gradient(40deg,#606163,#0e1114);
+  }
+  
+  .page-title{
+    background: linear-gradient(40deg,#0e1114,#606163);
+  }
+  
+  @media only screen and (max-width: 600px) {
+    ion-icon {
+      font-size: 10px  !important;
+      padding-top: -2px !important;
+  
+    }
+    
+    .table-text{
+      font-size: 10px  !important;
+    }
+  
+    .geochart{
+      width: 180px !important;
+      height: 140px !important;
+    }
+  
+   .geochart-table{
+     font-size: 5px;
+     width: 10px;
+   }
+  
+   .circle-chart {
+    width: 40px !important;
+    height: 50px  !important;
+    }
+    .order-card {
+      width: 90px !important;
+    }
+  
+    .card-sizing{
+      
+      height: 380 px  !important;
+    }
+  
+  }
+  
+  
+  ion-icon {
+      font-size: 30px;
+      padding-top: 5px;
+  
+    }
+    
+    .logout-icon {
+      font-size: 45px;
+    }
+   
+    
+    .menu-hover:hover{
+      background-color: #d36205cc!important;
+      transform: scale(1.15) !important;
+    }
+    
+    .menu-hover:active{
+    background-color: #3d5a80 !important;
+    transform: translateY(4px) !important;
+    }
+    
+    .logout-hover:active{
+    box-shadow: 1 2px #3d5a80 !important;
+    transform: translateY(4px) !important;
+    }
+  
+    .logout-hover:hover{
+      box-shadow: 1 2px #98c1d9 !important;
+      }
+    
+    .master-container{
+      background: rgb(241, 248, 255)
+      
+    }
+    
+    
+    .table-header{
+      background: linear-gradient(40deg,#131c25,#373838);
+      color: #e0fbfc;
+    }
+    
+  .table-text{
+    color: #141414;
+    font-family: 'Courier New', Courier, monospace;
+    
+  }
+  
+  .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: rgb(214, 214, 214);
+  }
+    
+  .phone-icon{
+    color: #ee6d4dd2;
+  }
+    
+  .desktop-icon{
+    color:#06b396a4;
+  }
+  
+  .card-sizing{
+    width: 668px;
+    height: 358px;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  .text-nav{
+    color:#e0fbfc !important;
+  }
+  
+  
+  
+  .circle-chart {
+    width: 150px;
+    height: 150px;
+    }
+    
+    .circle-chart__circle {
+    stroke: #00acc1;
+    stroke-width: 2;
+    stroke-linecap: square;
+    fill: none;
+    animation: circle-chart-fill 2s reverse; /* 1 */ 
+    transform: rotate(-90deg); /* 2, 3 */
+    transform-origin: center; /* 4 */
+    }
+    
+    /**
+    * 1. Rotate by -90 degree to make the starting point of the
+    *    stroke the top of the circle.
+    * 2. Scaling mirrors the circle to make the stroke move right
+    *    to mark a positive chart value.
+    * 3. Using CSS transforms on SVG elements is not supported by Internet Explorer
+    *    and Edge, use the transform attribute directly on the SVG element as a
+    * .  workaround.
+    */
+    
+    .circle-chart__circle--negative {
+    transform: rotate(-90deg) scale(1,-1); /* 1, 2, 3 */
+    }
+    
+    .circle-chart__background {
+    stroke: #efefef;
+    stroke-width: 2;
+    fill: none; 
+    }
+    
+    .circle-chart__info {
+    animation: circle-chart-appear 2s forwards;
+    opacity: 0;
+    transform: translateY(0.3em);
+    }
+    
+    .circle-chart__percent {
+    alignment-baseline: central;
+    text-anchor: middle;
+    font-size: 8px;
+    }
+    
+    .circle-chart__subline {
+      alignment-baseline: central;
+      text-anchor: middle;
+      font-size:4px;
+    }
+    
+    .success-stroke {
+    stroke: #020202;
+    }
+    
+    .warning-stroke {
+    stroke: #020202;
+    }
+    
+    .danger-stroke {
+    stroke: #020202;
+    }
+    
+    @keyframes circle-chart-fill {
+    to { stroke-dasharray: 0 100; }
+    }
+    
+    @keyframes circle-chart-appear {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    }
+    
+   
+    
+    .card-01{
+    background-color: rgba(137, 138, 139, 0)!important;
+    }
+  
+  
+  
+    .order-card {
+      color: #fff;
+    }
+    
+    .bg-c-blue {
+      background: linear-gradient(45deg,#4099ff,#8cc1fd);
+    }
+    
+    .bg-c-green {
+      background: linear-gradient(45deg,#2ed8b6,#7decd6);
+    }
+    
+    .bg-c-yellow {
+      background: linear-gradient(45deg,#FFB64D,#fdd69f);
+    }
+    
+    .bg-c-pink {
+      background: linear-gradient(45deg,#FF5370,#ffaebb);
+    }
+    
+    
+    .card {
+      border-radius: 5px;
+      -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+      box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+      border: none;
+      margin-bottom: 30px;
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .card .card-block {
+      padding: 25px;
+    }
+    
+    .order-card i {
+      font-size: 26px;
+    }
+    
+    .f-left {
+      float: left;
+    }
+    
+    .f-right {
+      float: right;
+    }
+    tbody{
+      height:200px !important;
+      overflow-y:auto !important;
+      width: 100% !important;
+      }

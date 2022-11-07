@@ -11,6 +11,43 @@ body{
   background: linear-gradient(40deg,#0e1114,#606163);
 }
 
+@media only screen and (max-width: 600px) {
+  ion-icon {
+    font-size: 10px  !important;
+    padding-top: -2px !important;
+
+  }
+  
+  .table-text{
+    font-size: 10px  !important;
+  }
+
+  .geochart{
+    width: 180px !important;
+    height: 140px !important;
+  }
+
+ .geochart-table{
+   font-size: 5px;
+   width: 10px;
+ }
+
+ .circle-chart {
+  width: 40px !important;
+  height: 50px  !important;
+  }
+  .order-card {
+    width: 90px !important;
+  }
+
+  .card-sizing{
+    
+    height: 380 px  !important;
+  }
+
+}
+
+
 ion-icon {
     font-size: 30px;
     padding-top: 5px;
@@ -42,7 +79,7 @@ ion-icon {
     }
   
   .master-container{
-    background: aliceblue
+    background: rgb(241, 248, 255)
     
   }
   
@@ -55,6 +92,7 @@ ion-icon {
 .table-text{
   color: #141414;
   font-family: 'Courier New', Courier, monospace;
+  
 }
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
@@ -157,11 +195,7 @@ ion-icon {
   }
   }
   
-  .circlechart {
-  
-  
-  
-  }
+ 
   
   .card-01{
   background-color: rgba(137, 138, 139, 0)!important;
