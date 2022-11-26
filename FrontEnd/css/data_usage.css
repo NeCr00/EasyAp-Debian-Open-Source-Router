@@ -20,7 +20,7 @@ body{
     }
 
     ion-icon {
-      font-size: 10px  !important;
+      font-size: 20px  !important;
       padding-top: -2px !important;
   
     }
@@ -29,11 +29,6 @@ body{
       font-size: 10px  !important;
     }
   
-  
-    .card-sizing{
-      
-      height: 380 px  !important;
-    }
   
     ::placeholder {
         text-indent: 10px;
@@ -46,6 +41,9 @@ body{
     
     .reset-icon{
         font-size:40px !important;
+     }
+     .card-content{
+      font-size: 10px  !important;
      }
   }
   
