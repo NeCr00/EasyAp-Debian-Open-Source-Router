@@ -60,12 +60,12 @@ body{
    
     
     .menu-hover:hover{
-      background-color: #5e5e5edd!important;
+      background-color: #05bed3cc!important;
       transform: scale(1.15) !important;
     }
     
     .menu-hover:active{
-    background-color: #3d5a80 !important;
+    background-color: #058492cc !important;
     transform: translateY(4px) !important;
     }
     
