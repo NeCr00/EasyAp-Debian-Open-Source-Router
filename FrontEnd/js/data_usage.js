@@ -63,7 +63,7 @@ $(document).ready(function () {
     ],
   };
 
-  var options1 = {
+  var options = {
     responsive: true,
     maintainAspectRatio: true,
     animation: {
@@ -108,12 +108,15 @@ $(document).ready(function () {
       xPadding: 10,
       yPadding: 10,
     },
+    chartArea: {
+        backgroundColor: 'rgba(0, 3, 255, 1)',
+      },
   };
 
   var chartInstance = new Chart(chart1, {
     type: "line",
     data: data1,
-    options: options1,
+    options: options,
   });
 
   //Bytes diagram
@@ -168,55 +171,7 @@ $(document).ready(function () {
     ],
   };
 
-  var options = {
-    responsive: true,
-    maintainAspectRatio: true,
-    animation: {
-      easing: "easeInOutQuad",
-      duration: 520,
-    },
-    scales: {
-      xAxes: [
-        {
-          gridLines: {
-            color: "rgba(200, 200, 200, 0.05)",
-            lineWidth: 1,
-          },
-        },
-      ],
-      yAxes: [
-        {
-          gridLines: {
-            color: "rgba(200, 200, 200, 0.08)",
-            lineWidth: 1,
-          },
-        },
-      ],
-    },
-    elements: {
-      line: {
-        tension: 0.4,
-      },
-    },
-    legend: {
-      display: true,
-    },
-    point: {
-      backgroundColor: "white",
-    },
-    tooltips: {
-      titleFontFamily: "Open Sans",
-      backgroundColor: "rgba(0,0,0,0.3)",
-      titleFontColor: "white",
-      caretSize: 5,
-      cornerRadius: 2,
-      xPadding: 10,
-      yPadding: 10,
-    },
-    chartArea: {
-        backgroundColor: 'rgba(0, 3, 255, 1)',
-      },
-  };
+  
 
   var chartInstance2 = new Chart(chart2, {
     type: "line",

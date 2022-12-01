@@ -124,75 +124,108 @@ $(document).ready(function(){
   });
   
   
-  var chart    = document.getElementById('chart').getContext('2d'),
-      gradient = chart.createLinearGradient(0, 0, 0, 450);
-  
-  gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)');
-  gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
-  gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
-  
-  
-  var data  = {
-      labels: [ 'January', 'February', 'March', 'April', 'May', 'June' ],
-      datasets: [{
-              label: 'Custom Label Name',
-              backgroundColor: gradient,
-              pointBackgroundColor: 'white',
-              borderWidth: 1,
-              borderColor: '#911215',
-              data: [50, 55, 80, 81, 54, 50]
-      }]
-  };
-  
-  
-  var options = {
-      responsive: true,
-      maintainAspectRatio: true,
-      animation: {
-          easing: 'easeInOutQuad',
-          duration: 520
-      },
-      scales: {
-          xAxes: [{
-              gridLines: {
-                  color: 'rgba(200, 200, 200, 0.05)',
-                  lineWidth: 1
-              }
-          }],
-          yAxes: [{
-              gridLines: {
-                  color: 'rgba(200, 200, 200, 0.08)',
-                  lineWidth: 1
-              }
-          }]
-      },
-      elements: {
-          line: {
-              tension: 0.4
-          }
-      },
-      legend: {
-          display: false
-      },
-      point: {
-          backgroundColor: 'white'
-      },
-      tooltips: {
-          titleFontFamily: 'Open Sans',
-          backgroundColor: 'rgba(0,0,0,0.3)',
-          titleFontColor: 'red',
-          caretSize: 5,
-          cornerRadius: 2,
-          xPadding: 10,
-          yPadding: 10
-      }
-  };
-  
-  
-  var chartInstance = new Chart(chart, {
-      type: 'line',
-      data: data,
-          options: options
-  });
+ // Traffic Diagram
+
+ var chart1 = document.getElementById("chart").getContext("2d"),
+ gradient1 = chart1.createLinearGradient(0, 0, 0, 450);
+gradientd1 = chart1.createLinearGradient(0, 0, 0, 450);
+
+gradient1.addColorStop(0, "rgba(46, 216, 182, 0.5)");
+gradient1.addColorStop(0.8, "rgba(46, 216, 182, 0.25)");
+
+gradientd1.addColorStop(0, "rgba(64, 153, 255, 0.5)");
+gradientd1.addColorStop(0.8, "rgba(64, 153, 255, 0.25)");
+
+var data1 = {
+ labels: [
+     "now",
+     "-1:00",
+     "-2:00",
+     "-3:00",
+     "-4:00",
+     "-5:00",
+     "-6:00",
+     "-7:00",
+     "-8:00",
+     "-9:00",
+     "-10:00",
+     "-11:00",
+     "-12:00"
+   ],
+ datasets: [
+   {
+     label: "Packets Sent",
+     backgroundColor: gradientd1,
+     pointBackgroundColor: "#4099ff",
+     borderWidth: 1,
+     borderColor: "#4099ff",
+     data: [669, 770, 555, 254, 181, 240, 0, 0, 0, 0, 0, 0],
+   },
+   {
+     label: "Packets Received",
+     backgroundColor: gradient1,
+     pointBackgroundColor: "#2ed8b6",
+     borderWidth: 1,
+     borderColor: "#2ed8b6",
+     data: [
+       3616.49, 2853.34, 2554.41, 1510.16, 2024.81, 1706.82, 2057.85, 0, 0,
+       0, 0, 0,
+     ],
+   },
+ ],
+};
+
+var options1 = {
+ responsive: true,
+ maintainAspectRatio: true,
+ animation: {
+   easing: "easeInOutQuad",
+   duration: 520,
+ },
+ scales: {
+   xAxes: [
+     {
+       gridLines: {
+         color: "rgba(200, 200, 200, 0.05)",
+         lineWidth: 1,
+       },
+     },
+   ],
+   yAxes: [
+     {
+       gridLines: {
+         color: "rgba(200, 200, 200, 0.08)",
+         lineWidth: 1,
+       },
+     },
+   ],
+ },
+ elements: {
+   line: {
+     tension: 0.4,
+   },
+ },
+ legend: {
+   display: true,
+ },
+ point: {
+   backgroundColor: "white",
+ },
+ tooltips: {
+   titleFontFamily: "Open Sans",
+   backgroundColor: "rgba(0,0,0,0.3)",
+   titleFontColor: "white",
+   caretSize: 5,
+   cornerRadius: 2,
+   xPadding: 10,
+   yPadding: 10,
+ },
+};
+
+var chartInstance = new Chart(chart1, {
+ type: "line",
+ data: data1,
+ options: options1,
+});
   
   

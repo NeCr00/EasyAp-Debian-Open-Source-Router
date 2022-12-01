@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="assets/favicon.png">
+
     <title>EasyAP</title>
     <!--Custom CSS & JS-->
     <link href="css/settings.css" rel="stylesheet" />
@@ -22,6 +23,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"
         integrity="sha512-FoyrIocrD2VGbh1HeDL8s/e+kNw0bl1WQHYlomgPuGe0N8y70F92YFUXW4Bompp9TrScjOiIPDSCM+ID0YXeqg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -41,7 +44,7 @@
                         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-1 border-bottom  ">
                     </div>
 
-                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100 py-3"
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100 "
                         id="menu">
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
                             <a href="index.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
@@ -61,9 +64,9 @@
 
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
                             <a href="#" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
-                                <ion-icon name="globe" p></ion-icon>
+                                <ion-icon name="earth-sharp" p></ion-icon>
 
-                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Dynamic DNS</span>
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">DNS & DDNS</span>
                             </a>
                         </li>
 
@@ -92,11 +95,18 @@
 
                         <li
                             class="nav-item w-100 border-bottom border-light border-opacity-50  list-group-item-action ">
-                            <span class="border-bottom border-3 border-primary"></span>
+
                             <a href="data_usage.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="stats-chart-sharp"></ion-icon>
 
                                 <span class="ms-1  d-sm-inline fs-5 fw-bolder">Data Usage</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="system.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="build-sharp" class=""></ion-icon>
+                                <span class="ms-1 fs-5 fw-bold ">System</span>
+
                             </a>
                         </li>
 
@@ -141,7 +151,7 @@
                         </div>
                         <div class="col-7">
                             <div class="text-light py-3 fw-bold ">
-                                <h3>Settings</h3>
+                                <h3>Data Usage</h3>
 
                             </div>
                         </div>
@@ -153,250 +163,349 @@
 
                     <div class="row  row-cols-1 mt-5  justify-content-md-center gx-5">
 
-                        <div class="col-sm-12 col-md-9  py-4 mt-3 table-responsive">
+                        <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
-                                    <h4 class=" table-header fw-bold ">Change Password</h4>
+                                    <h4 class=" table-header fw-bold ">Wireless Settings</h4>
                                 </div>
                             </div>
-                            <div class="container-fluid table-responsive rounded-bottom card-sizing-top  shadow-sm ">
-                                <div class="row row-cols-1  g-sm-2 g-md-4 justify-content-sm-start ">
-                                    <div class=" col-sm-10  col-md-8 ms-md-5 mt-md-5">
+                            <div class="container-fluid table-responsive rounded-bottom   card-sizing shadow-sm ">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-5">
                                         <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
+                                            <div class="row row-cols-1">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Username
+                                                    SSID
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
                                                     <div class="icon-in-input ">
-                                                        <ion-icon name="person-circle-sharp"></ion-icon>
+                                                        <ion-icon name="finger-print-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Type your Username" aria-label="First name">
+                                                    <input type="text" class="form-control" placeholder="Type your SSID"
+                                                        aria-label="First name">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" col-sm-10  col-md-8 ms-md-5 mt-md-3">
+                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-5">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Old Password
+                                                    Wifi Password
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
                                                     <div class="icon-in-input ">
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Type your Old Password" aria-label="First name">
+                                                    <input type="password" class="form-control"
+                                                        placeholder="Type your Password" aria-label="First name">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" col-sm-10  col-md-8 ms-md-5 mt-md-3">
+
+                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-5">
+
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    New Password
+                                                <div class="col-md-8 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Show Wifi Password
                                                 </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <div class="icon-in-input ">
-                                                        <ion-icon name="refresh-circle-sharp"></ion-icon>
-                                                    </div>
+                                                <div class="col-md-4 col-sm-12 d-flex flex-row">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input checkbox" type="checkbox"
+                                                            role="switch" id="flexSwitchCheckDefault" />
 
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Type your New Password" aria-label="First name">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-8 ms-md-5 mt-md-3">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Re-Type New Password
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <div class="icon-in-input ">
-                                                        <ion-icon name="refresh-circle-sharp"></ion-icon>
-                                                    </div>
 
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Re-Type your New Password" aria-label="First name">
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div
                                         class="col-10 ms-md-5 d-flex flex-row justify-content-md-end justify-content-sm-center mt-5">
-                                        <button class="btn  btn-dark me-4" type="button">Apply</button>
-                                        <button class="btn  btn-danger " type="button"> Reset</button>
+                                        <button class="btn btn-pass btn-dark me-4" type="button">Apply</button>
+                                        <button class="btn  btn-pass btn-danger " type="button"> Reset</button>
                                     </div>
                                 </div>
-
                             </div>
+
                         </div>
 
-                        <div class="col-xs-12 col-md-5  py-1  ">
-                            <div class=" table-header py-1 rounded-top">
+                        <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
+                            <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
-                                    <h4 class=" table-header fw-semibold ">Reset Configuration</h4>
+                                    <h4 class=" table-header fw-bold ">MAC Filter - Connected Devices</h4>
                                 </div>
                             </div>
-                            <div class="container-fluid table-responsive rounded-bottom card-sizing  shadow-lg">
-                                <div class=" row row-cols-1 mt-md-3 mt-sm-1  justify-content-center ">
-                                    <div class="col-md-11 col-sm-12 mb-1">
-                                        <div class="d-flex flex-row">
-                                            <p class="reset-title reset-reboot-font mt-2"> Please click the "Reset
-                                                Configuration" to bring the
-                                                application in Default Configuration Mode.</p>
-                                            <span class="">
-                                                <ion-icon name="construct-sharp" class="reset-icon"></ion-icon>
-                                            </span>
-
+                            <div class="container-fluid table-responsive rounded-bottom  card-sizing shadow-sm ">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                    <div class=" col-sm-10  col-md-11 ms-md-5 mt-md-5">
+                                        <div class="container-fluid table-responsive ">
+                                            <table class="table table-borderless table-hover">
+                                                <thead class="thead-danger table-text">
+                                                    <tr class=" border-bottom border-2  fw-light table-text">
+                                                        <th class="text-center pe-4 " scope="col"># </th>
+                                                        <th class="ps-3" scope="col">Host</th>
+                                                        <th class="text-center" scope="col">IP</th>
+                                                        <th class="text-center" scope="col">MAC Address</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-text">
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">1</th>
+                                                        <td>
+                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
+                                                            </ion-icon> Desktop-test
+                                                        </td>
+                                                        <td class="text-center">192.168.1.23</td>
+                                                        <td class="text-center">FF-EB-56-55-38-2B
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">2</th>
+                                                        <td>
+                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
+                                                            </ion-icon> Desktop-432
+                                                        </td>
+                                                        <td class="text-center">192.168.1.11</td>
+                                                        <td class="text-center">68-72-54-11-F4-53
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">3</th>
+                                                        <td>
+                                                            <ion-icon class="phone-icon" name="tablet-portrait-sharp">
+                                                            </ion-icon> Samsung
+                                                            Galaxy S10
+                                                        </td>
+                                                        <td class="text-center">192.168.1.44</td>
+                                                        <td class="text-center">BC-73-2C-F1-59-96
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">4</th>
+                                                        <td>
+                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
+                                                            </ion-icon>
+                                                            </ion-icon> 192.16.1.12
+                                                        </td>
+                                                        <td class="text-center pe-4">192.168.1.34</td>
+                                                        <td class="text-center">D3-27-A7-05-FE-10
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">5</th>
+                                                        <td>
+                                                            <ion-icon class="phone-icon" name="tablet-portrait-sharp">
+                                                            </ion-icon>Iphone 13
+                                                        </td>
+                                                        <td class="text-center">192.168.1.2</td>
+                                                        <td class="text-center">A0-05-5C-A3-72-B3
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    <div class="col-md-11 col-sm-12  ">
-                                        <div>
-                                            <p class=" reset-reboot-font"> Note: The function will Delete any extensive
-                                                Configuration implemented by the user. </p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="container-fluid mb-5">
-                                    <div class="col-md-12 col-sm-12   mt-md-4">
-                                        <!-- Button trigger modal -->
-                                        <button class="btn reset-reboot-font btn-danger shadow-lg" type="button"
-                                            id="reset_bt"> Reset
-                                            Configuration</button>
 
 
-                                    </div>
+
+
                                 </div>
                             </div>
+
                         </div>
 
-                        <div class="col-xs-12 col-md-5  py-1 ">
-                            <div class=" table-header py-1 rounded-top">
+                        <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
+                            <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
-                                    <h4 class=" table-header fw-semibold ">Reboot Services</h4>
+                                    <h4 class=" table-header fw-bold ">MAC Filter - Connected Devices</h4>
                                 </div>
                             </div>
-                            <div class="container-fluid table-responsive rounded-bottom card-sizing  shadow-lg">
-                                <div class=" row row-cols-1 mt-md-3 mt-sm-1 justify-content-center ">
-                                    <div class="col-md-11 col-sm-12 mb-1">
-                                        <div class="d-flex flex-row">
-                                            <p class="reset-title reset-reboot-font mt-2"> Please click the "Reset
-                                                Configuration" to bring the
-                                                application in Default Configuration Mode.</p>
-                                            <span class="">
-                                                <ion-icon name="cloud-sharp" class="reset-icon"></ion-icon>
-                                            </span>
-
+                            <div class="container-fluid table-responsive rounded-bottom  card-sizing shadow-sm ">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                    <div class=" col-sm-10  col-md-11  mt-md-5">
+                                        <div class="container-fluid table-responsive ">
+                                            <table class="table table-borderless table-hover">
+                                                <thead class="thead-danger table-text">
+                                                    <tr class=" border-bottom border-2  fw-light table-text">
+                                                        <th class="text-center pe-4 " scope="col"># </th>
+                                                        <th class="ps-3" scope="col">Host</th>
+                                                        <th class="text-center" scope="col">IP</th>
+                                                        <th class="text-center" scope="col">MAC Address</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-text">
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">1</th>
+                                                        <td>
+                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
+                                                            </ion-icon> Desktop-test
+                                                        </td>
+                                                        <td class="text-center">192.168.1.23</td>
+                                                        <td class="text-center">FF-EB-56-55-38-2B
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">2</th>
+                                                        <td>
+                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
+                                                            </ion-icon> Desktop-432
+                                                        </td>
+                                                        <td class="text-center">192.168.1.11</td>
+                                                        <td class="text-center">68-72-54-11-F4-53
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">3</th>
+                                                        <td>
+                                                            <ion-icon class="phone-icon" name="tablet-portrait-sharp">
+                                                            </ion-icon> Samsung
+                                                            Galaxy S10
+                                                        </td>
+                                                        <td class="text-center">192.168.1.44</td>
+                                                        <td class="text-center">BC-73-2C-F1-59-96
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">4</th>
+                                                        <td>
+                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
+                                                            </ion-icon>
+                                                            </ion-icon> 192.16.1.12
+                                                        </td>
+                                                        <td class="text-center pe-4">192.168.1.34</td>
+                                                        <td class="text-center">D3-27-A7-05-FE-10
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">5</th>
+                                                        <td>
+                                                            <ion-icon class="phone-icon" name="tablet-portrait-sharp">
+                                                            </ion-icon>Iphone 13
+                                                        </td>
+                                                        <td class="text-center">192.168.1.2</td>
+                                                        <td class="text-center">A0-05-5C-A3-72-B3
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    <div class="col-md-11 col-sm-12  ">
-                                        <div>
-                                            <p class=" reset-reboot-font"> Note: The configuration will remain unchanged
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12  ">
-                                        <div class=" justify-content-center">
-
-                                            <!-- Button trigger modal -->
-                                            <button class="btn  btn-danger reset-reboot-font shadow-lg" type="button"
-                                                id="reboot_bt">
-                                                Reboot Services</button>
 
 
 
-                                        </div>
 
-                                    </div>
 
                                 </div>
-                                <div class="container-fluid">
 
 
-                                </div>
+
+
+
+
 
                             </div>
+
+
                         </div>
-
-
-
+                        <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
+                            <div class=" table-header py-1 rounded-top shadow-lg">
+                                <div class="ms-4">
+                                    <h4 class=" table-header fw-bold ">MAC Filter - Connected Devices</h4>
+                                </div>
+                            </div>
+                            <div class="container-fluid table-responsive rounded-bottom  card-sizing shadow-sm " >
+                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                    <div class=" col-sm-10  col-md-11  mt-md-5">
+                                        <div class="container-fluid table-responsive ">
+                                            <table class="table table-borderless table-hover">
+                                                <thead class="thead-danger table-text">
+                                                    <tr class=" border-bottom border-2  fw-light table-text">
+                                                        <th class="text-center pe-4 " scope="col"># </th>
+                                                        <th class="ps-3" scope="col">Host</th>
+                                                        <th class="text-center" scope="col">IP</th>
+                                                        <th class="text-center" scope="col">MAC Address</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-text">
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">1</th>
+                                                        <td>
+                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
+                                                            </ion-icon> Desktop-test
+                                                        </td>
+                                                        <td class="text-center">192.168.1.23</td>
+                                                        <td class="text-center">FF-EB-56-55-38-2B
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">2</th>
+                                                        <td>
+                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
+                                                            </ion-icon> Desktop-432
+                                                        </td>
+                                                        <td class="text-center">192.168.1.11</td>
+                                                        <td class="text-center">68-72-54-11-F4-53
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">3</th>
+                                                        <td>
+                                                            <ion-icon class="phone-icon" name="tablet-portrait-sharp">
+                                                            </ion-icon> Samsung
+                                                            Galaxy S10
+                                                        </td>
+                                                        <td class="text-center">192.168.1.44</td>
+                                                        <td class="text-center">BC-73-2C-F1-59-96
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">4</th>
+                                                        <td>
+                                                            <ion-icon class="desktop-icon" name="desktop-sharp"></ion-icon>
+                                                            </ion-icon> 192.16.1.12
+                                                        </td>
+                                                        <td class="text-center pe-4">192.168.1.34</td>
+                                                        <td class="text-center">D3-27-A7-05-FE-10
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="border-bottom border-1">
+                                                        <th class="text-center pe-4" scope="row">5</th>
+                                                        <td>
+                                                            <ion-icon class="phone-icon" name="tablet-portrait-sharp">
+                                                            </ion-icon>Iphone 13
+                                                        </td>
+                                                        <td class="text-center">192.168.1.2</td>
+                                                        <td class="text-center">A0-05-5C-A3-72-B3
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                     </div>
 
-
-                </div>
-            </div>
-
-            <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-                crossorigin="anonymous">
-                </script>
+                    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+                    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                        crossorigin="anonymous">
+                        </script>
 
 
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-                crossorigin="anonymous"></script>
+                    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                        crossorigin="anonymous"></script>
 
-            <script>
+                    <script>
 
-            </script>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
-                            <button type="button" id="reset_close_modal_header" class="close" data-dismiss="modal"
-                                aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Are you sure you want to proceed?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                id="reset_close_modal">Close</button>
-                            <button type="button" class="btn btn-danger" id="reset_proceed">Proceed</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
-                            <button type="button" id="reboot_close_modal_header" class="close" data-dismiss="modal"
-                                aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Are you sure you want to proceed?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                id="reboot_close_modal">Close</button>
-                            <button type="button" class="btn btn-danger" id="reboot_proceed">Proceed</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    </script>
+
 
 </body>
 

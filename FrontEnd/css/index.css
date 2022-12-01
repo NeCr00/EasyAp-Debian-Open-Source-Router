@@ -1,6 +1,7 @@
 
 body{
     font-family: 'Courier New', Courier, monospace !important;
+    overflow-y: hidden;
   }
   
   .navbar1{
@@ -12,6 +13,13 @@ body{
   }
   
   @media only screen and (max-width: 600px) {
+
+    body{
+      font-family: 'Courier New', Courier, monospace !important;
+      overflow-y:auto !important;
+    }
+
+
     ion-icon {
       font-size: 10px  !important;
       padding-top: -2px !important;
@@ -47,6 +55,14 @@ body{
   
   }
   
+    
+  @media only screen and (max-width: 1200px) {
+
+    body{
+      font-family: 'Courier New', Courier, monospace !important;
+      overflow-y:auto !important;
+    }
+  }
   
   ion-icon {
       font-size: 30px;
@@ -109,7 +125,7 @@ body{
   
   .card-sizing{
     width: 668px;
-    height: 358px;
+    height: 400px;
     background-color: rgb(255, 255, 255);
   }
   

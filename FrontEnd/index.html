@@ -19,7 +19,9 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js" integrity="sha512-FoyrIocrD2VGbh1HeDL8s/e+kNw0bl1WQHYlomgPuGe0N8y70F92YFUXW4Bompp9TrScjOiIPDSCM+ID0YXeqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"
+        integrity="sha512-FoyrIocrD2VGbh1HeDL8s/e+kNw0bl1WQHYlomgPuGe0N8y70F92YFUXW4Bompp9TrScjOiIPDSCM+ID0YXeqg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
@@ -59,9 +61,9 @@
 
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
                             <a href="#" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
-                                <ion-icon name="globe" p></ion-icon>
+                                <ion-icon name="earth-sharp" p></ion-icon>
 
-                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Dynamic DNS</span>
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">DNS & DDNS</span>
                             </a>
                         </li>
 
@@ -90,11 +92,18 @@
 
                         <li
                             class="nav-item w-100 border-bottom border-light border-opacity-50  list-group-item-action ">
-                            
+
                             <a href="data_usage.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="stats-chart-sharp"></ion-icon>
 
                                 <span class="ms-1  d-sm-inline fs-5 fw-bolder">Data Usage</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="system.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="build-sharp" class=""></ion-icon>
+                                <span class="ms-1 fs-5 fw-bold ">System</span>
+
                             </a>
                         </li>
 
@@ -131,10 +140,10 @@
                 <div class="conteiner-fluid position-absolute top-0 start-0 w-100 page-title">
                     <div class="row">
                         <div class="col-5">
-                            
+
                             <div class="text-light  py-3 d-lg-none">
                                 <button type="button" class="btn btn-light" id=navbar-but> Menu</button>
-                                <input type="hidden" id="navbarvalue"  value="0">
+                                <input type="hidden" id="navbarvalue" value="0">
                             </div>
                         </div>
                         <div class="col-7">
@@ -150,83 +159,83 @@
                 <div class="container-fluid my-5">
 
                     <div class="row row-flex  row-cols-lg-2 gy-5 justify-content-evenly mt-5">
-                        <div class="col-xs-12 col-md-5 py-4">
+                        <div class="col-xs-12 col-md-10 col-lg-5 py-4">
                             <div class="container-fluid table-header py-1 rounded-top">
                                 <div>
                                     <h4 class=" table-header fw-bold ">Devices</h4>
                                 </div>
                             </div>
                             <div class="container-fluid table-responsive rounded-bottom card-sizing  shadow-lg">
-                                
-                                    <div class="container-fluid table-responsive ">
-                                        <table class="table table-borderless table-hover">
-                                            <thead class="thead-danger table-text">
-                                                <tr class=" border-bottom border-2  fw-light table-text">
-                                                    <th class="text-center pe-4 " scope="col"># </th>
-                                                    <th class="ps-3" scope="col">Host</th>
-                                                    <th class="text-center" scope="col">IP</th>
-                                                    <th class="text-center" scope="col">MAC Address</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="table-text">
-                                                <tr class="border-bottom border-1">
-                                                    <th class="text-center pe-4" scope="row">1</th>
-                                                    <td>
-                                                        <ion-icon class="desktop-icon" name="desktop-sharp">
-                                                        </ion-icon> Desktop-test
-                                                    </td>
-                                                    <td class="text-center">192.168.1.23</td>
-                                                    <td class="text-center">FF-EB-56-55-38-2B
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-bottom border-1">
-                                                    <th class="text-center pe-4" scope="row">2</th>
-                                                    <td>
-                                                        <ion-icon class="desktop-icon" name="desktop-sharp">
-                                                        </ion-icon> Desktop-432
-                                                    </td>
-                                                    <td class="text-center">192.168.1.11</td>
-                                                    <td class="text-center">68-72-54-11-F4-53
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-bottom border-1">
-                                                    <th class="text-center pe-4" scope="row">3</th>
-                                                    <td>
-                                                        <ion-icon class="phone-icon" name="tablet-portrait-sharp">
-                                                        </ion-icon> Samsung
-                                                        Galaxy S10
-                                                    </td>
-                                                    <td class="text-center">192.168.1.44</td>
-                                                    <td class="text-center">BC-73-2C-F1-59-96
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-bottom border-1">
-                                                    <th class="text-center pe-4" scope="row">4</th>
-                                                    <td>
-                                                        <ion-icon class="desktop-icon" name="desktop-sharp"></ion-icon>
-                                                        </ion-icon> 192.16.1.12
-                                                    </td>
-                                                    <td class="text-center pe-4">192.168.1.34</td>
-                                                    <td class="text-center">D3-27-A7-05-FE-10
-                                                    </td>
-                                                </tr>
-                                                <tr class="border-bottom border-1">
-                                                    <th class="text-center pe-4" scope="row">5</th>
-                                                    <td>
-                                                        <ion-icon class="phone-icon" name="tablet-portrait-sharp">
-                                                        </ion-icon>Iphone 13
-                                                    </td>
-                                                    <td class="text-center">192.168.1.2</td>
-                                                    <td class="text-center">A0-05-5C-A3-72-B3
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                
+
+                                <div class="container-fluid table-responsive ">
+                                    <table class="table table-borderless table-hover">
+                                        <thead class="thead-danger table-text">
+                                            <tr class=" border-bottom border-2  fw-light table-text">
+                                                <th class="text-center pe-4 " scope="col"># </th>
+                                                <th class="ps-3" scope="col">Host</th>
+                                                <th class="text-center" scope="col">IP</th>
+                                                <th class="text-center" scope="col">MAC Address</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-text">
+                                            <tr class="border-bottom border-1">
+                                                <th class="text-center pe-4" scope="row">1</th>
+                                                <td>
+                                                    <ion-icon class="desktop-icon" name="desktop-sharp">
+                                                    </ion-icon> Desktop-test
+                                                </td>
+                                                <td class="text-center">192.168.1.23</td>
+                                                <td class="text-center">FF-EB-56-55-38-2B
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom border-1">
+                                                <th class="text-center pe-4" scope="row">2</th>
+                                                <td>
+                                                    <ion-icon class="desktop-icon" name="desktop-sharp">
+                                                    </ion-icon> Desktop-432
+                                                </td>
+                                                <td class="text-center">192.168.1.11</td>
+                                                <td class="text-center">68-72-54-11-F4-53
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom border-1">
+                                                <th class="text-center pe-4" scope="row">3</th>
+                                                <td>
+                                                    <ion-icon class="phone-icon" name="tablet-portrait-sharp">
+                                                    </ion-icon> Samsung
+                                                    Galaxy S10
+                                                </td>
+                                                <td class="text-center">192.168.1.44</td>
+                                                <td class="text-center">BC-73-2C-F1-59-96
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom border-1">
+                                                <th class="text-center pe-4" scope="row">4</th>
+                                                <td>
+                                                    <ion-icon class="desktop-icon" name="desktop-sharp"></ion-icon>
+                                                    </ion-icon> 192.16.1.12
+                                                </td>
+                                                <td class="text-center pe-4">192.168.1.34</td>
+                                                <td class="text-center">D3-27-A7-05-FE-10
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom border-1">
+                                                <th class="text-center pe-4" scope="row">5</th>
+                                                <td>
+                                                    <ion-icon class="phone-icon" name="tablet-portrait-sharp">
+                                                    </ion-icon>Iphone 13
+                                                </td>
+                                                <td class="text-center">192.168.1.2</td>
+                                                <td class="text-center">A0-05-5C-A3-72-B3
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
-                        <div class="col-xs-12 col-md-5 py-4 ">
+                        <div class="col-xs-12 col-md-10 col-lg-5 py-4 ">
                             <div class="container-fluid table-header py-1 rounded-top shadow-lg ">
                                 <div>
                                     <h4 class="text-light fw-bold">Geolocation</h4>
@@ -249,31 +258,31 @@
                                                 </thead>
                                                 <tbody class="geochart-table ">
                                                     <tr class="border-bottom border-1">
-                                                        
+
                                                         <td class="">France</td>
                                                         <td class="">42
                                                         </td>
                                                     </tr>
                                                     <tr class="border-bottom border-1">
-                                                        
+
                                                         <td class="">England</td>
                                                         <td class="">25
                                                         </td>
                                                     </tr>
                                                     <tr class="border-bottom border-1">
-                                                      
+
                                                         <td class="">Australia</td>
                                                         <td class="">23
                                                         </td>
                                                     </tr>
                                                     <tr class="border-bottom border-1">
-                                                        
+
                                                         <td class=" pe-4">Greece</td>
                                                         <td class="">18
                                                         </td>
                                                     </tr>
                                                     <tr class="border-bottom border-1">
-                                                       
+
                                                         <td class="">Other</td>
                                                         <td class="">13
                                                         </td>
@@ -292,7 +301,7 @@
 
 
                         </div>
-                        <div class="col-xs-12 col-md-5 py-4 ">
+                        <div class="col-xs-12 col-md-10 col-lg-5 py-4 ">
                             <div class="container-fluid table-header py-1 rounded-top  shadow-lg">
                                 <div>
                                     <h4 class="text-light fw-bold">Usage</h4>
@@ -300,13 +309,15 @@
                             </div>
                             <div
                                 class="container-fluid text-center rounded-bottom card-sizing table-responsive rounded-top  shadow-lg">
-                                <div class="row d-flex row-col-3 align-items-center justify-content-evenly table-responsive" style="height: 100%;">
+                                <div class="row d-flex row-col-3 align-items-center justify-content-evenly table-responsive"
+                                    style="height: 100%;">
                                     <div class="col-4 col-md-4  col-sm-4">
                                         <div class="card bg-c-pink order-card ">
                                             <div class="card-block">
 
                                                 <div class="circlechart" data-percentage="30">CPU</div>
-                                                <h6 class="mb-3 text-dark fw-bold mt-3"><i class="bi bi-cpu-fill fa-sm"></i>
+                                                <h6 class="mb-3 text-dark fw-bold mt-3"><i
+                                                        class="bi bi-cpu-fill fa-sm"></i>
                                                 </h6>
                                             </div>
                                         </div>
@@ -340,7 +351,7 @@
 
                         </div>
 
-                        <div class="col-xs-12 col-md-5 py-4">
+                        <div class="col-xs-12 col-md-10 col-lg-5 py-4">
                             <div class="container-fluid table-header py-1 rounded-top  shadow-lg">
                                 <div>
                                     <h4 class="text-light fw-bold">Traffic Amount</h4>
@@ -349,16 +360,16 @@
                             <div class="container-fluid table-responsive rounded-bottom card-sizing  shadow-lg">
                                 <div class="row d-flex align-items-center justify-content-evenly" style="height: 100%;">
                                     <div class="col-12 ">
-                                        <div class="row">
-                                            <div class="chart__container">
-                                                <div class="line-chart">
-                                                    <div class="aspect-ratio">
-                                                      <canvas id="chart"></canvas>
-                                                    </div>
-                                                  </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-10 col-md-12 col-sm-12">
+
+
+                                                <canvas id="chart"></canvas>
+
+
                                             </div>
-                                          </div>
-                                          
+                                        </div>
+
                                     </div>
 
                                 </div>
