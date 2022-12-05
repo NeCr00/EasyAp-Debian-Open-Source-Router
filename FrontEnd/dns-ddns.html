@@ -9,13 +9,14 @@
 
     <title>EasyAP</title>
     <!--Custom CSS & JS-->
-    <link href="css/dhcp.css" rel="stylesheet" />
-    <script defer src="js/dhcp.js"></script>
+    <link href="css/dns-ddns.css" rel="stylesheet" />
+    <script defer src="js/dns-ddns.js"></script>
     <!-- Chart js link-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Boostrap 5 link-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+        
     <!--Chart loader-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -151,7 +152,7 @@
                         </div>
                         <div class="col-7">
                             <div class="text-light py-3 fw-bold ">
-                                <h3>Data Usage</h3>
+                                <h3>DNS & DDNS</h3>
 
                             </div>
                         </div>
@@ -166,7 +167,7 @@
                         <div class="col-sm-12 col-md-8  py-4 mt-3 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
-                                    <h4 class=" table-header fw-bold ">DHCP Server Settings</h4>
+                                    <h4 class=" table-header fw-bold ">Dynamic DNS</h4>
                                 </div>
                             </div>
                             <div
@@ -176,7 +177,7 @@
                                         <div class="container-fluid">
                                             <div class="row row-cols-1">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    DHCP Server
+                                                    DDNS Server
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
                                                     <div class="form-check">
@@ -197,32 +198,24 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-4">
                                         <div class="container-fluid">
-                                            <div class="row row-cols-1">
+                                            <div class="row row-cols-1 ">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    IP Address Range
+                                                    Service Provider
                                                 </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <div class=" me-2">
-                                                        <div class="icon-in-input ">
-                                                            <i class="bi bi-play-circle-fill ion-icon text-primary"></i>
-                                                        </div>
-                                                        <input type="text" class="form-control" placeholder="IP Start"
-                                                            aria-label="First name">
-                                                    </div>
-                                                    <div class="text-center mt-2">
-                                                        <span>-</span>
-                                                    </div>
-                                                    <div class=" ms-2 ">
-                                                        <div class="icon-in-input ">
-                                                            <i class="bi bi-sign-stop-fill ion-icon text-danger"></i>
-                                                        </div>
-
-                                                        <input type="text" class="form-control" placeholder="IP End"
-                                                            aria-label="First name">
-
-                                                    </div>
+                                                <div class="col-md-6 col-sm-12 d-flex flex-row">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                          Select a Service Provider
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                          <li><a class="dropdown-item" href="#">Action</a></li>
+                                                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                          <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                        </ul>
+                                                      </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -231,15 +224,15 @@
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Subnet Mask
+                                                    Username
                                                 </div>
                                                 <div class="col-md-6 col-sm-12 d-flex flex-row">
                                                     <div class="icon-in-input ">
-                                                        <i class="bi bi-hdd-network-fill ion-icon text-info"></i>
+                                                        <ion-icon name="person-circle-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Type Subnet Mask" aria-label="First name">
+                                                    <input type="text" class="form-control" placeholder="Type Username"
+                                                        aria-label="First name">
                                                 </div>
                                             </div>
                                         </div>
@@ -248,24 +241,26 @@
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Lan IP Address
+                                                    Password
                                                 </div>
                                                 <div class="col-md-6 col-sm-12 d-flex flex-row">
                                                     <div class="icon-in-input ">
-                                                        <ion-icon class="" name="git-network-sharp"></ion-icon>
+                                                        <ion-icon name="hourglass-sharp"
+                                                            style="color:rgb(10, 216, 89);"></ion-icon>
                                                     </div>
 
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Type Lan IP Address" aria-label="First name">
+                                                    <input type="password" class="form-control"
+                                                        placeholder="Type Password" aria-label="First name">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-4">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Address Lease Time (Minutes)
+                                                    Domain Name
                                                 </div>
                                                 <div class="col-md-6 col-sm-12 d-flex flex-row">
                                                     <div class="icon-in-input ">
@@ -274,30 +269,12 @@
                                                     </div>
 
                                                     <input type="text" class="form-control"
-                                                        placeholder="Type Lease Time of Address"
-                                                        aria-label="First name">
+                                                        placeholder="Ex. www.example.com" aria-label="First name">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-4">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Custom Address Lease Time
-                                                </div>
-                                                <div class="col-md-4 col-sm-12 d-flex flex-row">
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input checkbox" type="checkbox"
-                                                            role="switch" id="flexSwitchCheckDefault" />
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                              
 
 
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4 ">
@@ -318,7 +295,8 @@
                                     <h4 class=" table-header fw-bold ">IP Forwading</h4>
                                 </div>
                             </div>
-                            <div class="container-fluid table-responsive rounded-bottom  card-sizing shadow-sm position-relative">
+                            <div
+                                class="container-fluid table-responsive rounded-bottom  card-sizing shadow-sm position-relative">
                                 <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
                                     <div class=" col-sm-10  col-md-11  mt-md-5">
                                         <div class="container-fluid table-responsive table-size">
@@ -383,9 +361,12 @@
                                             </table>
 
                                             <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                <div class="float-end"> <button class="btn btn-pass btn-dark me-4" type="button">Apply</button>
-                                                    <button class="btn  btn-pass btn-danger " type="button"> Reset</button></div>
-                                                
+                                                <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
+                                                        type="button">Apply</button>
+                                                    <button class="btn  btn-pass btn-danger " type="button">
+                                                        Reset</button>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
