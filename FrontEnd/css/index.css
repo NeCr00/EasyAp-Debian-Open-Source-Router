@@ -4,6 +4,17 @@ body{
     
   }
   
+
+
+  @media screen and (min-width: 2200px)  {
+    body{
+      font-family: 'Courier New', Courier, monospace !important;
+      overflow: hidden;
+    }
+    
+  }
+  
+ 
   .navbar1{
     background: linear-gradient(40deg,#606163,#0e1114);
   }
