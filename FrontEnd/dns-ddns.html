@@ -289,25 +289,27 @@
                             </div>
 
                         </div>
-                        <div class="col-sm-12 col-md-8  py-4 mt-3 table-responsive">
+                        <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
-                                    <h4 class=" table-header fw-bold ">IP Forwading</h4>
+                                    <h4 class=" table-header fw-bold ">DNS</h4>
                                 </div>
                             </div>
-                            <div
-                                class="container-fluid table-responsive rounded-bottom  card-sizing shadow-sm position-relative">
+                            <div class="container-fluid table-responsive rounded-bottom  card-sizing shadow-sm position-relative">
                                 <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
                                     <div class=" col-sm-10  col-md-11  mt-md-5">
                                         <div class="container-fluid table-responsive table-size">
                                             <table class="table table-borderless  text-center">
                                                 <thead class="thead-danger table-text">
                                                     <tr class=" border-bottom border-2  fw-light table-text">
-                                                        <th class="  text-center fs-4 fw-bold" scope="col">#</th>
-                                                        <th class="fs-5" scope="col">Device</th>
-                                                        <th class="fs-5" scope="col">IP Address</th>
-                                                        <th class="fs-5" scope="col">MAC Address</th>
-                                                        <th class="fs-5" scope="col">Remaining Lease</th>
+                                                        <th class="  text-center" scope="col"><button
+                                                                class="btn btn-add " type="button">
+                                                                <ion-icon name="add-circle-sharp"></ion-icon>
+                                                                </ion-icon>
+                                                            </button></th>
+                                                        <th class="fs-5" scope="col">DNS IP Address</th>
+                                                       
+                                                        <th> </th>
 
                                                     </tr>
                                                 </thead>
@@ -320,16 +322,9 @@
 
                                                             Type an IP
                                                         </td>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type a Mac Port
-                                                        </td>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type a Port
-                                                        </td>
-                                                        <td class="text-center fs-6 fw-bold">
-                                                            123
+                                                      
+                                                        <td class="text-center table-remove">
+                                                            <ion-icon name="trash-sharp"></ion-icon>
                                                         </td>
 
                                                         </td>
@@ -342,16 +337,9 @@
 
                                                             Type an IP
                                                         </td>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type a Mac Port
-                                                        </td>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type a Port
-                                                        </td>
-                                                        <td class="fs-6 fw-bold text-center ">
-                                                            4321
+                                                      
+                                                        <td class="text-center table-remove">
+                                                            <ion-icon name="trash-sharp"></ion-icon>
                                                         </td>
 
                                                         </td>
@@ -361,12 +349,9 @@
                                             </table>
 
                                             <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
-                                                        type="button">Apply</button>
-                                                    <button class="btn  btn-pass btn-danger " type="button">
-                                                        Reset</button>
-                                                </div>
-
+                                                <div class="float-end"> <button class="btn btn-pass btn-dark me-4" type="button">Apply</button>
+                                                    <button class="btn  btn-pass btn-danger " type="button"> Reset</button></div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -388,6 +373,104 @@
 
                         </div>
 
+                        <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
+                            <div class=" table-header py-1 rounded-top shadow-lg">
+                                <div class="ms-4">
+                                    <h4 class=" table-header fw-bold ">Authoritative Nameserver for Domain</h4>
+                                </div>
+                            </div>
+                            <div class="container-fluid table-responsive rounded-bottom  card-sizing shadow-sm position-relative">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                    <div class=" col-sm-10  col-md-11  mt-md-5">
+                                        <div class="container-fluid table-responsive table-size">
+                                            <table class="table table-borderless  text-center">
+                                                <thead class="thead-danger table-text">
+                                                    <tr class=" border-bottom border-2  fw-light table-text">
+                                                        <th class="  text-center" scope="col"><button
+                                                                class="btn btn-add " type="button">
+                                                                <ion-icon name="add-circle-sharp"></ion-icon>
+                                                                </ion-icon>
+                                                            </button></th>
+                                                        <th class="fs-5" scope="col">Internal IP</th>
+                                                        <th class="fs-5" scope="col">Internal Port</th>
+                                                        <th class="fs-5" scope="col">External Port</th>
+                                                        <th> </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-text">
+
+                                                    <!-- This line is for empty table -->
+                                                    <tr class="border-bottom border-1 ">
+                                                        <th class="text-center fs-5" scope="row">1</th>
+                                                        <td class=" fs-6 fw-bold" contenteditable="true">
+
+                                                            Type an IP
+                                                        </td>
+                                                        <td class=" fs-6 fw-bold" contenteditable="true">
+
+                                                            Type a Mac Port
+                                                        </td>
+                                                        <td class=" fs-6 fw-bold" contenteditable="true">
+
+                                                            Type a Port
+                                                        </td>
+                                                        <td class="text-center table-remove">
+                                                            <ion-icon name="trash-sharp"></ion-icon>
+                                                        </td>
+
+                                                        </td>
+                                                    </tr>
+                                                    <!-- This line is for empty table -->
+
+                                                    <tr class="border-bottom border-1 ">
+                                                        <th class="text-center fs-5" scope="row">1</th>
+                                                        <td class=" fs-6 fw-bold" contenteditable="true">
+
+                                                            Type an IP
+                                                        </td>
+                                                        <td class=" fs-6 fw-bold" contenteditable="true">
+
+                                                            Type a Mac Port
+                                                        </td>
+                                                        <td class=" fs-6 fw-bold" contenteditable="true">
+
+                                                            Type a Port
+                                                        </td>
+                                                        <td class="text-center table-remove">
+                                                            <ion-icon name="trash-sharp"></ion-icon>
+                                                        </td>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                            <div class="position-absolute bottom-0 end-0 mb-4 me-4">
+                                                <div class="float-end"> <button class="btn btn-pass btn-dark me-4" type="button">Apply</button>
+                                                    <button class="btn  btn-pass btn-danger " type="button"> Reset</button></div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
             </div>
