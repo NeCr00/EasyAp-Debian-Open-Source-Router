@@ -1,0 +1,202 @@
+
+body{
+    font-family: 'Courier New', Courier, monospace !important;
+    
+  }
+  
+  .navbar1{
+    background: linear-gradient(40deg,#606163,#0e1114);
+  }
+  
+  .page-title{
+    background: linear-gradient(40deg,#0e1114,#606163);
+   
+  }
+  @media only screen and (max-width: 1920px) {
+    body{
+        overflow: hidden;
+    }
+
+   
+  }
+  @media only screen and (max-width: 700px) {
+   body{
+    overflow: auto;
+   }
+
+    .input-size{
+        font-size: 10px !important;
+    }
+
+    ion-icon {
+      font-size: 10px  !important;
+      padding-top: -2px !important;
+  
+    }
+    
+    .table-text{
+      font-size: 10px  !important;
+    }
+  
+  
+    .card-sizing{
+      
+      height: 380 px  !important;
+    }
+  
+    ::placeholder {
+        text-indent: 10px;
+        font-size: 10px;
+      }
+
+    .reset-reboot-font{
+        font-size:10px !important;
+    }
+    
+    .reset-icon{
+        font-size:40px !important;
+     }
+
+     .btn-reset-reboot{
+      width: 200px !important;
+    }
+    
+    .btn-pass{
+      width: 200px !important;
+    }
+  }
+  
+  
+  ion-icon {
+      font-size: 30px;
+      padding-top: 5px;
+  
+    }
+    
+    .logout-icon {
+      font-size: 45px;
+    }
+   
+    
+    .menu-hover:hover{
+      background-color: #05bed3cc!important;
+      transform: scale(1.15) !important;
+    }
+    
+    .menu-hover:active{
+    background-color: #058492cc !important;
+    transform: translateY(4px) !important;
+    }
+    
+    .logout-hover:active{
+    box-shadow: 1 2px #3d5a80 !important;
+    transform: translateY(4px) !important;
+    }
+  
+    .logout-hover:hover{
+      box-shadow: 1 2px #98c1d9 !important;
+      }
+    
+    .master-container{
+      background: rgb(241, 248, 255)
+      
+    }
+    
+    
+    .table-header{
+      background: linear-gradient(40deg,#131c25,#373838);
+      color: #e0fbfc;
+    }
+    
+  .table-text{
+    color: #141414;
+    font-family: 'Courier New', Courier, monospace;
+    
+  }
+  
+  .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: rgb(214, 214, 214);
+  }
+    
+  .phone-icon{
+    color: #ee6d4dd2;
+  }
+    
+  .desktop-icon{
+    color:#06b396a4;
+  }
+  
+  .card-sizing{
+    width: 668px;
+    height: 320px;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  
+  .text-nav{
+    color:#e0fbfc !important;
+    
+  }
+  
+  .icon-in-input{
+    position: absolute;
+    padding-left: 7px;
+    
+  }
+  ::placeholder {
+   text-indent: 40px;
+ }
+
+ input{
+    text-indent:40px;
+    border-bottom: 3px solid black !important;
+    color:green;
+ }
+
+ .icon-red{
+    color:rgb(255, 81, 0);
+ }
+
+ .icon-blue{
+    color:rgb(0, 128, 255);
+ }
+ .reset-icon{
+    font-size:80px;
+ }
+
+ .reset-title{
+    font-size:20px !important;
+    font-weight: 600;
+ }
+ .card-sizing-top{
+  width: 668px;
+  height: 358px;
+  background-color: rgb(255, 255, 255);
+}
+
+.btn-reset-reboot{
+  width: 300px 
+}
+
+.btn-pass{
+  width: 200px 
+}
+
+.paddingTB60 {padding:60px 0px 60px 0px;}
+.gray-bg {background: #fffefe !important;}
+.about-title {}
+.about-title h1 {color: #535353; font-size:45px;font-weight:600;}
+.about-title span {color: #AF0808; font-size:45px;font-weight:700;}
+.about-title h3 {color: #535353; font-size:23px;margin-bottom:24px;}
+.about-title p {color: #7a7a7a;line-height: 1.8;margin: 0 0 15px;}
+.about-paddingB {padding-bottom: 12px;}
+.about-img {padding-left: 57px;}
+
+/* Social Icons */
+.about-icons {margin:48px 0px 48px 0px ;}
+.about-icons i{margin-right: 10px;padding: 0px; font-size:35px;color:#323232;box-shadow: 0 0 3px rgba(0, 0, 0, .2);}
+.about-icons li {margin:0px;padding:0;display:inline-block;}
+#social-fb:hover {color: #3B5998;transition:all .001s;}
+ #social-tw:hover {color: #4099FF;transition:all .001s;}
+ #social-gp:hover {color: #d34836;transition:all .001s;}
+ #social-em:hover {color: #f39c12;transition:all .001s;}

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png">
+
+    <title>EasyAP</title>
+    <!--Custom CSS & JS-->
+    <link href="css/about.css" rel="stylesheet" />
+    <script defer src="js/about.js"></script>
+    <!-- Chart js link-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Boostrap 5 link-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+    <!--Chart loader-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"
+        integrity="sha512-FoyrIocrD2VGbh1HeDL8s/e+kNw0bl1WQHYlomgPuGe0N8y70F92YFUXW4Bompp9TrScjOiIPDSCM+ID0YXeqg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container-fluid ">
+        <div class="row flex-nowrap">
+
+            <!-- Navigation Bar-->
+            <div class="col-auto col-md-auto col-xl-auto  navbar1 shadow-lg ">
+
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 sticky-top "
+                    id=navbarr>
+                    <p class="d-flex align-self-center">
+                        <span class="  "><img src="assets/logo.gif" width="150"> </span>
+                    </p>
+                    <div
+                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-1 border-bottom  ">
+                    </div>
+
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100 "
+                        id="menu">
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="index.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="home" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="dhcp.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="server-sharp" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">DHCP Server</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="dns-ddns.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="earth-sharp" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">DNS & DDNS</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="vpn.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="document-lock-sharp" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">VPN</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="firewall.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <!-- <ion-icon name="logo-firebase"></ion-icon> -->
+                                <ion-icon name="flame"></ion-icon>
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Firewall</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="settings.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="settings-sharp" class=""></ion-icon>
+                                <span class="ms-1 fs-5 fw-bold ">Settings</span>
+
+                            </a>
+                        </li>
+
+                        <li
+                            class="nav-item w-100 border-bottom border-light border-opacity-50  list-group-item-action ">
+
+                            <a href="data_usage.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="stats-chart-sharp"></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Data Usage</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="system.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="build-sharp" class=""></ion-icon>
+                                <span class="ms-1 fs-5 fw-bold ">System</span>
+
+                            </a>
+                        </li>
+
+                        <li
+                            class="nav-item w-100 border-bottom border-light border-opacity-50  list-group-item-action ">
+                            <a href="about.html" class="nav-link align-middle px-2 py-2 menu-hover text-nav">
+                                <ion-icon name="help-circle"></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder ">About</span>
+                                </span>
+                            </a>
+                        </li>
+
+
+
+
+                    </ul>
+
+                    <hr />
+                    <div class="dropdown pb-4">
+                        <a href="#" class="d-flex align-items-center fs-4 text-nav logout-hover" id="dropdownUser1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <ion-icon class="logout-icon" name="log-out-sharp"></ion-icon>
+                            <span class="">Logout</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-11  master-container position-relative">
+
+
+                <div class="conteiner-fluid position-absolute top-0 start-0 w-100 page-title">
+                    <div class="row">
+                        <div class="col-5">
+
+                            <div class="text-light  py-3 d-lg-none">
+                                <button type="button" class="btn btn-light" id=navbar-but> Menu</button>
+                                <input type="hidden" id="navbarvalue" value="0">
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="text-light py-3 fw-bold ">
+                                <h3>Data Usage</h3>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="container-fluid my-5">
+                    <div class="mt-5">f</div>
+                    <div class="mt-5">f</div>
+                    <link rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+                        integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+                    <div class="container ">
+                        <div class="about-section paddingTB60 gray-bg">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="about-title clearfix">
+                                            <h1>About <span>EasyAP</span></h1>
+                                            <h3>Lorem ipsum dolor sit amet </h3>
+                                            <p class="about-paddingB">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquet dolor libero, eget venenatis mauris finibus dictum. Vestibulum quis elit eget neque porttitor congue non sit amet dolor. Proin pretium purus a lorem ornare </p>
+                                            <p>sed lobortis pulvinar. Integer laoreet mi id eros porta euismod. Suspendisse potenti. Nulla eros mauris, convallis et sem tempus, viverra hendrerit sapien</p>
+                                    <div class="about-icons"> 
+                                        <ul >
+                                            <li><a href="https://www.facebook.com/"><i id="social-fb" class="fa fa-facebook-square fa-3x social"></i></a> </li>
+                                            <li><a href="https://twitter.com/"><i id="social-tw" class="fa fa-twitter-square fa-3x social"></i></a> </li>
+                                            <li> <a href="https://plus.google.com/"><i id="social-gp" class="fa fa-google-plus-square fa-3x social"></i></a> </li>
+                                            <li> <a href="mailto:bootsnipp@gmail.com"><i id="social-em" class="fa fa-envelope-square fa-3x social"></i></a> </li>
+                                        </ul>       
+                           
+                           
+                           
+                           
+                        
+                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-sm-6">
+                                        <div class="about-img">
+                                            <img src="https://devitems.com/preview/appmom/img/mobile/2.png" alt="">
+                                        </div>
+                                    </div>	
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
+            </script>
+
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+
+        <script>
+
+        </script>
+
+
+</body>
+
+</html>
