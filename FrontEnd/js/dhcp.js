@@ -22,7 +22,7 @@ var address_data = [{
 
 $(document).ready(function () {
 
-  var lease_toggle = false
+   // var lease_toggle = false
   // change toggle value $("#lease-time").prop('checked', true).change();
 
   $("#lease-time").change(function () {
@@ -50,8 +50,8 @@ $(document).ready(function () {
 
   });
 
-  // Reset Modal Actions
-  $("#execute").on('click', function () {
+  //  Modal Window
+  $("#submit-dhcp").on('click', function () {
     $('#modal').modal('show');
   })
 
@@ -90,6 +90,8 @@ $(document).ready(function () {
     });
 
   }
+
+
   CreateAddressTable(address_data)
   //--------------------------------------------------------------------- 
 

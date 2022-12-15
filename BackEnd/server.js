@@ -4,7 +4,7 @@ const express = require('express');
 
 // ExpressJS initialization
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
 // IP2Location initialization
 const ip2location = new IP2Location();
@@ -21,8 +21,8 @@ for (var x = 0; x < testip.length; x++) {
 }
 ip2location.close();
 
-app.listen(port, () => {
-	console.log(`\nExample app listening on port ${port} ...`)
+app.listen(PORT, () => {
+	console.log(`\nExample app listening on port ${PORT} ...`)
 });
 
 // Home - Dashboard

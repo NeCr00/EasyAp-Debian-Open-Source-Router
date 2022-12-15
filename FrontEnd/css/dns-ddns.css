@@ -188,3 +188,6 @@ th {
     position: sticky !important;
 }
 
+.dropdown{
+    width: 250px !important;
+}
