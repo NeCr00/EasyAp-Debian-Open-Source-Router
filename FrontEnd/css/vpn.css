@@ -1,0 +1,213 @@
+
+body{
+    font-family: 'Courier New', Courier, monospace !important;
+    
+  }
+  
+  .navbar1{
+    background: linear-gradient(40deg,#606163,#0e1114);
+  }
+  
+  .page-title{
+    background: linear-gradient(40deg,#0e1114,#606163);
+    width: 100% !important;
+  }
+  
+  @media only screen and (max-width: 1920px) {
+    body{
+        overflow: auto;
+    }
+
+   
+  }
+
+  @media only screen and (max-width: 600px) {
+    body{
+        overflow: auto !important;
+    }
+
+    .input-size{
+        font-size: 10px !important;
+    }
+
+    ion-icon {
+      font-size: 20px  !important;
+      padding-top: -2px !important;
+  
+    }
+    
+    .table-text{
+      font-size: 10px  !important;
+    }
+  
+  
+    ::placeholder {
+        text-indent: 10px;
+        font-size: 10px;
+      }
+
+    .reset-reboot-font{
+        font-size:10px !important;
+    }
+    
+    .reset-icon{
+        font-size:40px !important;
+     }
+     .card-content{
+      font-size: 10px  !important;
+     }
+     .btn-pass{
+      width: 80px !important; 
+    }
+  }
+  
+  
+  ion-icon {
+      font-size: 30px;
+      padding-top: 5px;
+  
+    }
+    
+    .logout-icon {
+      font-size: 45px;
+    }
+   
+    
+    .menu-hover:hover{
+      background-color: #05bed3cc!important;
+      transform: scale(1.15) !important;
+    }
+    
+    .menu-hover:active{
+    background-color: #058492cc !important;
+    transform: translateY(4px) !important;
+    }
+    
+    .logout-hover:active{
+    box-shadow: 1 2px #3d5a80 !important;
+    transform: translateY(4px) !important;
+    }
+  
+    .logout-hover:hover{
+      box-shadow: 1 2px #98c1d9 !important;
+      }
+    
+    .master-container{
+      background: rgb(241, 248, 255)
+      
+    }
+    
+    
+    .table-header{
+      background: linear-gradient(40deg,#131c25,#373838);
+      color: #e0fbfc;
+    }
+    
+  
+  .card-sizing{
+    width: 668px;
+    height: 500px;
+    background-color: rgb(255, 255, 255);
+  }
+
+  
+  
+  .text-nav{
+    color:#e0fbfc !important;
+    
+  }
+
+
+  .icon-in-input{
+    position: absolute;
+    padding-left: 7px;
+    
+  }
+  ::placeholder {
+   text-indent: 40px;
+ }
+
+ input{
+    text-indent:40px;
+    border-bottom: 3px solid black !important;
+    color:green;
+ }
+
+
+  
+  .btn-pass{
+    width: 200px 
+  }
+  .checkbox{
+    width: 60px !important;
+    height: 30px !important;
+  }
+
+  .table-remove {
+    color: #700;
+    cursor: pointer;
+  }  
+  .table-remove:hover {
+      color: #f00 !important;
+    }
+
+    .table-remove:active {
+      color: rgba(255, 0, 0, 0.5) !important;
+      transform: translateY(4px) !important;
+    }
+
+
+
+    .btn-add:hover {
+      background-color: rgb(21, 255, 0) !important;
+    }
+
+    .btn-add:active {
+      background-color: rgba(51, 255, 0, 0.5) !important;
+      transform: translateY(4px) !important;
+    }
+
+    .btn-add{
+      width: 60px;
+      color:green;
+      border-radius: 100px !important;
+    }
+    
+    .add-icon {
+      font-size: 40px;
+      color: green;
+      font-weight: bold;
+    }
+.table-size{
+  max-height: 280px !important;
+}
+
+th{
+  position:sticky !important;
+}
+
+
+
+.small-textarea{
+    font-family:monospace !important;
+    height: 60px !important;
+    width: 100%;
+    background-color: #ffffff !important;
+    font-size: 10px !important;
+}
+
+.vpn-card{
+    height: 1100px !important;
+}
+
+.card-textarea{
+    font-family:monospace !important;
+    height: 400px !important;
+    width: 100%;
+    background-color: #ffffff !important;
+}
+hr{
+    background-color: rgb(0, 0, 0) !important;
+    border:none !important;
+    height: 2px !important;
+}

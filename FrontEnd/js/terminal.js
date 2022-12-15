@@ -65,7 +65,7 @@ jQuery(function ($, undefined) {
     }, {
         greetings: 'Import a custom firewall rule using iptables and press Enter',
         name: 'LiveShell',
-        prompt: 'Terminal > ',
+        prompt: ' Terminal > ',
      
         
     });

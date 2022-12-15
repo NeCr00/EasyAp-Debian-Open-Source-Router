@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.1.0/js/jquery.terminal.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.1.0/css/jquery.terminal.min.css"
+        rel="stylesheet" />
+    <title>EasyAP</title>
+    <!--Custom CSS & JS-->
+    <link href="css/vpn.css" rel="stylesheet" />
+    <script defer src="js/vpn.js"></script>
+    <script src="js/terminal.js"></script>
+    <!-- Chart js link-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Boostrap 5 link-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+    <!--Chart loader-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"
+        integrity="sha512-FoyrIocrD2VGbh1HeDL8s/e+kNw0bl1WQHYlomgPuGe0N8y70F92YFUXW4Bompp9TrScjOiIPDSCM+ID0YXeqg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+
+    <div class="container-fluid ">
+        <div class="row flex-nowrap">
+
+            <!-- Navigation Bar-->
+            <div class="col-auto col-md-auto col-xl-auto  navbar1 shadow-lg ">
+
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 sticky-top "
+                    id=navbarr>
+                    <p class="d-flex align-self-center">
+                        <span class="  "><img src="assets/logo.gif" width="150"> </span>
+                    </p>
+                    <div
+                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-1 border-bottom  ">
+                    </div>
+
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100 "
+                        id="menu">
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="index.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="home" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="dhcp.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="server-sharp" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">DHCP Server</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="dns-ddns.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="earth-sharp" p></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">DNS & DDNS</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="vpn.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="document-lock-sharp" p></ion-icon>
+                                <span class="ms-1 fs-5 fw-bold ">VPN</span>
+                                ￼
+                            </a>
+                        </li>
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="firewall.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <!-- <ion-icon name="logo-firebase"></ion-icon> -->
+                                <ion-icon name="flame"></ion-icon>
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Firewall</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="settings.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="settings-sharp" class=""></ion-icon>
+                                <span class="ms-1 fs-5 fw-bold ">Settings</span>
+
+                            </a>
+                        </li>
+
+                        <li
+                            class="nav-item w-100 border-bottom border-light border-opacity-50  list-group-item-action ">
+
+                            <a href="data_usage.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="stats-chart-sharp"></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder">Data Usage</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
+                            <a href="system.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                                <ion-icon name="build-sharp" class=""></ion-icon>
+                                <span class="ms-1 fs-5 fw-bold ">System</span>
+
+                            </a>
+                        </li>
+
+                        <li
+                            class="nav-item w-100 border-bottom border-light border-opacity-50  list-group-item-action ">
+                            <a href="about.html" class="nav-link align-middle px-2 py-2 menu-hover text-nav">
+                                <ion-icon name="help-circle"></ion-icon>
+
+                                <span class="ms-1  d-sm-inline fs-5 fw-bolder ">About</span>
+                                </span>
+                            </a>
+                        </li>
+
+
+
+
+                    </ul>
+
+
+
+                </div>
+            </div>
+
+            <div class="col-11  master-container position-relative">
+
+
+                <div class="conteiner-fluid position-absolute top-0 start-0 w-100 page-title">
+                    <div class="row">
+                        <div class="col-5">
+
+                            <div class="text-light  py-3 d-lg-none">
+                                <button type="button" class="btn btn-light" id=navbar-but> Menu</button>
+                                <input type="hidden" id="navbarvalue" value="0">
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="text-light py-3 fw-bold ">
+                                <h3>VPN</h3>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="container-fluid my-5">
+
+                    <div class="row  row-cols-1 mt-5  justify-content-md-center gx-5">
+
+
+
+
+                        <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
+                            <div class=" table-header py-1 rounded-top shadow-lg">
+                                <div class="ms-4">
+                                    <h4 class=" table-header fw-bold ">Open VPN Configuration</h4>
+                                </div>
+                            </div>
+                            <div
+                                class="container-fluid table-responsive rounded-bottom  position-relative vpn-card shadow-sm ">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                    <div class=" col-sm-10  col-md-10  mt-md-5">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Open VPN
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="flexRadioDefault" id="flexRadioDefault1">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            Enabled
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check ms-lg-5 ms-3">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                                        <label class="form-check-label" for="flexRadioDefault2">
+                                                            Disabled
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10  mt-md-2">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Server IP/Name
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <div class="icon-in-input ">
+                                                        <ion-icon name="finger-print-sharp"></ion-icon>
+                                                    </div>
+
+                                                    <input type="text" class="form-control" placeholder="Type your SSID"
+                                                        aria-label="First name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10  mt-md-2">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Port
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <div class="icon-in-input ">
+                                                        <ion-icon name="lock-closed-sharp"></ion-icon>
+                                                    </div>
+
+                                                    <input type="password" class="form-control"
+                                                        placeholder="Type your Password" aria-label="First name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10  mt-md-2">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Protocol
+                                                </div>
+                                                <div class="col-md-6 col-sm-12 d-flex flex-row">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-danger dropdown-toggle" type="button"
+                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Select a Protocol
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                            <li><a class="dropdown-item" href="#">TCP</a></li>
+                                                            <li><a class="dropdown-item" href="#">UDP</a></li>
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10 mt-md-2">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Encryption Cipher
+                                                </div>
+                                                <div class="col-md-6 col-sm-12 d-flex flex-row">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-danger dropdown-toggle" type="button"
+                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Select a Protocol
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                            <li><a class="dropdown-item" href="#">TCP</a></li>
+                                                            <li><a class="dropdown-item" href="#">UDP</a></li>
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10 mt-md-2">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Hash Algorithm
+                                                </div>
+                                                <div class="col-md-6 col-sm-12 d-flex flex-row">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-danger dropdown-toggle" type="button"
+                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Select a Protocol
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                            <li><a class="dropdown-item" href="#">TCP</a></li>
+                                                            <li><a class="dropdown-item" href="#">UDP</a></li>
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10  mt-md-2">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Credentials
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="creds_radio" id="cred_check1">
+                                                        <label class="form-check-label" for="cred_check1">
+                                                            Enabled
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check ms-lg-5 ms-3">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="creds_radio" id="cred_check2" checked>
+                                                        <label class="form-check-label" for="cred_check2">
+                                                            Disabled
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10  mt-md-2">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Username
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <div class="icon-in-input ">
+                                                        <ion-icon name="lock-closed-sharp"></ion-icon>
+                                                    </div>
+
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Type your Password" aria-label="First name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10 mt-md-2">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Password
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <div class="icon-in-input ">
+                                                        <ion-icon name="lock-closed-sharp"></ion-icon>
+                                                    </div>
+
+                                                    <input type="password" class="form-control"
+                                                        placeholder="Type your Password" aria-label="First name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class=" col-sm-10  col-md-12 mt-0 ">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-8 col-sm-2 mt-2 input-size d fw-semibold">
+                                                    <p class="float-start ">Advanced Settings</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-12 d-flex flex-row">
+                                                    <hr style="background-color:black;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10  mt-md-3">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
+                                                    TLS Cipher
+                                                </div>
+                                                <div class="col-md-6 col-sm-12 d-flex flex-row ms-lg-2">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-danger dropdown-toggle" type="button"
+                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Select an Action
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                            <li><a class="dropdown-item" href="#">Allow</a></li>
+                                                            <li><a class="dropdown-item" href="#">Deny</a></li>
+                                                            <li><a class="dropdown-item" href="#">Exclusive Access </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10 mt-md-2">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
+                                                    Key Pass
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <div class="icon-in-input ">
+                                                        <ion-icon name="lock-closed-sharp"></ion-icon>
+                                                    </div>
+
+                                                    <input type="password" class="form-control"
+                                                        placeholder="Type your Password" aria-label="First name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class=" col-sm-10  col-md-10 mt-md-3">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
+                                                    TLS Auth Key
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <textarea class="small-textarea" id="textarea" class="form-control "
+                                                        rows="15">No Data to Preview</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10 mt-md-3">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
+                                                    CA Cert
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <textarea class="small-textarea" id="textarea" class="form-control "
+                                                        rows="15">No Data to Preview</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10 mt-md-3">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div
+                                                    class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
+                                                    Public Cert
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <textarea class="small-textarea" id="textarea" class="form-control "
+                                                        rows="15">No Data to Preview</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10  mt-md-3">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div
+                                                    class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
+                                                    Private Cert
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <textarea class="small-textarea" id="textarea" class="form-control "
+                                                        rows="15">No Data to Preview</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-10  col-md-10  mt-md-3">
+                                        <div class="container-fluid">
+                                            <div class="row row-cols-1 ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
+                                                    Additional Config
+                                                </div>
+                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                    <textarea class="small-textarea" id="textarea" class="form-control "
+                                                        rows="15">No Data to Preview</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="position-absolute bottom-0 end-0 mb-4 me-4">
+                                        <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
+                                                type="button">Apply</button>
+                                            <button class="btn  btn-pass btn-danger " type="button">
+                                                Reset</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-sm-12 col-md-5 mt-md-5">
+                            <div class="container-fluid">
+                                <div class="row row-cols-1 ">
+                                    <div class="col-12 mt-md-4">
+                                        <div class=" table-header py-1 rounded-top shadow-lg">
+                                            <div class="ms-4">
+                                                <h4 class=" table-header fw-bold ">Open VPN Configuration File</h4>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
+                                            <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                                <div class=" col-sm-10  col-md-12  align-center">
+                                                    <div class="text-area mt-1">
+                                                        <textarea class="card-textarea" id="textarea"
+                                                            class="form-control text-center"
+                                                            rows="15">No Data to Preview</textarea>
+
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="position-absolute bottom-0 end-0 mb-4 me-4">
+                                                    <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
+                                                            type="button">Apply</button>
+                                                        <button class="btn  btn-pass btn-danger " type="button">
+                                                            Reset</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-md-5 table-responsive">
+                                        <div class=" table-header py-1 rounded-top shadow-lg">
+                                            <div class="ms-4">
+                                                <h4 class=" table-header fw-bold ">Open VPN Logs</h4>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
+                                            <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                                <div class=" col-sm-10  col-md-12  align-center">
+                                                    <div class="text-area mt-1">
+                                                        <textarea class="card-textarea" id="textarea" disabled
+                                                            class="form-control text-center"
+                                                            rows="15">No Data to Preview</textarea>
+
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="position-absolute bottom-0 end-0 mb-4 me-4">
+                                                    <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
+                                                            type="button">Refresh</button>
+                                                        <button class="btn  btn-pass btn-danger " type="button">
+                                                            Reset</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+                        <script type="module"
+                            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+                        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                            crossorigin="anonymous">
+                            </script>
+
+
+                        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                            crossorigin="anonymous"></script>
+
+                        <script>
+
+                        </script>
+
+
+</body>
+
+</html>

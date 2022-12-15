@@ -143,48 +143,13 @@ input {
     height: 30px !important;
 }
 
-.table-remove {
-    color: #700;
-    cursor: pointer;
-}
-
-.table-remove:hover {
-    color: #f00 !important;
-}
-
-.table-remove:active {
-    color: rgba(255, 0, 0, 0.5) !important;
-    transform: translateY(4px) !important;
-}
 
 
 
-.btn-add:hover {
-    background-color: rgb(21, 255, 0) !important;
-}
-
-.btn-add:active {
-    background-color: rgba(51, 255, 0, 0.5) !important;
-    transform: translateY(4px) !important;
-}
-
-.btn-add {
-    width: 60px;
-    color: green;
-    border-radius: 100px !important;
-}
-
-.add-icon {
-    font-size: 40px;
-    color: green;
-    font-weight: bold;
-}
 
 .table-size {
     max-height: 280px !important;
 }
 
-th {
-    position: sticky !important;
-}
+
 

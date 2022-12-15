@@ -168,7 +168,7 @@
                             <div class="container-fluid table-responsive rounded-bottom card-sizing  shadow-lg">
 
                                 <div class="container-fluid table-responsive ">
-                                    <table class="table table-borderless table-hover">
+                                    <table id="table-devices" class="table table-borderless table-hover" >
                                         <thead class="thead-danger table-text">
                                             <tr class=" border-bottom border-2  fw-light table-text">
                                                 <th class="text-center pe-4 " scope="col"># </th>
@@ -188,47 +188,8 @@
                                                 <td class="text-center">FF-EB-56-55-38-2B
                                                 </td>
                                             </tr>
-                                            <tr class="border-bottom border-1">
-                                                <th class="text-center pe-4" scope="row">2</th>
-                                                <td>
-                                                    <ion-icon class="desktop-icon" name="desktop-sharp">
-                                                    </ion-icon> Desktop-432
-                                                </td>
-                                                <td class="text-center">192.168.1.11</td>
-                                                <td class="text-center">68-72-54-11-F4-53
-                                                </td>
-                                            </tr>
-                                            <tr class="border-bottom border-1">
-                                                <th class="text-center pe-4" scope="row">3</th>
-                                                <td>
-                                                    <ion-icon class="phone-icon" name="tablet-portrait-sharp">
-                                                    </ion-icon> Samsung
-                                                    Galaxy S10
-                                                </td>
-                                                <td class="text-center">192.168.1.44</td>
-                                                <td class="text-center">BC-73-2C-F1-59-96
-                                                </td>
-                                            </tr>
-                                            <tr class="border-bottom border-1">
-                                                <th class="text-center pe-4" scope="row">4</th>
-                                                <td>
-                                                    <ion-icon class="desktop-icon" name="desktop-sharp"></ion-icon>
-                                                    </ion-icon> 192.16.1.12
-                                                </td>
-                                                <td class="text-center pe-4">192.168.1.34</td>
-                                                <td class="text-center">D3-27-A7-05-FE-10
-                                                </td>
-                                            </tr>
-                                            <tr class="border-bottom border-1">
-                                                <th class="text-center pe-4" scope="row">5</th>
-                                                <td>
-                                                    <ion-icon class="phone-icon" name="tablet-portrait-sharp">
-                                                    </ion-icon>Iphone 13
-                                                </td>
-                                                <td class="text-center">192.168.1.2</td>
-                                                <td class="text-center">A0-05-5C-A3-72-B3
-                                                </td>
-                                            </tr>
+                                            
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -249,7 +210,7 @@
                                     </div>
                                     <div class="col-md-4 mt-4 col-sm-12">
                                         <div class="container-fluid table-responsive geochart-table ">
-                                            <table class="table table-borderless table-hover">
+                                            <table id="geo-table-data" class="table table-borderless table-hover" >
                                                 <thead class="thead-danger ">
                                                     <tr class=" border-bottom border-2  fw-light">
                                                         <th class=" pe-4" scope="col">Country </th>
@@ -257,36 +218,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="geochart-table ">
-                                                    <tr class="border-bottom border-1">
-
-                                                        <td class="">France</td>
-                                                        <td class="">42
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="border-bottom border-1">
-
-                                                        <td class="">England</td>
-                                                        <td class="">25
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="border-bottom border-1">
-
-                                                        <td class="">Australia</td>
-                                                        <td class="">23
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="border-bottom border-1">
-
-                                                        <td class=" pe-4">Greece</td>
-                                                        <td class="">18
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="border-bottom border-1">
-
-                                                        <td class="">Other</td>
-                                                        <td class="">13
-                                                        </td>
-                                                    </tr>
+                                                   
+                                                 
                                                 </tbody>
                                             </table>
                                         </div>
@@ -336,7 +269,7 @@
                                         <div class="card bg-c-green order-card ">
                                             <div class="card-block">
 
-                                                <div class="circlechart" data-percentage="30">Disk</div>
+                                                <div class="circlechart" data-percentage="23">Disk</div>
                                                 <h6 class="mb-3 text-dark fw-bold mt-3"><i class="bi bi-hdd-fill"></i>
                                                 </h6>
 
@@ -364,7 +297,7 @@
                                             <div class="col-lg-10 col-md-12 col-sm-12">
 
 
-                                                <canvas id="chart"></canvas>
+                                                <canvas style="min-height: 300px;" id="chart"></canvas>
 
 
                                             </div>

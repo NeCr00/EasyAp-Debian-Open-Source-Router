@@ -186,12 +186,6 @@ th{
   position:sticky !important;
 }
 
-.terminal {
-    --color: green;
-    --background: black;
-    --animation: terminal-bar;
-    
-   }
 
    .terminal, .cmd, .terminal .terminal-output div div, .cmd .prompt {
     font-size: 15px;
