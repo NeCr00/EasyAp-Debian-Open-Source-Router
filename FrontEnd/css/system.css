@@ -35,6 +35,10 @@ body{
     }
   }
   @media only screen and (max-width: 700px) {
+
+    body{
+      overflow:auto;
+    }
    
     .input-size{
         font-size: 10px !important;
