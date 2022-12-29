@@ -5,11 +5,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="assets/favicon.png">
+    <link rel="icon" type="image/x-icon" href="static/assets/favicon.png">
     <title>EasyAP</title>
     <!--Custom CSS & JS-->
-    <link href="css/index.css" rel="stylesheet" />
-    <script defer src="js/index.js"></script>
+    <link href="/static/css/index.css" rel="stylesheet" />
+    <script defer src="static/js/index.js"></script>
     <!-- Chart js link-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Boostrap 5 link-->
@@ -35,7 +35,7 @@
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 sticky-top "
                     id=navbarr>
                     <p class="d-flex align-self-center">
-                        <span class="  "><img src="assets/logo.gif" width="150"> </span>
+                        <span class="  "><img src="static/assets/logo.gif" width="150"> </span>
                     </p>
                     <div
                         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-1 border-bottom  ">
@@ -44,7 +44,7 @@
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100 py-3"
                         id="menu">
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
-                            <a href="index.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                            <a href="dashboard" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="home" p></ion-icon>
 
                                 <span class="ms-1  d-sm-inline fs-5 fw-bolder">Dashboard</span>
@@ -52,7 +52,7 @@
                         </li>
 
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
-                            <a href="dhcp.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                            <a href="dhcp" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="server-sharp" p></ion-icon>
 
                                 <span class="ms-1  d-sm-inline fs-5 fw-bolder">DHCP Server</span>
@@ -60,7 +60,7 @@
                         </li>
 
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
-                            <a href="dns-ddns.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                            <a href="dns_ddns" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="earth-sharp" p></ion-icon>
 
                                 <span class="ms-1  d-sm-inline fs-5 fw-bolder">DNS & DDNS</span>
@@ -68,14 +68,14 @@
                         </li>
 
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
-                            <a href="vpn.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                            <a href="vpn" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="document-lock-sharp" p></ion-icon>
 
                                 <span class="ms-1  d-sm-inline fs-5 fw-bolder">VPN</span>
                             </a>
                         </li>
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
-                            <a href="firewall.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                            <a href="firewall" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <!-- <ion-icon name="logo-firebase"></ion-icon> -->
                                 <ion-icon name="flame"></ion-icon>
                                 <span class="ms-1  d-sm-inline fs-5 fw-bolder">Firewall</span>
@@ -83,7 +83,7 @@
                         </li>
 
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
-                            <a href="settings.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                            <a href="settings" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="settings-sharp" class=""></ion-icon>
                                 <span class="ms-1 fs-5 fw-bold ">Settings</span>
 
@@ -93,14 +93,14 @@
                         <li
                             class="nav-item w-100 border-bottom border-light border-opacity-50  list-group-item-action ">
 
-                            <a href="data_usage.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                            <a href="data_usage" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="stats-chart-sharp"></ion-icon>
 
                                 <span class="ms-1  d-sm-inline fs-5 fw-bolder">Data Usage</span>
                             </a>
                         </li>
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
-                            <a href="system.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
+                            <a href="system" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="build-sharp" class=""></ion-icon>
                                 <span class="ms-1 fs-5 fw-bold ">System</span>
 
@@ -109,7 +109,7 @@
 
                         <li
                             class="nav-item w-100 border-bottom border-light border-opacity-50  list-group-item-action ">
-                            <a href="about.html" class="nav-link align-middle px-2 py-2 menu-hover text-nav">
+                            <a href="about" class="nav-link align-middle px-2 py-2 menu-hover text-nav">
                                 <ion-icon name="help-circle"></ion-icon>
 
                                 <span class="ms-1  d-sm-inline fs-5 fw-bolder ">About</span>
@@ -123,14 +123,14 @@
                     </ul>
 
                     <hr />
-                    <div class="dropdown pb-4">
-                        <a href="#" class="d-flex align-items-center fs-4 text-nav logout-hover" id="dropdownUser1"
+                    
+                        <a href="logout" class="d-flex align-items-center fs-4 text-nav logout-hover" id="dropdownUser1"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <ion-icon class="logout-icon" name="log-out-sharp"></ion-icon>
                             <span class="">Logout</span>
                         </a>
 
-                    </div>
+                    
                 </div>
             </div>
 

@@ -6,6 +6,7 @@ body{
   
   .navbar1{
     background: linear-gradient(40deg,#606163,#0e1114);
+    height: 200px;;
   }
   
   .page-title{
@@ -13,11 +14,26 @@ body{
    
   }
   @media only screen and (max-width: 1920px) {
+    html {
+      zoom: 0.88 !important;
+    }
     body{
         overflow: hidden;
     }
+ 
+    .navbar1{
+      height: 1200px !important;
+    }
+  }
 
-   
+  @media only screen and (max-width: 2800px) {
+    body{
+        overflow: hidden;
+    }
+ 
+    .navbar1{
+      height: 1600px !important;
+    }
   }
   @media only screen and (max-width: 700px) {
    body{
