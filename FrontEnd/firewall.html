@@ -82,7 +82,6 @@
                             <a href="vpn.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="document-lock-sharp" p></ion-icon>
                                 <span class="ms-1 fs-5 fw-bold ">VPN</span>
-                                ￼
                             </a>
                         </li>
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
@@ -187,8 +186,8 @@
                                                         <ion-icon name="finger-print-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="text" class="form-control" placeholder="Type your SSID"
-                                                        aria-label="First name">
+                                                    <input id="rule_name" type="text" class="form-control"
+                                                        placeholder="Type your SSID" aria-label="First name">
                                                 </div>
                                             </div>
                                         </div>
@@ -204,7 +203,7 @@
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="password" class="form-control"
+                                                    <input id="ip" type="text" class="form-control"
                                                         placeholder="Type your Password" aria-label="First name">
                                                 </div>
                                             </div>
@@ -221,7 +220,7 @@
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="password" class="form-control"
+                                                    <input id="mac" type="text" class="form-control"
                                                         placeholder="Type your Password" aria-label="First name">
                                                 </div>
                                             </div>
@@ -238,7 +237,7 @@
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="password" class="form-control"
+                                                    <input id="port" type="text" class="form-control"
                                                         placeholder="Type your Password" aria-label="First name">
                                                 </div>
                                             </div>
@@ -253,11 +252,12 @@
                                                 <div class="col-md-6 col-sm-12 d-flex flex-row">
                                                     <div class="dropdown">
                                                         <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            id="protocol" data-bs-toggle="dropdown"
                                                             aria-expanded="false">
                                                             Select a Protocol
                                                         </button>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <ul id="protocol-list" class="dropdown-menu"
+                                                            aria-labelledby="dropdownMenuButton1">
                                                             <li><a class="dropdown-item" href="#">TCP</a></li>
                                                             <li><a class="dropdown-item" href="#">UDP</a></li>
                                                             <li><a class="dropdown-item" href="#">TCP/UDP </a></li>
@@ -276,11 +276,11 @@
                                                 <div class="col-md-6 col-sm-12 d-flex flex-row">
                                                     <div class="dropdown">
                                                         <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
+                                                            id="action" data-bs-toggle="dropdown" aria-expanded="false">
                                                             Select an Action
                                                         </button>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <ul id="action-list" class="dropdown-menu"
+                                                            aria-labelledby="dropdownMenuButton1">
                                                             <li><a class="dropdown-item" href="#">Allow</a></li>
                                                             <li><a class="dropdown-item" href="#">Deny</a></li>
                                                             <li><a class="dropdown-item" href="#">Exclusive Access </a>
@@ -296,8 +296,8 @@
 
 
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                        <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
-                                                type="button">Apply</button>
+                                        <div class="float-end"> <button id="submit-rules"
+                                                class="btn btn-pass btn-dark me-4" type="button">Apply</button>
                                             <button class="btn  btn-pass btn-danger " type="button">
                                                 Reset</button>
                                         </div>
@@ -320,7 +320,7 @@
                                     <div class=" col-sm-10  col-md-11  mt-md-5">
 
 
-                                        <div id="terminal" style="height: 300px;">
+                                        <div id="terminal" style="height: 400px;">
                                         </div>
 
 
@@ -345,14 +345,10 @@
                                 <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
                                     <div class=" col-sm-10  col-md-11  mt-md-5">
                                         <div class="container-fluid table-responsive table-size">
-                                            <table class="table table-borderless  text-center">
+                                            <table id="firewall-table" class="table table-borderless  text-center">
                                                 <thead class="thead-danger table-text">
                                                     <tr class=" border-bottom border-2  fw-light table-text">
-                                                        <th class="  text-center" scope="col"><button
-                                                                class="btn btn-add " type="button">
-                                                                <ion-icon name="add-circle-sharp"></ion-icon>
-                                                                </ion-icon>
-                                                            </button></th>
+                                                        <th class=" fs-5" scope="col">Status</th>
                                                         <th class="fs-5" scope="col">Firewall Rule</th>
                                                         <th> </th>
 
@@ -361,57 +357,16 @@
                                                 <tbody class="table-text">
 
                                                     <!-- This line is for empty table -->
-                                                    <tr class="border-bottom border-1 ">
-                                                        <th class="text-center fs-5">
-                                                            <div class="col-md-4 col-sm-12 d-flex flex-row">
-                                                                <div class="form-check form-switch">
-                                                                    <input class="form-check-input checkbox"
-                                                                        type="checkbox" role="switch"
-                                                                        id="flexSwitchCheckDefault" />
 
-                                                                </div>
-                                                            </div>
-                                                        </th>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type a Mac Address
-                                                        </td>
-                                                        <td class="text-center table-remove">
-                                                            <ion-icon name="trash-sharp"></ion-icon>
-                                                        </td>
-
-                                                        </td>
-                                                    </tr>
                                                     <!-- This line is for empty table -->
 
-                                                    <tr class="border-bottom border-1">
-                                                        <th class="text-center fs-5" scope="row">
-                                                            <div class="col-md-4 col-sm-12 d-flex flex-row">
-                                                                <div class="form-check form-switch">
-                                                                    <input class="form-check-input checkbox"
-                                                                        type="checkbox" role="switch"
-                                                                        id="flexSwitchCheckDefault" />
 
-                                                                </div>
-                                                            </div>
-                                                        </th>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true"
-                                                            id="mac-address">
-
-                                                            A0-05-5C-A3-72-B3
-                                                        </td>
-                                                        <td class="text-center table-remove">
-                                                            <ion-icon name="trash-sharp"></ion-icon>
-                                                        </td>
-
-                                                        </td>
-                                                    </tr>
 
                                                 </tbody>
                                             </table>
 
                                             <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
+                                                <div class="float-end"> <button id="submit-status-rules" class="btn btn-pass btn-dark me-4"
                                                         type="button">Apply</button>
                                                     <button class="btn  btn-pass btn-danger " type="button">
                                                         Reset</button>
@@ -448,7 +403,7 @@
                                 <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
                                     <div class=" col-sm-10  col-md-12  align-center">
                                         <div class="text-area mt-1" style="height:100%;">
-                                            <textarea id="textarea" disabled class="form-control text-center"
+                                            <textarea id="firewall-logs" disabled class="form-control text-center"
                                                 rows="15">No Data to Preview</textarea>
 
                                         </div>

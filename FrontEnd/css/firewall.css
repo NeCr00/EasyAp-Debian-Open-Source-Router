@@ -13,13 +13,13 @@ body{
     width: 100% !important;
   }
   
-  @media only screen and (max-width: 1920px) {
+  /* @media only screen and (max-width: 1920px) {
     body{
         overflow: auto;
     }
 
    
-  }
+  } */
 
   @media only screen and (max-width: 600px) {
     body{

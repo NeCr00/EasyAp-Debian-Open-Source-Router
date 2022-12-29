@@ -16,14 +16,41 @@ body{
   }
 
  
-  @media only screen and (max-width: 1920px) {
+   @media only screen and (max-width: 1920px) {
     body{
-        overflow: hidden;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .card-sizing{
         height: 380px !important;
-       
+        
+    }
+  } 
+
+
+  @media only screen and (max-width: 1601px) {
+    body{
+        overflow: auto;
+    }
+
+    .card-sizing{
+        height: 320px !important;
+        width: 590px !important;
+    }
+    .header-sizing{
+      
+      width: 590px !important;
+  }
+ 
+    
+    .table-text{
+      font-size: 15px  !important;
+    }
+  
+   .circle-chart {
+    width: 100px !important;
+    height: 150px  !important;
     }
   }
  
@@ -72,10 +99,13 @@ body{
     }
   
     .card-sizing{
-      
-      height: 380 px  !important;
+      width:100% !important;
+      height: 380px  !important;
     }
-  
+    .header-sizing{
+      
+      width: 100% !important;
+  }
   }
   
     
@@ -148,7 +178,7 @@ body{
   
   .card-sizing{
     width: 668px;
-    height: 400px;
+    height: 350px;
     background-color: rgb(255, 255, 255);
   }
   

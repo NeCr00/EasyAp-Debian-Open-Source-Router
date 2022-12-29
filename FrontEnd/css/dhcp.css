@@ -11,13 +11,13 @@ body {
     background: linear-gradient(40deg, #0e1114, #606163);
     width: 100% !important;
 }
-@media only screen and (max-width: 1920px) {
+/* @media only screen and (max-width: 1920px) {
     body{
         overflow-x: hidden;
     }
 
    
-  }
+  } */
 @media only screen and (max-width: 600px) {
 
     .input-size {
@@ -28,6 +28,17 @@ body {
         font-size: 20px !important;
         padding-top: -2px !important;
 
+    }
+    .ion-icon {
+        font-size: 20px !important;
+        
+
+    }
+    .table{
+        font-size: 10px!important;
+    }
+    .radio{
+        font-size: 10px!important;
     }
 
     .table-text {

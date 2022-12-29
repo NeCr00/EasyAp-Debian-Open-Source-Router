@@ -78,11 +78,11 @@ $(document).ready(function () {
       var newRow = $('<tr class="border-bottom border-1 ">')
       var cols = ''
 
-      cols += '<th class="text-center fs-5" scope="row">' + item.id + '</th>'
-      cols += '<td class=" fs-6 fw-bold" >' + item.host + '</td>'
-      cols += '<td class=" fs-6 fw-bold" >' + item.ip + '</td>'
-      cols += '<td class=" fs-6 fw-bold" >' + item.mac + '</td>'
-      cols += '<td class="text-center fs-6 fw-bold">' + item.time + '</td>'
+      cols += '<th class="text-center" scope="row">' + item.id + '</th>'
+      cols += '<td class="  fw-bold" >' + item.host + '</td>'
+      cols += '<td class="  fw-bold" >' + item.ip + '</td>'
+      cols += '<td class="  fw-bold" >' + item.mac + '</td>'
+      cols += '<td class="text-center  fw-bold">' + item.time + '</td>'
 
       newRow.append(cols)
       $("#table-address").append(newRow)

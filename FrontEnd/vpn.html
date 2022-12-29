@@ -82,7 +82,6 @@
                             <a href="vpn.html" class="nav-link align-middle px-2 py-2 text-nav menu-hover">
                                 <ion-icon name="document-lock-sharp" p></ion-icon>
                                 <span class="ms-1 fs-5 fw-bold ">VPN</span>
-                                ￼
                             </a>
                         </li>
                         <li class="nav-item w-100 border-bottom border-light border-opacity-25 list-group-item-action ">
@@ -174,7 +173,7 @@
                                 </div>
                             </div>
                             <div
-                                class="container-fluid table-responsive rounded-bottom  position-relative vpn-card shadow-sm ">
+                                class="container-fluid table-responsive rounded-bottom  position-relative  vpn-container vpn-card shadow-sm ">
                                 <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
                                     <div class=" col-sm-10  col-md-10  mt-md-5">
                                         <div class="container-fluid">
@@ -184,16 +183,16 @@
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="flexRadioDefault" id="flexRadioDefault1">
-                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                        <input class="form-check-input" type="radio" name="vpn-status"
+                                                            id="vpn-status-enabled" value="1">
+                                                        <label class="form-check-label" for="vpn-status-enabled">
                                                             Enabled
                                                         </label>
                                                     </div>
                                                     <div class="form-check ms-lg-5 ms-3">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="flexRadioDefault" id="flexRadioDefault2" checked>
-                                                        <label class="form-check-label" for="flexRadioDefault2">
+                                                        <input class="form-check-input" type="radio" name="vpn-status"
+                                                            id="vpn-status-disabled" value="0" checked>
+                                                        <label class="form-check-label" for="vpn-status-disabled">
                                                             Disabled
                                                         </label>
                                                     </div>
@@ -212,8 +211,8 @@
                                                         <ion-icon name="finger-print-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="text" class="form-control" placeholder="Type your SSID"
-                                                        aria-label="First name">
+                                                    <input id="ssid" type="text" class="form-control"
+                                                        placeholder="Type your SSID" aria-label="First name">
                                                 </div>
                                             </div>
                                         </div>
@@ -229,7 +228,7 @@
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="password" class="form-control"
+                                                    <input id="port" type="text" class="form-control"
                                                         placeholder="Type your Password" aria-label="First name">
                                                 </div>
                                             </div>
@@ -244,11 +243,12 @@
                                                 <div class="col-md-6 col-sm-12 d-flex flex-row">
                                                     <div class="dropdown">
                                                         <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            id="protocol" data-bs-toggle="dropdown"
                                                             aria-expanded="false">
                                                             Select a Protocol
                                                         </button>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <ul id=protocol-list class="dropdown-menu"
+                                                            aria-labelledby="protocol">
                                                             <li><a class="dropdown-item" href="#">TCP</a></li>
                                                             <li><a class="dropdown-item" href="#">UDP</a></li>
 
@@ -267,11 +267,12 @@
                                                 <div class="col-md-6 col-sm-12 d-flex flex-row">
                                                     <div class="dropdown">
                                                         <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            id="enc_cipher" data-bs-toggle="dropdown"
                                                             aria-expanded="false">
                                                             Select a Protocol
                                                         </button>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <ul id=enc_cipher-list class="dropdown-menu"
+                                                            aria-labelledby="protocol">
                                                             <li><a class="dropdown-item" href="#">TCP</a></li>
                                                             <li><a class="dropdown-item" href="#">UDP</a></li>
 
@@ -290,11 +291,11 @@
                                                 <div class="col-md-6 col-sm-12 d-flex flex-row">
                                                     <div class="dropdown">
                                                         <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
+                                                            id="hash" data-bs-toggle="dropdown" aria-expanded="false">
                                                             Select a Protocol
                                                         </button>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <ul id="hash-list" class="dropdown-menu"
+                                                            aria-labelledby="protocol">
                                                             <li><a class="dropdown-item" href="#">TCP</a></li>
                                                             <li><a class="dropdown-item" href="#">UDP</a></li>
 
@@ -312,16 +313,16 @@
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="creds_radio" id="cred_check1">
+                                                        <input class="form-check-input" type="radio" name="creds-status"
+                                                            id="cred_check1" value="1">
                                                         <label class="form-check-label" for="cred_check1">
                                                             Enabled
                                                         </label>
                                                     </div>
                                                     <div class="form-check ms-lg-5 ms-3">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="creds_radio" id="cred_check2" checked>
-                                                        <label class="form-check-label" for="cred_check2">
+                                                        <input class="form-check-input" type="radio" name="creds-status"
+                                                            id="creds-status-disabled" value="0" checked>
+                                                        <label class="form-check-label" for="creds-status-disabled">
                                                             Disabled
                                                         </label>
                                                     </div>
@@ -340,7 +341,7 @@
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="text" class="form-control"
+                                                    <input id="username" type="text" class="form-control"
                                                         placeholder="Type your Password" aria-label="First name">
                                                 </div>
                                             </div>
@@ -357,7 +358,7 @@
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="password" class="form-control"
+                                                    <input id="password" type="password" class="form-control"
                                                         placeholder="Type your Password" aria-label="First name">
                                                 </div>
                                             </div>
@@ -385,11 +386,12 @@
                                                 <div class="col-md-6 col-sm-12 d-flex flex-row ms-lg-2">
                                                     <div class="dropdown">
                                                         <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            id="tls-cipher" data-bs-toggle="dropdown"
                                                             aria-expanded="false">
                                                             Select an Action
                                                         </button>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <ul id="tls-cipher-list" class="dropdown-menu"
+                                                            aria-labelledby="protocol">
                                                             <li><a class="dropdown-item" href="#">Allow</a></li>
                                                             <li><a class="dropdown-item" href="#">Deny</a></li>
                                                             <li><a class="dropdown-item" href="#">Exclusive Access </a>
@@ -411,7 +413,7 @@
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="password" class="form-control"
+                                                    <input id="key-pass" type="password" class="form-control"
                                                         placeholder="Type your Password" aria-label="First name">
                                                 </div>
                                             </div>
@@ -425,8 +427,8 @@
                                                     TLS Auth Key
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <textarea class="small-textarea" id="textarea" class="form-control "
-                                                        rows="15">No Data to Preview</textarea>
+                                                    <textarea class="small-textarea" id="tls-auth-key"
+                                                        class="form-control " rows="15"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -438,8 +440,8 @@
                                                     CA Cert
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <textarea class="small-textarea" id="textarea" class="form-control "
-                                                        rows="15">No Data to Preview</textarea>
+                                                    <textarea class="small-textarea" id="ca-cert" class="form-control "
+                                                        rows="15"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -447,13 +449,12 @@
                                     <div class=" col-sm-10  col-md-10 mt-md-3">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
-                                                <div
-                                                    class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
                                                     Public Cert
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <textarea class="small-textarea" id="textarea" class="form-control "
-                                                        rows="15">No Data to Preview</textarea>
+                                                    <textarea class="small-textarea" id="pub-cert" class="form-control "
+                                                        rows="15"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -461,13 +462,12 @@
                                     <div class=" col-sm-10  col-md-10  mt-md-3">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
-                                                <div
-                                                    class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
+                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
                                                     Private Cert
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <textarea class="small-textarea" id="textarea" class="form-control "
-                                                        rows="15">No Data to Preview</textarea>
+                                                    <textarea class="small-textarea" id="pri-cert" class="form-control "
+                                                        rows="15"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -479,16 +479,16 @@
                                                     Additional Config
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <textarea class="small-textarea" id="textarea" class="form-control "
-                                                        rows="15">No Data to Preview</textarea>
+                                                    <textarea class="small-textarea" id="add-config"
+                                                        class="form-control " rows="15"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                        <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
-                                                type="button">Apply</button>
+                                        <div id="submit-vpn" class="float-end"> <button
+                                                class="btn btn-pass btn-dark me-4" type="button">Apply</button>
                                             <button class="btn  btn-pass btn-danger " type="button">
                                                 Reset</button>
                                         </div>
@@ -511,26 +511,19 @@
                                         </div>
                                         <div
                                             class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
-                                            <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                            <div class="row row-cols-1 align-items-center g-sm-2 g-md-4  justify-content-center "
+                                                style="height:100%;">
                                                 <div class=" col-sm-10  col-md-12  align-center">
                                                     <div class="text-area mt-1">
-                                                        <textarea class="card-textarea" id="textarea"
-                                                            class="form-control text-center"
-                                                            rows="15">No Data to Preview</textarea>
+                                                        <textarea class="card-textarea" id="vpn-file"
+                                                            class="form-control " rows="15"></textarea>
 
                                                     </div>
                                                 </div>
 
 
 
-                                                <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                    <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
-                                                            type="button">Apply</button>
-                                                        <button class="btn  btn-pass btn-danger " type="button">
-                                                            Reset</button>
-                                                    </div>
 
-                                                </div>
                                             </div>
 
                                         </div>
@@ -546,9 +539,8 @@
                                             <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
                                                 <div class=" col-sm-10  col-md-12  align-center">
                                                     <div class="text-area mt-1">
-                                                        <textarea class="card-textarea" id="textarea" disabled
-                                                            class="form-control text-center"
-                                                            rows="15">No Data to Preview</textarea>
+                                                        <textarea class="card-textarea" id="vpn-logs" disabled
+                                                            class="form-control " rows="15">test</textarea>
 
                                                     </div>
                                                 </div>
@@ -595,7 +587,29 @@
 
                         </script>
 
-
+                        <!-- Modal -->
+                        <div class="modal fade" id="modal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                                        <button type="button" id="close_modal_header" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to Reset Configuration?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                            id="close_modal">Close</button>
+                                        <button type="button" class="btn btn-danger" id="proceed">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 </body>
 
 </html>

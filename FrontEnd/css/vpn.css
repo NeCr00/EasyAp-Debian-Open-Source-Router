@@ -13,14 +13,20 @@ body{
     width: 100% !important;
   }
   
-  @media only screen and (max-width: 1920px) {
+   @media only screen and (max-width: 1920px) {
     body{
-        overflow: auto;
+        overflow-x: hidden;
     }
 
    
-  }
+  } 
+  @media only screen and (max-width: 1720px) {
+    body{
+        overflow-x: auto;
+    }
 
+   
+  } 
   @media only screen and (max-width: 600px) {
     body{
         overflow: auto !important;
@@ -58,6 +64,10 @@ body{
      }
      .btn-pass{
       width: 80px !important; 
+    }
+
+    .vpn-container{
+      height: 1300px !important;
     }
   }
   
@@ -197,7 +207,7 @@ th{
 }
 
 .vpn-card{
-    height: 1100px !important;
+    height: 1150px ;
 }
 
 .card-textarea{
