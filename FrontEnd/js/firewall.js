@@ -132,7 +132,7 @@ $(document).ready(function () {
       console.log(status)
       firewall_rules[id-1].status=status
     })
-    console.log(firewall_rules)
+    console.log(firewall_rules,deletedRule)
   }
 
 
@@ -151,14 +151,14 @@ $(document).on("click", ".table-remove", function () {
   rule = item.find('.item').text()
   id_rule = item.find('.item').attr('value')
   deletedRule.push({ "id_rule": id_rule,"deletedRule": rule})
-  console.log(deletedRule)
+  
 });
 
 //-------------------------------------------
 
 
   $("#submit-status-rules").on('click', function () {
-    //UpdateFirewallRuleStatus();
+    UpdateFirewallRuleStatus();
   })
   //-----------------------------------------------------------
 

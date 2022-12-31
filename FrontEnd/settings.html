@@ -181,7 +181,7 @@
                                                         <ion-icon name="finger-print-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="text" class="form-control" placeholder="Type your SSID"
+                                                    <input id="ssid" type="text" class="form-control" placeholder="Type your SSID"
                                                         aria-label="First name">
                                                 </div>
                                             </div>
@@ -198,7 +198,7 @@
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input type="password" class="form-control"
+                                                    <input id="password" type="password" class="form-control"
                                                         placeholder="Type your Password" aria-label="First name">
                                                 </div>
                                             </div>
@@ -215,7 +215,7 @@
                                                 <div class="col-md-4 col-sm-12 d-flex flex-row">
                                                     <div class="form-check form-switch">
                                                         <input class="form-check-input checkbox" type="checkbox"
-                                                            role="switch" id="flexSwitchCheckDefault" />
+                                                            role="switch" id="show-password" />
 
                                                     </div>
                                                 </div>
@@ -225,9 +225,9 @@
                                     </div>
 
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                        <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
+                                        <div class="float-end"> <button id="updateWirelessSettings" class="btn btn-pass btn-dark me-4"
                                                 type="button">Apply</button>
-                                            <button class="btn  btn-pass btn-danger " type="button">
+                                            <button id="reset-settings" class="btn  btn-pass btn-danger " type="button">
                                                 Reset</button>
                                         </div>
 
@@ -248,82 +248,20 @@
                                 <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
                                     <div class=" col-sm-10  col-md-11 ms-md-5 mt-md-5">
                                         <div class="container-fluid table-responsive table-size">
-                                            <table class="table table-borderless table-hover ">
+                                            <table id="connectedDevices" class="table table-borderless table-hover ">
                                                 <thead class="thead-danger table-text ">
                                                     <tr class=" border-bottom border-2  fw-light table-text">
                                                         <th class="text-center pe-4 " scope="col"> <input
                                                                 class="form-check-input" type="checkbox" value=""
-                                                                id="flexCheckChecked" checked> </th>
+                                                                id="check-all-devices" > </th>
                                                         <th class="ps-3" scope="col">Host</th>
                                                         <th class="text-center" scope="col">IP</th>
                                                         <th class="text-center" scope="col">MAC Address</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-text">
-                                                    <tr class="border-bottom border-1">
-                                                        <th class="text-center pe-4" scope="row"> <input
-                                                                class="form-check-input" type="checkbox" value=""
-                                                                id="flexCheckChecked" checked></th>
-                                                        <td>
-                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
-                                                            </ion-icon> Desktop-test
-                                                        </td>
-                                                        <td class="text-center">192.168.1.23</td>
-                                                        <td class="text-center">FF-EB-56-55-38-2B
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="border-bottom border-1">
-                                                        <th class="text-center pe-4" scope="row"> <input
-                                                                class="form-check-input" type="checkbox" value=""
-                                                                id="flexCheckChecked" checked></th>
-                                                        <td>
-                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
-                                                            </ion-icon> Desktop-432
-                                                        </td>
-                                                        <td class="text-center">192.168.1.11</td>
-                                                        <td class="text-center">68-72-54-11-F4-53
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="border-bottom border-1">
-                                                        <th class="text-center pe-4" scope="row"> <input
-                                                                class="form-check-input" type="checkbox" value=""
-                                                                id="flexCheckChecked" checked></th>
-                                                        <td>
-                                                            <ion-icon class="phone-icon" name="tablet-portrait-sharp">
-                                                            </ion-icon> Samsung
-                                                            Galaxy S10
-                                                        </td>
-                                                        <td class="text-center">192.168.1.44</td>
-                                                        <td class="text-center">BC-73-2C-F1-59-96
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="border-bottom border-1">
-                                                        <th class="text-center pe-4" scope="row"> <input
-                                                                class="form-check-input" type="checkbox" value=""
-                                                                id="flexCheckChecked" checked></th>
-
-                                                        <td>
-                                                            <ion-icon class="desktop-icon" name="desktop-sharp">
-                                                            </ion-icon>
-                                                            </ion-icon> 192.16.1.12
-                                                        </td>
-                                                        <td class="text-center pe-4">192.168.1.34</td>
-                                                        <td class="text-center">D3-27-A7-05-FE-10
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="border-bottom border-1">
-                                                        <th class="text-center pe-4" scope="row"> <input
-                                                                class="form-check-input" type="checkbox" value=""
-                                                                id="flexCheckChecked" checked></th>
-                                                        <td>
-                                                            <ion-icon class="phone-icon" name="tablet-portrait-sharp">
-                                                            </ion-icon>Iphone 13
-                                                        </td>
-                                                        <td class="text-center">192.168.1.2</td>
-                                                        <td class="text-center">A0-05-5C-A3-72-B3
-                                                        </td>
-                                                    </tr>
+                                                   
+                                                 
                                                 </tbody>
                                             </table>
 
@@ -331,7 +269,7 @@
                                     </div>
 
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                        <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
+                                        <div class="float-end"> <button id="submitConnectedDevices" class="btn btn-pass btn-dark me-4"
                                                 type="button">Apply</button>
                                             <button class="btn  btn-pass btn-danger " type="button">
                                                 Reset</button>
@@ -357,10 +295,10 @@
                                 <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
                                     <div class=" col-sm-10  col-md-11  mt-md-5">
                                         <div class="container-fluid table-responsive table-size">
-                                            <table class="table table-borderless  text-center">
+                                            <table id="mac-filter-table" class="table table-borderless  text-center">
                                                 <thead class="thead-danger table-text">
                                                     <tr class=" border-bottom border-2  fw-light table-text">
-                                                        <th class="  text-center" scope="col"><button
+                                                        <th class="  text-center" scope="col"><button id="add-mac"
                                                                 class="btn btn-add " type="button">
                                                                 <ion-icon name="add-circle-sharp"></ion-icon>
                                                                 </ion-icon>
@@ -370,45 +308,17 @@
 
                                                     </tr>
                                                 </thead>
-                                                <tbody class="table-text">
+                                                <tbody id="mac-filter-table-body" class="table-text">
 
-                                                    <!-- This line is for empty table -->
-                                                    <tr class="border-bottom border-1 ">
-                                                        <th class="text-center fs-5" scope="row">1</th>
-                                                        <td class=" fs-5 fw-bold" contenteditable="true">
-
-                                                            Type a Mac Address
-                                                        </td>
-                                                        <td class="text-center table-remove">
-                                                            <ion-icon name="trash-sharp"></ion-icon>
-                                                        </td>
-
-                                                        </td>
-                                                    </tr>
-                                                    <!-- This line is for empty table -->
-
-                                                    <tr class="border-bottom border-1">
-                                                        <th class="text-center fs-5" scope="row">1</th>
-                                                        <td class=" fs-5 fw-bold" contenteditable="true"
-                                                            id="mac-address">
-
-                                                            A0-05-5C-A3-72-B3
-                                                        </td>
-                                                        <td class="text-center table-remove">
-                                                            <ion-icon name="trash-sharp"></ion-icon>
-                                                        </td>
-
-                                                        </td>
-                                                    </tr>
+                                           
 
                                                 </tbody>
                                             </table>
 
                                             <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
+                                                <div class="float-end"> <button id="submit-mac" class="btn btn-pass btn-dark me-4"
                                                         type="button">Apply</button>
-                                                    <button class="btn  btn-pass btn-danger " type="button">
-                                                        Reset</button>
+                                                    
                                                 </div>
 
                                             </div>
@@ -443,10 +353,10 @@
                                 <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
                                     <div class=" col-sm-10  col-md-11  mt-md-5">
                                         <div class="container-fluid table-responsive table-size">
-                                            <table class="table table-borderless  text-center">
+                                            <table id="ip-forward-table" class="table table-borderless  text-center">
                                                 <thead class="thead-danger table-text">
                                                     <tr class=" border-bottom border-2  fw-light table-text">
-                                                        <th class="  text-center" scope="col"><button
+                                                        <th class="  text-center" scope="col"><button id="add-ipforward"
                                                                 class="btn btn-add " type="button">
                                                                 <ion-icon name="add-circle-sharp"></ion-icon>
                                                                 </ion-icon>
@@ -460,76 +370,15 @@
                                                 </thead>
                                                 <tbody class="table-text">
 
-                                                    <!-- This line is for empty table -->
-                                                    <tr class="border-bottom border-1 ">
-                                                        <th class="text-center fs-5">
-                                                            <div class="col-md-4 col-sm-12 d-flex flex-row">
-                                                                <div class="form-check form-switch">
-                                                                    <input class="form-check-input checkbox"
-                                                                        type="checkbox" role="switch"
-                                                                        id="flexSwitchCheckDefault" />
-
-                                                                </div>
-                                                            </div>
-                                                        </th>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type an IP
-                                                        </td>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type a Mac Port
-                                                        </td>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type a Port
-                                                        </td>
-                                                        <td class="text-center table-remove">
-                                                            <ion-icon name="trash-sharp"></ion-icon>
-                                                        </td>
-
-                                                        </td>
-                                                    </tr>
-                                                    <!-- This line is for empty table -->
-
-                                                    <tr class="border-bottom border-1 ">
-                                                        <th class="text-center fs-5">
-                                                            <div class="col-md-4 col-sm-12 d-flex flex-row">
-                                                                <div class="form-check form-switch">
-                                                                    <input class="form-check-input checkbox"
-                                                                        type="checkbox" role="switch"
-                                                                        id="flexSwitchCheckDefault" />
-
-                                                                </div>
-                                                            </div>
-                                                        </th>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type an IP
-                                                        </td>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type a Mac Port
-                                                        </td>
-                                                        <td class=" fs-6 fw-bold" contenteditable="true">
-
-                                                            Type a Port
-                                                        </td>
-                                                        <td class="text-center table-remove">
-                                                            <ion-icon name="trash-sharp"></ion-icon>
-                                                        </td>
-
-                                                        </td>
-                                                    </tr>
+               
 
                                                 </tbody>
                                             </table>
 
                                             <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                <div class="float-end"> <button class="btn btn-pass btn-dark me-4"
+                                                <div class="float-end"> <button id="submit-forward-rules" class="btn btn-pass btn-dark me-4"
                                                         type="button">Apply</button>
-                                                    <button class="btn  btn-pass btn-danger " type="button">
-                                                        Reset</button>
+                                                   
                                                 </div>
 
                                             </div>

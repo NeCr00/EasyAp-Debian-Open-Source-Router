@@ -17,6 +17,14 @@ $(document).ready(function(){
 
 
     //Reboot Modal Actions
+    $('#rebootModal').modal({
+        backdrop: false
+      });
+
+      $('#rebootModal').modal({
+        backdrop: false
+      });
+
     $("#reboot_bt").on('click', function(){
         $("#rebootModal").modal('show');
     })

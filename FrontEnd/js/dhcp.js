@@ -1,26 +1,55 @@
 //json dumb data for address table
-var address_data = [{
-  "id": 1,
-  "host": "Sax",
-  "ip": "227.81.229.125",
-  "mac": "4D-D2-2A-CC-E7-37",
-  "time": 12646
-}, {
-  "id": 2,
-  "host": "Creigh",
-  "ip": "168.212.191.141",
-  "mac": "1B-AB-EC-93-A8-DF",
-  "time": 10674
-}, {
-  "id": 3,
-  "host": "Donni",
-  "ip": "26.128.171.197",
-  "mac": "98-1D-20-04-09-B9",
-  "time": 12087
-}]
+// var address_data = [{
+//   "id": 1,
+//   "host": "Sax",
+//   "ip": "227.81.229.125",
+//   "mac": "4D-D2-2A-CC-E7-37",
+//   "time": 12646
+// }, {
+//   "id": 2,
+//   "host": "Creigh",
+//   "ip": "168.212.191.141",
+//   "mac": "1B-AB-EC-93-A8-DF",
+//   "time": 10674
+// }, {
+//   "id": 3,
+//   "host": "Donni",
+//   "ip": "26.128.171.197",
+//   "mac": "98-1D-20-04-09-B9",
+//   "time": 12087
+// }]
 //----------------------------------------------------------------------------
 
 $(document).ready(function () {
+
+  //get data from
+  function getData(url) {
+    let data = fetch(url)
+       .then((data) => {
+         return data.json();
+       })
+       .then((post) => {
+         //console.log(post);
+         return post;
+       });
+       return data;
+   }
+  
+  //post data to server
+  function postData(url, data) {
+    return fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+  }
+
+      // Set Modal Backgroud without color
+      $('#modal').modal({
+        backdrop: false
+      });
 
    // var lease_toggle = false
   // change toggle value $("#lease-time").prop('checked', true).change();
@@ -71,7 +100,9 @@ $(document).ready(function () {
 
 
   // Create Active IP Addresses
-  function CreateAddressTable(data) {
+  async function CreateAddressTable() {
+
+    var data = await getData("dhcp/connected_devices")
 
     data.forEach(item => {
 
@@ -92,13 +123,13 @@ $(document).ready(function () {
   }
 
 
-  CreateAddressTable(address_data)
+  CreateAddressTable()
   //--------------------------------------------------------------------- 
 
 
   //Submit DHCP Parameters
 
-  function SubmitDHCP() {
+  async function SubmitDHCP() {
 
     //get which radio is checked
     var dhcp_enable = document.querySelector('input[name="dchp-status"]:checked').value;
@@ -123,7 +154,12 @@ $(document).ready(function () {
       "lease_isEnabled": lease_isEnabled
     }
 
-    console.log(data)
+    //post data to server
+   let res_status = await postData("dhcp/submit", data)
+   let res_data = await res_status.json()
+   console.log(res_status)
+   console.log(res_data)
+
   }
 
   $("#submit-dhcp").click(function () {
