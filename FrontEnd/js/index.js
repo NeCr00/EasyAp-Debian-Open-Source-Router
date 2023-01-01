@@ -29,6 +29,10 @@ $(document).ready(function () {
       return data;
   }
 
+  
+
+
+
   async function chartMap() {
     //convert json to array to be compatible with google chart
     //get data from backend
@@ -97,15 +101,15 @@ $(document).ready(function () {
     var percentage_str = percentage.toString();
     var classes = "";
 
-    if (percentage < 0) {
-      classes = "danger-stroke circle-chart__circle--negative";
-    } else if (percentage > 0 && percentage <= 30) {
+    if (percentage >= 0 && percentage <=45) {
+      classes = "danger-stroke ";
+    } else if (percentage <= 75) {
       classes = "warning-stroke";
     } else {
       classes = "success-stroke";
     }
-
-    var svg =
+    var svg =''
+     svg =
       '<svg class="circle-chart" viewbox="0 0 33.83098862 33.83098862" xmlns="http://www.w3.org/2000/svg">' +
       '<circle class="circle-chart__background" cx="16.9" cy="16.9" r="15.9" />' +
       '<circle class="circle-chart__circle ' +
@@ -127,8 +131,9 @@ $(document).ready(function () {
     }
 
     svg += " </g></svg>";
-
+    inner_text=''
     return svg;
+    
   }
 
   (function ($, data) {
@@ -136,7 +141,7 @@ $(document).ready(function () {
     $.fn.circlechart = function (data) {
       this.each(function (index) {
         var percentage = data[index].percentage;
-        var inner_text = $(this).text();
+        var inner_text = data[index].type
         console.log(inner_text);
         console.log(percentage);
         $(this).html(makesvg(percentage, inner_text));
@@ -152,7 +157,8 @@ $(document).ready(function () {
     $(".circlechart").circlechart(usage_data); // Initialization of Usage chart, passing data
 
   }
-  createUsageChart()
+  
+ const intervalID = setInterval(createUsageChart, 500);
   
   //---------------------------------------------------------------------
 

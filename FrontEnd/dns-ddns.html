@@ -182,14 +182,14 @@
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            name="ddns-status" id="ddns-status-enable">
+                                                            name="ddns-status" id="ddns-status-enable" value="1">
                                                         <label class="form-check-label" for="ddns-status-enable">
                                                             Enabled
                                                         </label>
                                                     </div>
                                                     <div class="form-check ms-lg-5 ms-3">
                                                         <input class="form-check-input" type="radio"
-                                                            name="ddns-status" id="ddns-status-disable" checked>
+                                                            name="ddns-status" id="ddns-status-disable" value="0" checked>
                                                         <label class="form-check-label" for="ddns-status-disable">
                                                             Disabled
                                                         </label>
@@ -283,7 +283,7 @@
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4 ">
                                         <div id="submit-ddns" class="float-end"> <button class="btn btn-pass btn-dark me-4"
                                                 type="button">Apply</button>
-                                            <button class="btn  btn-pass btn-danger " type="button">
+                                            <button id="reset-ddns" class="btn  btn-pass btn-danger " type="button">
                                                 Reset</button>
                                         </div>
 

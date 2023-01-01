@@ -62,15 +62,22 @@ router.get('/mapData', function (req, res) {
 })
 
 router.get('/usage_data', function (req, res) {
+
+  function between(min, max) {  
+    return Math.floor(
+      Math.random() * (max - min) + min
+    )
+  }
+
   var usage_data = [{
-    "type": "cpu",
-    "percentage": 39
+    "type": "Cpu",
+    "percentage": between(10,90)
   }, {
-    "type": "memory",
-    "percentage": 55
+    "type": "Memory",
+    "percentage": between(10,90)
   }, {
-    "type": "disk",
-    "percentage": 90
+    "type": "Disk",
+    "percentage": between(10,90)
   }]
 
   res.json(usage_data);

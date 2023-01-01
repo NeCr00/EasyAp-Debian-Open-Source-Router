@@ -3,7 +3,28 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
+const validator = require('../middlewares/dataValidator');
 
+function validateData(req, res, next) {
+  let data = req.body
+  let start_ip =validator.validateIP(data.start_ip)
+  let end_ip = validator.validateIP(data.end_ip)
+  let mask = validator.validateSubMask(data.mask)
+  let lan_ip = validator.validateIP(data.lan_ip)
+
+  if(start_ip.error)
+    res.json({"error":true,"message":start_ip.message})
+  else if(end_ip.error)
+    res.json({"error":true,"message":end_ip.message})
+  else if(mask.error)
+    res.json({"error":true,"message":mask.message})
+  else if(lan_ip.error)
+    res.json({"error":true,"message":lan_ip.message})
+  else
+    next()
+
+  
+}
 
 
 router.get('/', (req, res) => {
@@ -40,9 +61,17 @@ router.get('/', (req, res) => {
     
   })
 
-  router.post('/submit', function(req, res) {
+  router.post('/submit', validateData, function(req, res) {
     console.log(req.body)
-    res.json("Nice")
+
+    
+    if (1){
+      res.json({"message":"Changes Applied"})
+    }
+    else{
+      res.json({"error":true,"status":'Something happen, try again !'})
+    }
+
   })
 
 module.exports = router;

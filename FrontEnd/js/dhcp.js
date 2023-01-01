@@ -46,6 +46,20 @@ $(document).ready(function () {
     });
   }
 
+  //Error Modal
+  function errorModal(msg) {
+    $('#Modal').modal('show');
+    $('#modal-title').html('<p style="color:red; font-weight:bold;">Error</p>');
+    $('.modal-body').html('<p style="color:red; font-weight:bold;">'+msg+'</p>');
+  }
+
+  function successModal(msg) {
+    $('#Modal').modal('show');
+    $('#modal-title').html('<p style="color:green; font-weight:bold;">Success</p>');
+    $('.modal-body').html('<p style="color:green; font-weight:bold;">'+msg+'</p>');
+  }
+
+
       // Set Modal Backgroud without color
       $('#modal').modal({
         backdrop: false
@@ -159,6 +173,13 @@ $(document).ready(function () {
    let res_data = await res_status.json()
    console.log(res_status)
    console.log(res_data)
+   if (res_data.error){
+    errorModal(res_data.message)
+  
+   }
+   else{
+    successModal(res_data.message)
+   }
 
   }
 

@@ -188,7 +188,7 @@ ion-icon {
   stroke-width: 2;
   stroke-linecap: square;
   fill: none;
-  animation: circle-chart-fill 2s reverse; /* 1 */
+ 
   transform: rotate(-90deg); /* 2, 3 */
   transform-origin: center; /* 4 */
 }
@@ -213,11 +213,6 @@ ion-icon {
   fill: none;
 }
 
-.circle-chart__info {
-  animation: circle-chart-appear 2s forwards;
-  opacity: 0;
-  transform: translateY(0.3em);
-}
 
 .circle-chart__percent {
   alignment-baseline: central;
@@ -232,7 +227,7 @@ ion-icon {
 }
 
 .success-stroke {
-  stroke: #020202;
+  stroke: #000000;
 }
 
 .warning-stroke {
