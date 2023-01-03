@@ -61,6 +61,21 @@ router.get('/', (req, res) => {
     
   })
 
+  router.get('/config',function (req, res) {
+
+    var config ={
+      "dhcp_enable": '1',
+      "start_ip": '192.1.1.1',
+      "end_ip": '192.1.1.1',
+      "mask": '255.255.255.0',
+      "lan_ip": '192.1.1.1',
+      "time": '240',
+      "lease_isEnabled": true
+    }
+
+    res.json(config)
+  })
+
   router.post('/submit', validateData, function(req, res) {
     console.log(req.body)
 

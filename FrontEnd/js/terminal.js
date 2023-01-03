@@ -1,4 +1,23 @@
+
+
 jQuery(function ($, undefined) {
+
+    function postData(url, data) {
+        return fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+      }
+
+    async function submitRule(rule,obj){
+        data = {"rule":rule}
+        response = await postData("firewall/custom-rule",data);
+        response_data = await response.json();
+       obj.echo( response_data.message)
+    }
 
     $("#apply-terminal").click(function () {
         var terminal = $('#terminal').terminal(function(command) {
@@ -20,6 +39,8 @@ jQuery(function ($, undefined) {
         //  if (command == 'social'){ .  This was wrong. 
         else if (iscorrect)  {
             this.echo("Submiting ...");
+            response = submitRule(command,this)
+            //this.echo(response)
         }
 
          else {

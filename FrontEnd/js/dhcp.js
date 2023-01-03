@@ -21,51 +21,55 @@
 //----------------------------------------------------------------------------
 
 $(document).ready(function () {
-
   //get data from
   function getData(url) {
     let data = fetch(url)
-       .then((data) => {
-         return data.json();
-       })
-       .then((post) => {
-         //console.log(post);
-         return post;
-       });
-       return data;
-   }
-  
+      .then((data) => {
+        return data.json();
+      })
+      .then((post) => {
+        //console.log(post);
+        return post;
+      });
+    return data;
+  }
+
   //post data to server
   function postData(url, data) {
     return fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
   }
 
   //Error Modal
   function errorModal(msg) {
-    $('#Modal').modal('show');
-    $('#modal-title').html('<p style="color:red; font-weight:bold;">Error</p>');
-    $('.modal-body').html('<p style="color:red; font-weight:bold;">'+msg+'</p>');
+    $("#Modal").modal("show");
+    $("#modal-title").html('<p style="color:red; font-weight:bold;">Error</p>');
+    $(".modal-body").html(
+      '<p style="color:red; font-weight:bold;">' + msg + "</p>"
+    );
   }
 
   function successModal(msg) {
-    $('#Modal').modal('show');
-    $('#modal-title').html('<p style="color:green; font-weight:bold;">Success</p>');
-    $('.modal-body').html('<p style="color:green; font-weight:bold;">'+msg+'</p>');
+    $("#Modal").modal("show");
+    $("#modal-title").html(
+      '<p style="color:green; font-weight:bold;">Success</p>'
+    );
+    $(".modal-body").html(
+      '<p style="color:green; font-weight:bold;">' + msg + "</p>"
+    );
   }
 
+  // Set Modal Backgroud without color
+  $("#modal").modal({
+    backdrop: false,
+  });
 
-      // Set Modal Backgroud without color
-      $('#modal').modal({
-        backdrop: false
-      });
-
-   // var lease_toggle = false
+  // var lease_toggle = false
   // change toggle value $("#lease-time").prop('checked', true).change();
 
   $("#lease-time").change(function () {
@@ -74,122 +78,136 @@ $(document).ready(function () {
     } else {
       lease_toggle = false;
     }
-
   });
 
-
   $("#navbar-but").click(function () {
-    var show = $("#navbarvalue").val()
-    console.log(show)
+    var show = $("#navbarvalue").val();
+    console.log(show);
     if (show) {
-      $("#navbarr").addClass("d-none")
-      $("#navbarvalue").val("0")
+      $("#navbarr").addClass("d-none");
+      $("#navbarvalue").val("0");
     }
     if (show == 0) {
-      $("#navbarr").removeClass("d-none")
-      $("#navbarvalue").val("1")
-
+      $("#navbarr").removeClass("d-none");
+      $("#navbarvalue").val("1");
     }
-
   });
 
   //  Modal Window
-  $("#submit-dhcp").on('click', function () {
-    $('#modal').modal('show');
-  })
+  $("#submit-dhcp").on("click", function () {
+    $("#modal").modal("show");
+  });
 
-  $("#close_modal_header").on('click', function () {
-    $('#modal').modal('hide');
-  })
+  $("#close_modal_header").on("click", function () {
+    $("#modal").modal("hide");
+  });
 
-  $("#close_modal").on('click', function () {
-    $('#modal').modal('hide');
-  })
+  $("#close_modal").on("click", function () {
+    $("#modal").modal("hide");
+  });
 
-
-  $("#proceed").on('click', function () {
-    $('#modal').modal('hide');
-  })
+  $("#proceed").on("click", function () {
+    $("#modal").modal("hide");
+  });
   //----------------------------------------------------------------------------
 
+  //get already configured dhcp values
+  async function getDHCP() {
+    let data = await getData("/dhcp/config");
+
+    if (data) {
+      $("#start-ip").val(data.start_ip);
+      $("#end-ip").val(data.end_ip);
+      $("#mask").val(data.mask);
+      $("#lan-ip").val(data.lan_ip);
+
+      $("#time").val(data.time);
+
+      if(data.lease_isEnabled)
+        $("#lease-time").prop("checked", true);
+      
+
+      if (data.ddns_enabled == "1") {
+        $("#dhcp-status-enable").prop("checked", true);
+        $("#dhcp-status-disable").prop("checked", false);
+      } else {
+        $("#dhcp-status-enable").prop("checked", false);
+        $("#dhcp-status-disable").prop("checked", true);
+      }
+    }
+  }
+
+  getDHCP()
 
   // Create Active IP Addresses
   async function CreateAddressTable() {
+    var data = await getData("dhcp/connected_devices");
 
-    var data = await getData("dhcp/connected_devices")
+    data.forEach((item) => {
+      var newRow = $('<tr class="border-bottom border-1 ">');
+      var cols = "";
 
-    data.forEach(item => {
+      cols += '<th class="text-center" scope="row">' + item.id + "</th>";
+      cols += '<td class="  fw-bold" >' + item.host + "</td>";
+      cols += '<td class="  fw-bold" >' + item.ip + "</td>";
+      cols += '<td class="  fw-bold" >' + item.mac + "</td>";
+      cols += '<td class="text-center  fw-bold">' + item.time + "</td>";
 
-      var newRow = $('<tr class="border-bottom border-1 ">')
-      var cols = ''
-
-      cols += '<th class="text-center" scope="row">' + item.id + '</th>'
-      cols += '<td class="  fw-bold" >' + item.host + '</td>'
-      cols += '<td class="  fw-bold" >' + item.ip + '</td>'
-      cols += '<td class="  fw-bold" >' + item.mac + '</td>'
-      cols += '<td class="text-center  fw-bold">' + item.time + '</td>'
-
-      newRow.append(cols)
-      $("#table-address").append(newRow)
-
+      newRow.append(cols);
+      $("#table-address").append(newRow);
     });
-
   }
 
+  
+  CreateAddressTable();
 
-  CreateAddressTable()
-  //--------------------------------------------------------------------- 
-
+  //---------------------------------------------------------------------
 
   //Submit DHCP Parameters
 
   async function SubmitDHCP() {
-
     //get which radio is checked
-    var dhcp_enable = document.querySelector('input[name="dchp-status"]:checked').value;
+    var dhcp_enable = document.querySelector(
+      'input[name="dchp-status"]:checked'
+    ).value;
     //get lease time toggle value
     var lease_isEnabled = $("#lease-time")[0].checked;
 
     //Get Fields parameters
-    var start_ip = $("#start-ip").val()
-    var end_ip = $("#end-ip").val()
-    var mask = $("#mask").val()
-    var lan_ip = $("#lan-ip").val()
-    var time = $("#time").val()
+    var start_ip = $("#start-ip").val();
+    var end_ip = $("#end-ip").val();
+    var mask = $("#mask").val();
+    var lan_ip = $("#lan-ip").val();
+    var time = $("#time").val();
 
     //Construct json object
     var data = {
-      "dhcp_enable": dhcp_enable,
-      "start_ip": start_ip,
-      "end_ip": end_ip,
-      "mask": mask,
-      "lan_ip": lan_ip,
-      "time": time,
-      "lease_isEnabled": lease_isEnabled
-    }
+      dhcp_enable: dhcp_enable,
+      start_ip: start_ip,
+      end_ip: end_ip,
+      mask: mask,
+      lan_ip: lan_ip,
+      time: time,
+      lease_isEnabled: lease_isEnabled,
+    };
 
     //post data to server
-   let res_status = await postData("dhcp/submit", data)
-   let res_data = await res_status.json()
-   console.log(res_status)
-   console.log(res_data)
-   if (res_data.error){
-    errorModal(res_data.message)
-  
-   }
-   else{
-    successModal(res_data.message)
-   }
-
+    let res_status = await postData("dhcp/submit", data);
+    let res_data = await res_status.json();
+    console.log(res_status);
+    console.log(res_data);
+    if (res_data.error) {
+      errorModal(res_data.message);
+    } else {
+      successModal(res_data.message);
+    }
   }
 
   $("#submit-dhcp").click(function () {
-
-    SubmitDHCP()
-  })
+    SubmitDHCP();
+  });
 
   $("#reset-dhcp").click(function () {
-    $("input").val('')
-  })
-
+    $("input").val("");
+  });
 });

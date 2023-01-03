@@ -132,13 +132,13 @@
 
                     </ul>
                     <hr />
-                    
-                        <a href="logout" class="d-flex align-items-center fs-5 text-nav logout-hover" aria-expanded="false">
-                            <ion-icon class="logout-icon" name="log-out-sharp"></ion-icon>
-                            <span class="">Logout</span>
-                        </a>
 
-                    
+                    <a href="logout" class="d-flex align-items-center fs-5 text-nav logout-hover" aria-expanded="false">
+                        <ion-icon class="logout-icon" name="log-out-sharp"></ion-icon>
+                        <span class="">Logout</span>
+                    </a>
+
+
 
 
                 </div>
@@ -361,7 +361,7 @@
 
                                                     </tr>
                                                 </thead>
-                                                <tbody class="table-text">
+                                                <tbody id="firewall-table-body" class="table-text">
 
                                                     <!-- This line is for empty table -->
 
@@ -373,10 +373,9 @@
                                             </table>
 
                                             <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                <div class="float-end"> <button id="submit-status-rules" class="btn btn-pass btn-dark me-4"
-                                                        type="button">Apply</button>
-                                                    <button class="btn  btn-pass btn-danger " type="button">
-                                                        Reset</button>
+                                                <div class="float-end"> <button id="submit-status-rules"
+                                                        class="btn btn-pass btn-dark me-4" type="button">Apply</button>
+
                                                 </div>
 
                                             </div>
@@ -444,6 +443,29 @@
 
                         </script>
 
+                        <!-- Modal -->
+                        <div class="modal fade" id="modal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modal-title">Warning!</h5>
+                                        <button type="button" id="close_modal_header" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to Reset Configuration?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                            id="close_modal">Close</button>
+                                        <button type="button" class="btn btn-danger" id="proceed">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 </body>
 
