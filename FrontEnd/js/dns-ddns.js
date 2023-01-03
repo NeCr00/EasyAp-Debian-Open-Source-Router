@@ -157,6 +157,8 @@ $(document).ready(function () {
 
   // Create Active IP Addresses
   async function CreateDnsTable() {
+    $("#dns-table > tbody").html("");
+    
     let data = await getData("dns_ddns/dns");
 
     data.forEach((item, index) => {
@@ -233,7 +235,7 @@ $(document).ready(function () {
         successModal(res_data.message);
       }
     }
-    $("#dns-table > tbody").html("");
+    
     CreateDnsTable()
   }
 
