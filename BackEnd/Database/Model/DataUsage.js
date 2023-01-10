@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const {Schema,model} = require('../connection')
 
-const dataUsageSchema = new mongoose.Schema({
+const dataUsageSchema = new Schema({
     MACAddress: String, //may need to change to a Device instead of String
     packetsSent: Number,
     packetsReceived: Number,
@@ -8,4 +9,6 @@ const dataUsageSchema = new mongoose.Schema({
     bytesReceived: Number
 })
 
-module.exports = mongoose.model("DataUsage", dataUsageSchema);
+
+const dataUsage = model("DataUsage", dataUsageSchema);
+module.exports = dataUsage

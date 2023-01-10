@@ -2,7 +2,6 @@ const express = require('express')
 const path = require('path')
 const session = require('express-session')
 const bodyParser = require('body-parser');
-// const mongoose = require('mongoose');
 const router = express.Router()
 const app = express()
 const port = 3000
@@ -21,19 +20,9 @@ const system = require('./routes/system')
 const vpn = require('./routes/vpn')
 const data_usage = require('./routes/data_usage')
 const about = require('./routes/about');
-const { authentication } = require('./middlewares/authentication');
 
-//Database
-// const DataUsage = require('./db-schemas/DataUsage')
-// const Device = require('./db-schemas/Device')
-// const Firewall = require('./db-schemas/Firewall')
-// const Geolocation = require('./db-schemas/Geolocation')
-// const IPForwarding = require('./db-schemas/IPForwarding')
-// const Tools = require('./db-schemas/Tools')
-// const User = require('./db-schemas/User')
 
-// mongoose.connect('mongodb://localhost/easyap')
-//----------------------------------------------------
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())

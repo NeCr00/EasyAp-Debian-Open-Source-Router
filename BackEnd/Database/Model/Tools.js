@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const {Schema,model} = require('../dbConnect')
 
-const toolsSchema = new mongoose.Schema({
+const toolsSchema = new Schema({
     toolName: String,
     configKey: String,
     configValue: String,
@@ -8,4 +9,6 @@ const toolsSchema = new mongoose.Schema({
     defaultValue: String, //the value for the configValue when the configurations are reset
 })
 
-module.exports = mongoose.model("Tools", toolsSchema);
+const tools = model("Tools", toolsSchema);
+
+module.exports = tools

@@ -89,4 +89,41 @@ router.get('/', (req, res) => {
 
   })
 
+
+
+router.get('/static-ips', function(req, res){
+  let data = [{
+    "ip": "192.111.111.111",
+    "mac": "98-1D-20-04-09-B9"
+  }]
+
+  res.json(data)
+})
+
+
+router.post('/static-ips', function(req, res){
+  console.log(req.body)
+
+    
+  if (1){
+    res.json({"message":"Changes Applied"})
+  }
+  else{
+    res.json({"error":true,"status":'Something happen, try again !'})
+  }
+})
+
+
+router.delete('/static-ips', function(req, res){
+  console.log(req.body)
+
+    
+  if (1){
+    res.json({"message":"Changes Applied"})
+  }
+  else{
+    res.json({"error":true,"status":'Something happen, try again !'})
+  }
+})
+
 module.exports = router;

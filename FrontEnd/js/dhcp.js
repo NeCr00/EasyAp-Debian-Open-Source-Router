@@ -1,24 +1,4 @@
-//json dumb data for address table
-// var address_data = [{
-//   "id": 1,
-//   "host": "Sax",
-//   "ip": "227.81.229.125",
-//   "mac": "4D-D2-2A-CC-E7-37",
-//   "time": 12646
-// }, {
-//   "id": 2,
-//   "host": "Creigh",
-//   "ip": "168.212.191.141",
-//   "mac": "1B-AB-EC-93-A8-DF",
-//   "time": 10674
-// }, {
-//   "id": 3,
-//   "host": "Donni",
-//   "ip": "26.128.171.197",
-//   "mac": "98-1D-20-04-09-B9",
-//   "time": 12087
-// }]
-//----------------------------------------------------------------------------
+
 
 $(document).ready(function () {
   //get data from
@@ -34,6 +14,17 @@ $(document).ready(function () {
     return data;
   }
 
+  //Delete data to server
+  function deleteData(url, data) {
+    return fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+  }
+
   //post data to server
   function postData(url, data) {
     return fetch(url, {
@@ -47,7 +38,7 @@ $(document).ready(function () {
 
   //Error Modal
   function errorModal(msg) {
-    $("#Modal").modal("show");
+    $("#modal").modal("show");
     $("#modal-title").html('<p style="color:red; font-weight:bold;">Error</p>');
     $(".modal-body").html(
       '<p style="color:red; font-weight:bold;">' + msg + "</p>"
@@ -55,7 +46,7 @@ $(document).ready(function () {
   }
 
   function successModal(msg) {
-    $("#Modal").modal("show");
+    $("#modal").modal("show");
     $("#modal-title").html(
       '<p style="color:green; font-weight:bold;">Success</p>'
     );
@@ -114,7 +105,7 @@ $(document).ready(function () {
   //get already configured dhcp values
   async function getDHCP() {
     let data = await getData("/dhcp/config");
-
+    
     if (data) {
       $("#start-ip").val(data.start_ip);
       $("#end-ip").val(data.end_ip);
@@ -123,9 +114,9 @@ $(document).ready(function () {
 
       $("#time").val(data.time);
 
-      if(data.lease_isEnabled)
+      if (data.lease_isEnabled)
         $("#lease-time").prop("checked", true);
-      
+
 
       if (data.ddns_enabled == "1") {
         $("#dhcp-status-enable").prop("checked", true);
@@ -158,7 +149,7 @@ $(document).ready(function () {
     });
   }
 
-  
+
   CreateAddressTable();
 
   //---------------------------------------------------------------------
@@ -190,7 +181,7 @@ $(document).ready(function () {
       time: time,
       lease_isEnabled: lease_isEnabled,
     };
-
+    
     //post data to server
     let res_status = await postData("dhcp/submit", data);
     let res_data = await res_status.json();
@@ -200,8 +191,137 @@ $(document).ready(function () {
       errorModal(res_data.message);
     } else {
       successModal(res_data.message);
+
     }
   }
+
+
+  async function CreateStaticIpTable(data) {
+    $("#static-ip-table > tbody").html("");
+    let static_ip = await getData("dhcp/static-ips");
+  
+    static_ip.forEach((item, index) => {
+      var newRow = $(
+        "<tr id=item" + (index + 1) + ' class="border-bottom border-1 ">'
+      );
+      var cols = "";
+  
+      cols += '<th class="text-center fs-5" scope="row">' + (index + 1) + "</th>";
+      cols +=
+        '<td class=" item item-ip fs-6 fw-bold" contenteditable="false">' +
+        item.ip +
+        "</td>";
+      cols +=
+        '<td class=" item item-mac fs-6 fw-bold" contenteditable="false">' +
+        item.mac +
+        "</td>";
+      cols +=
+        ' <td  class=" table-authoritative-remove text-center "> <ion-icon name="trash-sharp"> </ion-icon> </td>';
+  
+      newRow.append(cols);
+      $("#static-ip-table").append(newRow);
+    });
+  }
+  
+  CreateStaticIpTable();
+  
+  function AddStaticIP() {
+    var newRow = $('<tr class="border-bottom border-1 ">');
+    var cols = "";
+    var rows = document.getElementById("static-ip-table-body").rows
+      .length;
+  
+    cols += '<th class="text-center fs-5" scope="row">' + (rows + 1) + "</th>";
+    cols +=
+      '<td class=" new-item-ip  fs-6 fw-bold" contenteditable="true">Type IP</td>';
+    cols +=
+      '<td class=" new-item-mac fs-6 fw-bold" contenteditable="true">Type Mac</td>';
+    cols +=
+      '<td class=" text-center  table-authoritative-remove"> <ion-icon name="trash-sharp"> </ion-icon> </td>';
+  
+    newRow.append(cols);
+    $("#static-ip-table-body").append(newRow);
+  }
+  
+  $("#add-static-ip-entry").on("click", function () {
+    AddStaticIP(); //Add new row to dns table
+  });
+  
+  async function submitStaticIPChanges() {
+    var static_ip = []
+    let deleted = deletedStaticIPs
+  
+    $("#static-ip-table-body tr .new-item-ip").each(function (item) {
+      mac = $(this).parent().find(".new-item-mac").html();
+      ip = $(this).html()
+      static_ip.push({
+        mac: mac,
+        ip: ip,
+      });
+    })
+    if (static_ip.length > 0) {
+      let response = await postData("dhcp/static-ips", static_ip);
+      let response_data = await response.json();
+      console.log(response_data);
+      if (response_data.error) {
+        errorModal(response_data.message);
+        $(".new-item-mac").parent().remove();
+  
+      } else {
+        successModal(response_data.message);
+      }
+    }
+    console.log(deleted)
+    if (deleted.length > 0) {
+      let res = await deleteData("dhcp/static-ips", deleted);
+      let res_data = await res.json();
+      if (res_data.error) {
+        errorModal(res_data.message);
+      } else {
+        successModal(res_data.message);
+      }
+    }
+    
+  
+    deletedStaticIPs = []
+    CreateStaticIpTable();
+  }
+  
+  
+  $("#submit-static").on("click", function(){
+    submitStaticIPChanges
+  })
+  
+  
+  
+  
+  var deletedStaticIPs = []
+  
+  
+  
+  function updateStaticIPRowNum() {
+    $("#authoritative-dns-table-body th").each(function (index, item) {
+      console.log(item.innerText);
+      item.innerText = index + 1;
+    });
+  }
+  
+  $(document).on("click", ".table-authoritative-remove", function () {
+    var item = $(this).closest("tr");
+    item.remove(); //remove item
+  
+    //get value
+    deletedIP = item.find(".item-ip").text();
+    deletedMac = item.find(".item-mac").text();
+  
+    deletedStaticIPs.push({
+      ip: deletedIP,
+      mac: deletedMac,
+    });
+  
+    updateStaticIPRowNum();
+  });
+
 
   $("#submit-dhcp").click(function () {
     SubmitDHCP();
@@ -210,4 +330,8 @@ $(document).ready(function () {
   $("#reset-dhcp").click(function () {
     $("input").val("");
   });
+
+
+
+
 });

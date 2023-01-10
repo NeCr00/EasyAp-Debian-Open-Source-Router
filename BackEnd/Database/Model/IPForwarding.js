@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const {Schema,model} = require('../dbConnect')
 
-const IPForwardingSchema = new mongoose.Schema({
+const IPForwardingSchema = new Schema({
     internalIP: String,
     internalPort: Number,
     externalPort: Number,
@@ -8,4 +9,6 @@ const IPForwardingSchema = new mongoose.Schema({
     IPForwardingCommand: String //may need to change to Command
 })
 
-module.exports = mongoose.model("IPForwarding", IPForwardingSchema);
+const IPForwarding = model("IPForwarding", IPForwardingSchema);
+
+module.exports = IPForwarding
