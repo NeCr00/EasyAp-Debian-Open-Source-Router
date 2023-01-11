@@ -3,6 +3,7 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
+const {getDevices} = require('../utils/getConnectedDevices')
 
 
 
@@ -36,7 +37,10 @@ router.get('/getDevices', (req, res) => {
 ]
 
   res.json(devices);
-  
+
+
+getDevices()
+
 })
 
 router.get('/mapData', function (req, res) {

@@ -56,7 +56,7 @@ app.use('/logout',logout)
 //Protected API Calls and routes.
 // The following routes are using the authorization middleware to perform authorization checks
 //If user is not authenticated and by extension is not authorizaed, api returns a statuc code 401
-app.use('/dashboard',authorization, dashboard) // Dashboard page and rest api calls
+app.use('/dashboard', dashboard) // Dashboard page and rest api calls
 app.use('/dhcp',authorization,dhcp) //
 app.use('/dns_ddns',authorization,dns_ddns)
 app.use('/firewall',authorization,firewall)

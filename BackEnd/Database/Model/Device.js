@@ -9,4 +9,6 @@ const deviceSchema = new Schema({
 
 
 const deviceBanned = model("Device", deviceSchema);
+
+
 module.exports = deviceBanned

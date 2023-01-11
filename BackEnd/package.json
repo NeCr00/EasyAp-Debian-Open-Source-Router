@@ -14,6 +14,7 @@
     "express-redirect": "^1.2.2",
     "express-session": "^1.17.3",
     "mercedlogger": "^1.0.1",
-    "mongoose": "^6.8.3"
+    "mongoose": "^6.8.3",
+    "node-async-exec": "^1.2.0"
   }
 }
