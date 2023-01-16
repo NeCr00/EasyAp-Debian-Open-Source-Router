@@ -6,7 +6,7 @@ const router = express.Router()
 const app = express()
 const port = 3000
 const {authorization} = require('./middlewares/authorization')
-
+const {monitorNetworkConnections} = require('./utils/getServerIP')
 //Routes
 const login = require('./routes/login')
 const index = require('./routes/index')
@@ -47,7 +47,7 @@ app.use(session({
   resave: false
 }));
 
-
+monitorNetworkConnections()
 
 app.use('/',index) // if is authenticated redirects user to dashboard,otherwise redirect to login
 app.use('/login',login) //Login endpoint, if is authenticated redirects user to dashboard,otherwise redirect to login

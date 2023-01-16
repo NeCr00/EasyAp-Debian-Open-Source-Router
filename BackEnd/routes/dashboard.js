@@ -15,31 +15,13 @@ router.get('/', (req, res) => {
   })
 
 
-router.get('/getDevices', (req, res) => {
+router.get('/getDevices',  (req, res) => {
 
-  //get hosts
-  var devices = [{
-    "id": 1,
-    "host": "Zamit",
-    "ip": "39.41.141.250",
-    "mac": "EF-CF-C4-48-F8-8F"
-  }, {
-    "id": 2,
-    "host": "Alphazap",
-    "ip": "108.194.244.156",
-    "mac": "8F-00-AB-4A-89-29"
-  }, {
-    "id": 3,
-    "host": "Quo Lux",
-    "ip": "116.138.15.104",
-    "mac": "B5-64-9A-91-67-3A"
-  }
-]
 
+getDevices().then(function(devices){
   res.json(devices);
-
-
-getDevices()
+  
+})
 
 })
 
@@ -61,7 +43,7 @@ router.get('/mapData', function (req, res) {
     "country": "Czech Republic",
     "percentage": 78.26
   }]
-
+  
   res.json(geo_table_data);
 })
 

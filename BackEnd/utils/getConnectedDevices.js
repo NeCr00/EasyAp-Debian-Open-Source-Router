@@ -16,40 +16,66 @@ function extractDeviceInfo(string_devices) {
             host: host
         })
     })
-    console.log(devices)
+    
     return devices
 }
 
 
 async function isHostUp(ip) {
-    command = 'ping -c 1 -W 1 ' + ip
+    command = 'ping -c 1 -W 0.2 ' + ip
     // run the `ls` command using exec
-    const { stdout, stderr } = await exec('command');
-    console.log('stdout:', stdout);
-    console.log('stderr:', stderr);
-    
+    const { stdout, stderr } = await exec(command);
+
+    if (stderr) {
+        //console.log('stderr:', stderr);
+        return false;
+    }
+    else {
+        //console.log('stdout:', stdout);
+        return true;
+    }
+
+
 }
 
- async function getDevices() {
-    let active_devices =[]
+async function getDevices() {
+    let active_devices = []
     command = 'cat /var/lib/misc/dnsmasq.leases'
-    exec(command, (err, output) => {
-        // once the command has completed, the callback function is called
-        if (err) {
-            // log and return if we encounter an error
-            //console.log("error:", err)
-            return
-        }
-        else{
-            devices = extractDeviceInfo(output)
-        }
-        // log the output received from the command
-        //console.log("Output: \n", output)
-        
-    })
+    const { stdout, stderr } = await exec(command);
 
-      test = isHostUp('192.168.4.8')
-      console.log(test)
+    if (stderr) {
+        //console.log('stderr:', stderr);
+        return;
+    }
+    else {
+        //console.log('stdout:', stdout);
+        devices = extractDeviceInfo(stdout)
+
+            var finishGettingDevices = new Promise((resolve, reject) => {
+                id = 0
+                devices.forEach(async (item,index,array) => {
+                    
+                    try {
+                        isIpOnline = await isHostUp("192.168.2.6")
+                        
+                        if (isIpOnline) {
+                            item.id = ++id
+                            active_devices.push(item)
+                            
+                        }
+                    }
+                    catch (error) {
+                        //console.log(error)
+                    }
+                    if (index === array.length -1) resolve(active_devices);
+                })
+                
+            });
+
+            return  finishGettingDevices;
+    }
+
+
 }
 
 
