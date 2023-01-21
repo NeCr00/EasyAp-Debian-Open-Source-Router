@@ -37,8 +37,9 @@ $(document).ready(function () {
     //convert json to array to be compatible with google chart
     //get data from backend
     var data = await getData("dashboard/mapData");
-    CreateGeolocationTable(data); // Create Geolocation table
+    CreateGeolocationTable(data[1].topCalculatedRequests); // Create Geolocation table
     var result = [];
+    data = data[0].calculatedRequests
     result.push(["Country", "Percentage"]);
     for (var index in data)
       result.push([data[index].country, data[index].percentage]);
@@ -50,7 +51,6 @@ $(document).ready(function () {
 
     function drawRegionsMap() {
       var data = google.visualization.arrayToDataTable(result);
-
       var options = {
         colorAxis: {
           minValue: 0,
@@ -137,13 +137,11 @@ $(document).ready(function () {
   }
 
   (function ($, data) {
-    console.log(data);
+    
     $.fn.circlechart = function (data) {
       this.each(function (index) {
         var percentage = data[index].percentage;
         var inner_text = data[index].type
-        console.log(inner_text);
-        console.log(percentage);
         $(this).html(makesvg(percentage, inner_text));
       });
       return this;
@@ -158,7 +156,7 @@ $(document).ready(function () {
 
   }
   
- const intervalID = setInterval(createUsageChart, 500);
+ const intervalID = setInterval(createUsageChart, 1000);
   
   //---------------------------------------------------------------------
 

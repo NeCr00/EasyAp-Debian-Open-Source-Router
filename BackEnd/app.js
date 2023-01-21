@@ -7,6 +7,8 @@ const app = express()
 const port = 3000
 const {authorization} = require('./middlewares/authorization')
 const {monitorNetworkConnections} = require('./utils/getServerIP')
+const {saveTrafficData} = require('./utils/networkTrafficMonitor')
+const {initializeModel} = require('./utils/networkTrafficMonitor')
 //Routes
 const login = require('./routes/login')
 const index = require('./routes/index')
@@ -47,8 +49,10 @@ app.use(session({
   resave: false
 }));
 
-monitorNetworkConnections()
+//monitorNetworkConnections()
 
+initializeModel()
+setInterval(saveTrafficData,5000)
 app.use('/',index) // if is authenticated redirects user to dashboard,otherwise redirect to login
 app.use('/login',login) //Login endpoint, if is authenticated redirects user to dashboard,otherwise redirect to login
 app.use('/logout',logout) 

@@ -1,60 +1,100 @@
-const { IP2Location } = require("ip2location-nodejs");
 const { spawn } = require('node:child_process')
+const assert = require('assert')
+var geoip = require('geoip-lite');
 const fs = require('fs');
+const Geolocation = require('../Database/Model/Geolocation');
 
-function getServerIP() {
 
 
-	// IP2Location initialization
-const ip2location = new IP2Location();
-ip2location.open("./IP2LOCATION-LITE-DB1.IPV6.BIN");
+function insertServerData(item) {
 
-// Testing IP2Location functionality
-let testip = ['8.8.8.8', '2404:6800:4001:c01::67'];
-for (var x = 0; x < testip.length; x++) {
-	let result = ip2location.getAll(testip[x]);
-	// Keys that can be extracted:
-	// ip, ipNo, contryLong, countryShort
-	
-	console.log(`\nIP ${result['ip']} \nCountry Name: ${result['countryLong']} \nCountry Code: ${result['countryShort']}`)
+	isCountry = Geolocation.findOne({ countryNameShort: item.country }).exec()
+	assert.ok(isCountry instanceof Promise);
+
+	isCountry.then(async function (doc) {
+		if (!doc) {
+			console.log(1)
+			create = Geolocation.create({ countryNameShort: item.country, requestCounter: item.num_of_requests })
+
+		}
+		else{
+			sum_of_requests = doc.requestCounter + item.num_of_requests
+			update = await Geolocation.findOneAndUpdate({countryNameShort:item.country},{requestCounter:sum_of_requests},{new:true})
+			console.log(update)
+		}
+	})
 }
-ip2location.close();
-}
 
+function getServerIP(ips, num_of_requests_per_ip) {
+	data = []
 
-function FilterIP(data){
-	//get ips from tcpdump results
-
-	getIpRegex= new RegExp('(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}', 'g')
-	Ips = data.match(getIpRegex)
-    
-	//remove private ips
-	isprivate = new RegExp ('^192|10|172','g')
-	Ips = Ips.filter(ip => !isprivate.test(ip))
-	
-	//count the number of requests for each IP
-	num_of_requests_per_ip = {}
-
-	Ips.forEach(ip => {
-		num_of_requests_per_ip [ip] = (num_of_requests_per_ip[ip] || 0)+1
+	ips.forEach(ip => {
+		let geolocation = geoip.lookup(ip);
+		if (geolocation) {
+			index = -1
+			if (data) {
+				index = data.findIndex((element) => element.country === geolocation.country)
+				if (index>-1){
+					data[index].num_of_requests = data[index].num_of_requests+num_of_requests_per_ip[ip]
+				}
+				
+			}
+				if(index==-1)
+				data.push({ "ip": ip, "country": geolocation.country, "num_of_requests": num_of_requests_per_ip[ip] })
+				
+		}
 	})
 
-	//console.log(num.num_of_requests_per_ip)
-	getServerIP()
+	data.forEach(async item => {
+		let x = await insertServerData(item)
+
+	})
 }
 
 
-function getNetworkMonitorResults(){
-	 fs.readFile(__dirname+'/../somefile.txt', 'utf8', (err, data) => {
+function FilterIP(data) {
+	//get ips from tcpdump results
+
+	getIpRegex = new RegExp('(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}', 'g')
+	Ips = data.match(getIpRegex)
+	if (Ips) {
+		//remove private ips
+		isprivate = new RegExp('^192|10|172', 'g')
+		Ips = Ips.filter(ip => {
+			!isprivate.test(ip)
+			if (!isprivate.test(ip)) {
+				return ip
+			}
+
+		})
+
+		//count the number of requests for each IP
+		num_of_requests_per_ip = {}
+
+		Ips.forEach(ip => {
+			num_of_requests_per_ip[ip] = (num_of_requests_per_ip[ip] || 0) + 1
+		})
+
+		Ips = [...new Set(Ips)]
+		console.log(num_of_requests_per_ip)
+		getServerIP(Ips, num_of_requests_per_ip)
+
+	}
+
+}
+
+
+function getNetworkMonitorResults() {
+	fs.readFile(__dirname + '/../somefile.txt', 'utf8', (err, data) => {
 		if (err) {
-		  console.error(err);
-		  return;
+			console.error(err);
+			return;
 		}
 		FilterIP(data)
-		
-	  });
 
-	  
+	});
+
+
 }
 
 function monitorNetworkConnections() {
@@ -65,15 +105,16 @@ function monitorNetworkConnections() {
 		fs.openSync(__dirname + '/../../Logs/erros.txt', 'w')
 	];
 
-	const child = spawn('sh', ["-c", " sudo  tcpdump -i wlo1  -nn -q ip --direction=in | tee somefile.txt "], { stdio,detached: true});
+
+	const child = spawn('sh', ["-c", " sudo  tcpdump -i wlo1  -nn -q ip --direction=in | tee somefile.txt "], { stdio, detached: true });
 
 
-	setTimeout(function () {
-		process.kill(-child.pid)
-		
+	setTimeout(async function () {
+		process.kill(child.pid)
+
 		getNetworkMonitorResults()
 		monitorNetworkConnections()
-		
+
 	}, 5000);
 
 

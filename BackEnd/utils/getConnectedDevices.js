@@ -56,7 +56,7 @@ async function getDevices() {
                 devices.forEach(async (item,index,array) => {
                     
                     try {
-                        isIpOnline = await isHostUp("192.168.2.6")
+                        isIpOnline = await isHostUp("192.168.2.5") //change to item.ip to apply
                         
                         if (isIpOnline) {
                             item.id = ++id

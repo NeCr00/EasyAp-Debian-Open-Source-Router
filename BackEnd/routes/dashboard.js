@@ -3,81 +3,58 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
-const {getDevices} = require('../utils/getConnectedDevices')
-
+const { getDevices } = require('../utils/getConnectedDevices')
+const { getGeolocationData, calculateTheData } = require('../utils/getGeolocation')
+const { getUsage } = require('../utils/getUsage')
+const { getTrafficData } = require('../utils/networkTrafficMonitor')
 
 
 router.get('/', (req, res) => {
-   
-    res.sendFile(path.join(__dirname,'../../FrontEnd/index.html'));
 
-    
-  })
+  res.sendFile(path.join(__dirname, '../../FrontEnd/index.html'));
 
 
-router.get('/getDevices',  (req, res) => {
-
-
-getDevices().then(function(devices){
-  res.json(devices);
-  
 })
+
+
+router.get('/getDevices', (req, res) => {
+
+
+  getDevices().then(function (devices) {
+    res.json(devices);
+
+  })
 
 })
 
 router.get('/mapData', function (req, res) {
 
-  var geo_table_data = [{
-    "country": "Russia",
-    "percentage": 43.59
-  }, {
-    "country": "Nigeria",
-    "percentage": 14.65
-  }, {
-    "country": "Suriname",
-    "percentage": 72.59
-  }, {
-    "country": "Indonesia",
-    "percentage": 75.53
-  }, {
-    "country": "Czech Republic",
-    "percentage": 78.26
-  }]
-  
-  res.json(geo_table_data);
+  getGeolocationData().then(function (data) {
+
+    data = calculateTheData(data)
+    //console.log(data);
+    res.json(data)
+
+
+  })
+
 })
 
-router.get('/usage_data', function (req, res) {
-
-  function between(min, max) {  
-    return Math.floor(
-      Math.random() * (max - min) + min
-    )
-  }
-
-  var usage_data = [{
-    "type": "Cpu",
-    "percentage": between(10,90)
-  }, {
-    "type": "Memory",
-    "percentage": between(10,90)
-  }, {
-    "type": "Disk",
-    "percentage": between(10,90)
-  }]
-
-  res.json(usage_data);
+router.get('/usage_data', async function (req, res) {
+  let usage = await getUsage()
+  //console.log(usage)
+  res.json(usage);
 
 })
 
 router.get('/traffic', function (req, res) {
-
-  var traffic_data= [{
+  getTrafficData()
+  var traffic_data = [{
     "type": "Packets Sent",
     "data": [6629, 7730, 5525, 2514, 1811, 2401, 10, 2320, 1132, 0, 2332, 0]
   }, {
     "type": "Packets Received",
-    "data":[3616.49, 2853.34, 2554.41, 1510.16, 2024.81, 1706.82, 2057.85, 0, 0, 0, 0, 0]
+    "data": [3616.49, 2853.34, 2554.41, 1510.16, 2024.81, 1706.82, 2057.85, 0, 0, 0, 0, 0]
   }]
   res.json(traffic_data);
 })
