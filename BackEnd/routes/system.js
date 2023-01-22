@@ -3,7 +3,7 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
-
+const {ChangePassword} = require('../utils/systemConfiguration')
 
 
 router.get('/', (req, res) => {
@@ -14,10 +14,12 @@ router.get('/', (req, res) => {
   })
 
 
-router.post('/change-pass', (req, res) => {
+router.post('/change-pass', async (req, res) => {
     data =req.body
-    console.log(req.body)
-  if (1) {
+    console.log(data)
+    success = await ChangePassword(data.password,data.username,data.oldpassword)
+
+  if (success) {
     res.json({
       error: false,
       message: "Password has been changed",

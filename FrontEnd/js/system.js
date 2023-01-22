@@ -81,28 +81,31 @@ $(document).ready(function () {
   async function changePassword() {
     let username = $("#username").val();
     let password = $("#password").val();
-    let oldpassword = $("#oldpassword").val();
+    let oldpassword = $("#old-password").val();
     let confirmPassword = $("#confirmpassword").val();
 
-    if (!areAllfilled()){
+    if (!areAllfilled()) {
       errorModal("Please fill all the fields");
       return;
     }
 
-    if (password == confirmPassword && password) {
+    if (password === confirmPassword && password) {
       let data = {
         username: username,
         password: password,
-        oldpassword:oldpassword
+        oldpassword: oldpassword
       }
       response = await postData('system/change-pass', data);
       response_data = await response.json()
 
       if (response_data.error) {
-        errorModal(response_data.error);
+        errorModal(response_data.message);
       }
       else {
         successModal(response_data.message);
+
+        $('input').val('')
+
       }
     }
     else {
@@ -110,11 +113,11 @@ $(document).ready(function () {
     }
   }
 
-  $('#submit-pass').on('click',function () {
+  $('#submit-pass').on('click', function () {
     changePassword()
   })
 
-  $('#reset').on('click',function () {
+  $('#reset').on('click', function () {
     $('input').val('')
   })
 
@@ -130,9 +133,9 @@ $(document).ready(function () {
   }
 
 
-  async function resetConfig(){
+  async function resetConfig() {
     // reset configuration
-    let response = await postData('system/reset',{})
+    let response = await postData('system/reset', {})
     let response_data = await response.json()
     if (response_data.error) {
       errorModal(response_data.message);
@@ -142,64 +145,64 @@ $(document).ready(function () {
     }
   }
 
-  async function restartServices(){
+  async function restartServices() {
     // restart services 
-      // reset configuration
-      let response = await postData('system/restart-services',{})
-      let response_data = await response.json()
-      if (response_data.error) {
-        errorModal(response_data.message);
-      }
-      else {
-        successModal(response_data.message);
-      }
+    // reset configuration
+    let response = await postData('system/restart-services', {})
+    let response_data = await response.json()
+    if (response_data.error) {
+      errorModal(response_data.message);
+    }
+    else {
+      successModal(response_data.message);
+    }
   }
 
-      //Reboot Modal Actions
-      $('#rebootModal').modal({
-        backdrop: false
-      });
+  //Reboot Modal Actions
+  $('#rebootModal').modal({
+    backdrop: false
+  });
 
-      $('#resetModal').modal({
-        backdrop: false
-      });
+  $('#resetModal').modal({
+    backdrop: false
+  });
 
-    $("#reboot_bt").on('click', function(){
-      
-        $("#rebootModal").modal('show');
-    })
+  $("#reboot_bt").on('click', function () {
 
-    $("#reboot_close_modal_header").on('click', function(){
-        $("#rebootModal").modal('hide');
-    })
+    $("#rebootModal").modal('show');
+  })
 
-    $("#reboot_close_modal").on('click', function(){
-        $("#rebootModal").modal('hide');
-    })
+  $("#reboot_close_modal_header").on('click', function () {
+    $("#rebootModal").modal('hide');
+  })
 
-
-    $("#reboot_proceed").on('click', function(){
-      restartServices()
-        $("#rebootModal").modal('hide');
-    })
-
-    // Reset Modal Actions
-    $("#reset_bt").on('click', function(){
-      
-        $('#resetModal').modal('show');
-    })
-
-    $("#reset_close_modal_header").on('click', function(){
-        $('#resetModal').modal('hide');
-    })
-
-    $("#reset_close_modal").on('click', function(){
-        $('#resetModal').modal('hide');
-    })
+  $("#reboot_close_modal").on('click', function () {
+    $("#rebootModal").modal('hide');
+  })
 
 
-    $("#reset_proceed").on('click', function(){
-      resetConfig()
-        $('#resetModal').modal('hide');
-    })
+  $("#reboot_proceed").on('click', function () {
+    restartServices()
+    $("#rebootModal").modal('hide');
+  })
+
+  // Reset Modal Actions
+  $("#reset_bt").on('click', function () {
+
+    $('#resetModal').modal('show');
+  })
+
+  $("#reset_close_modal_header").on('click', function () {
+    $('#resetModal').modal('hide');
+  })
+
+  $("#reset_close_modal").on('click', function () {
+    $('#resetModal').modal('hide');
+  })
+
+
+  $("#reset_proceed").on('click', function () {
+    resetConfig()
+    $('#resetModal').modal('hide');
+  })
 });

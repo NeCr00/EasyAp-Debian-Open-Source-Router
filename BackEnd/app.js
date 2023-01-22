@@ -49,10 +49,16 @@ app.use(session({
   resave: false
 }));
 
+//This function are enable Traffic amount functionality
+
+//monitors the ips for the server which the devices are communicating
 //monitorNetworkConnections()
 
-initializeModel()
-setInterval(saveTrafficData,5000)
+// save the data for the traffic amount
+//initializeModel()
+//setInterval(saveTrafficData,5000)
+
+
 app.use('/',index) // if is authenticated redirects user to dashboard,otherwise redirect to login
 app.use('/login',login) //Login endpoint, if is authenticated redirects user to dashboard,otherwise redirect to login
 app.use('/logout',logout) 
@@ -65,7 +71,7 @@ app.use('/dhcp',authorization,dhcp) //
 app.use('/dns_ddns',authorization,dns_ddns)
 app.use('/firewall',authorization,firewall)
 app.use('/settings',authorization,settings)
-app.use('/system',authorization,system)
+app.use('/system',system)
 app.use('/vpn',authorization,vpn)
 app.use('/data_usage',authorization,data_usage)
 app.use('/about',authorization,about)

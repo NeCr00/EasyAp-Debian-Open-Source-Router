@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const { getDevices } = require('../utils/getConnectedDevices')
 const { getGeolocationData, calculateTheData } = require('../utils/getGeolocation')
 const { getUsage } = require('../utils/getUsage')
-const { getTrafficData } = require('../utils/networkTrafficMonitor')
+const { getTrafficStats } = require('../utils/networkTrafficMonitor')
 
 
 router.get('/', (req, res) => {
@@ -48,15 +48,19 @@ router.get('/usage_data', async function (req, res) {
 })
 
 router.get('/traffic', function (req, res) {
-  getTrafficData()
-  var traffic_data = [{
-    "type": "Packets Sent",
-    "data": [6629, 7730, 5525, 2514, 1811, 2401, 10, 2320, 1132, 0, 2332, 0]
-  }, {
-    "type": "Packets Received",
-    "data": [3616.49, 2853.34, 2554.41, 1510.16, 2024.81, 1706.82, 2057.85, 0, 0, 0, 0, 0]
-  }]
-  res.json(traffic_data);
+  // getTrafficData()
+  // var traffic_data = [{
+  //   "type": "Packets Sent",
+  //   "data": [6629, 7730, 5525, 2514, 1811, 2401, 10, 2320, 1132, 0, 2332, 0]
+  // }, {
+  //   "type": "Packets Received",
+  //   "data": [3616.49, 2853.34, 2554.41, 1510.16, 2024.81, 1706.82, 2057.85, 0, 0, 0, 0, 0]
+  // }]
+
+  getTrafficStats().then(function (data){
+    res.json(data);
+  })
+  
 })
 
 module.exports = router;

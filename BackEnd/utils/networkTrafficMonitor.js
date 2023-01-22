@@ -2,7 +2,28 @@ const util = require('util');
 const dataUsage = require('../Database/Model/DataUsage');
 const exec = util.promisify(require('child_process').exec)
 
-async function getTrafficData() {
+
+async function getTrafficStats() {
+    const trafficStats = await dataUsage.find({})
+    traffic_data = [
+        {
+            "type":"Packets Sent",
+            "data":[]
+        },{
+            "type":"Packets Received",
+            "data":[]
+        }
+    ]
+    trafficStats.forEach(item => {
+        traffic_data[0].data.push(item.packetsSent)
+        traffic_data[1].data.push(item.packetsReceived)
+    })
+    return traffic_data
+    //console.log(traffic_data)
+}
+
+
+async function getCurrentTrafficData() {
     let network_stats = []
     command = " ifconfig wlo1 | grep -E 'RX packets|TX packets'"
     // run the `ls` command using exec
@@ -44,7 +65,7 @@ async function getTrafficData() {
     return network_stats
 }
 
-function test(data){
+function transferDataBetweenHours(data) {
     for (let i = 10; i > -1; i--) {
         data[i + 1].packetsSent = data[i].packetsSent
         data[i + 1].packetsReceived = data[i].packetsReceived
@@ -57,15 +78,21 @@ async function saveTrafficData() {
     getTrafficStats = await dataUsage.find().sort({ hour: 0 })
     data = getTrafficStats
     //get current time traffic ammount
-    traffic_now = await getTrafficData()
 
-    data = await test(data)
+
+
+    traffic_now = await getCurrentTrafficData()
+
+    data = await transferDataBetweenHours(data) // transfers the data of i to i +1, passing the
+    //data to the next hour ex. 9:00 to 10:00
+
+    //save the monitor data to 0:00 
     data[0].packetsSent = traffic_now[1].tx_packets
     data[0].packetsReceived = traffic_now[0].rx_packets
 
-    // await dataUsage.deleteMany()
-    // created = await dataUsage.create(data)
-    console.log(data)
+    await dataUsage.deleteMany() //deletes all the previous data
+    insert = await dataUsage.insertMany(data) // inserts the new data
+    console.log(data[0], data[1], data[2])
 }
 
 
@@ -85,7 +112,7 @@ async function initializeModel() {
         }
         else {
             console.log("Data Usage for traffic monitor has been already initialized")
-            
+
         }
     });
 
@@ -93,5 +120,6 @@ async function initializeModel() {
 
 
 module.exports = {
-    getTrafficData, saveTrafficData, initializeModel
+
+    getCurrentTrafficData, saveTrafficData, initializeModel,getTrafficStats
 }
