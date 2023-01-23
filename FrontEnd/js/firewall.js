@@ -233,6 +233,19 @@ $(document).ready(function () {
   //Put scroll at the bottom of the log files by default
   var textarea = document.getElementById("firewall-logs");
   textarea.scrollTop = textarea.scrollHeight;
-  $("#firewall-logs").val("No Logs to Preview");
+  
+
+  async function getFirewallLogs() {
+    logs = await getData("firewall/logs")
+    
+    if (logs.logs){
+      $("#firewall-logs").val(logs.logs);
+    }
+    else{
+      $("#firewall-logs").val("No Logs to Preview");
+    }
+  }
+
+  getFirewallLogs()
   //-----------------------------------------------------------
 });

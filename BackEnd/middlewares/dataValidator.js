@@ -27,7 +27,7 @@ function validatePort (port) {
 }
 
 function validateMac (mac) {
-    let regex = new RegExp('([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
+    let regex = new RegExp('([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})')
     let isValid = regex.test(mac)
     
     if(isValid) {

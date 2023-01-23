@@ -19,6 +19,7 @@
     "mercedlogger": "^1.0.1",
     "mongoose": "^6.8.3",
     "node-async-exec": "^1.2.0",
-    "os-utils": "^0.0.14"
+    "os-utils": "^0.0.14",
+    "read-last-lines": "^1.8.0"
   }
 }

@@ -9,6 +9,7 @@ const {authorization} = require('./middlewares/authorization')
 const {monitorNetworkConnections} = require('./utils/getServerIP')
 const {saveTrafficData} = require('./utils/networkTrafficMonitor')
 const {initializeModel} = require('./utils/networkTrafficMonitor')
+const {enableFirwallLogs} = require('./utils/firewallRulesHelper')
 //Routes
 const login = require('./routes/login')
 const index = require('./routes/index')
@@ -58,6 +59,7 @@ app.use(session({
 //initializeModel()
 //setInterval(saveTrafficData,5000)
 
+//enableFirwallLogs()
 
 app.use('/',index) // if is authenticated redirects user to dashboard,otherwise redirect to login
 app.use('/login',login) //Login endpoint, if is authenticated redirects user to dashboard,otherwise redirect to login
@@ -67,10 +69,10 @@ app.use('/logout',logout)
 // The following routes are using the authorization middleware to perform authorization checks
 //If user is not authenticated and by extension is not authorizaed, api returns a statuc code 401
 app.use('/dashboard', dashboard) // Dashboard page and rest api calls
-app.use('/dhcp',authorization,dhcp) //
-app.use('/dns_ddns',authorization,dns_ddns)
-app.use('/firewall',authorization,firewall)
-app.use('/settings',authorization,settings)
+app.use('/dhcp',dhcp) //
+app.use('/dns_ddns',dns_ddns)
+app.use('/firewall',firewall)
+app.use('/settings',settings)
 app.use('/system',system)
 app.use('/vpn',authorization,vpn)
 app.use('/data_usage',authorization,data_usage)

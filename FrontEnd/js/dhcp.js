@@ -142,7 +142,7 @@ $(document).ready(function () {
       cols += '<td class="  fw-bold" >' + item.host + "</td>";
       cols += '<td class="  fw-bold" >' + item.ip + "</td>";
       cols += '<td class="  fw-bold" >' + item.mac + "</td>";
-      cols += '<td class="text-center  fw-bold">' + item.time + "</td>";
+      cols += '<td class="text-center  fw-bold">' + item.lease_time + "</td>";
 
       newRow.append(cols);
       $("#table-address").append(newRow);

@@ -11,3 +11,4 @@ const dataUsageSchema = new Schema({
 
 const dataUsage = model("DataUsage", dataUsageSchema);
 module.exports = dataUsage
+

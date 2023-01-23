@@ -3,109 +3,112 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
-
+const { getFirewallLogs, getFirewallRules } = require('../utils/firewallRulesHelper')
 
 
 router.get('/', (req, res) => {
-   
-    res.sendFile(path.join(__dirname,'../../FrontEnd/firewall.html'));
 
-    
-  })
+  res.sendFile(path.join(__dirname, '../../FrontEnd/firewall.html'));
 
 
+})
 
-  router.get('/rules', (req, res) => {
-   
-    var firewall_rules = [{
-      "id": 1,
-      "rule_name": "rule 1",
-      "status": "1"
-    }, {
-      "id": 2,
-      "rule_name": "rule 2",
-      "status": "0"
-    }, {
-      "id": 3,
-      "rule_name": "rule 3",
-      "status": "1"
-    }]
-    
 
-    res.json(firewall_rules);
 
-    
-  })
+router.get('/rules', async (req, res) => {
 
-  router.post('/rules', (req, res) => {
-   
-    let data = req.body
+  var firewall_rules = [{
+    "id": 1,
+    "rule_name": "rule 1",
+    "status": "1"
+  }, {
+    "id": 2,
+    "rule_name": "rule 2",
+    "status": "0"
+  }, {
+    "id": 3,
+    "rule_name": "rule 3",
+    "status": "1"
+  }]
 
-    if(1){
-      res.json({
-        "error":false,
-        "message": "Rule added successfully"
-      })
-    }
-    else{
-      res.json({
-        "error":true,
-        "message": "An error occurred"
-        })
-      }
-    
-  })
+  let rules = await getFirewallRules()
+  console.log(rules)
+  res.json(rules);
 
-  router.post('/update-rules', (req, res) => {
-   
-    let data = req.body
-    console.log(data)
 
-    if(1){
-      res.json({
-        "error":false,
-        "message": "Rule added successfully"
-      })
-    }
-    else{
-      res.json({
-        "error":true,
-        "message": "An error occurred"
-        })
-      }
+})
 
-    
-  })
+router.post('/rules', (req, res) => {
 
-  router.post('/custom-rule', (req, res) => {
-   
-    let data = req.body.rule   
-    const command_name = data.split("--name");
-    
-    command = command_name[0]
-    rule_name = command_name[1]
-    console.log(command,rule_name)
+  let data = req.body
 
-    if(1){
-      res.json({
-        "error":false,
-        "message": "Rule added successfully"
-      })
-    }
-    else{
-      res.json({
-        "error":true,
-        "message": "An error occurred"
-        })
-      }
+  if (1) {
+    res.json({
+      "error": false,
+      "message": "Rule added successfully"
+    })
+  }
+  else {
+    res.json({
+      "error": true,
+      "message": "An error occurred"
+    })
+  }
 
-    
-  })
+})
 
-  router.get('/logs', (req, res) => {
+router.post('/update-rules', (req, res) => {
 
-    res.json({"logs":"This is logs"})
-  })
+  let data = req.body
+  console.log(data)
+
+  if (1) {
+    res.json({
+      "error": false,
+      "message": "Rule added successfully"
+    })
+  }
+  else {
+    res.json({
+      "error": true,
+      "message": "An error occurred"
+    })
+  }
+
+
+})
+
+router.post('/custom-rule', (req, res) => {
+
+  let data = req.body.rule
+  const command_name = data.split("--name");
+
+  command = command_name[0]
+  rule_name = command_name[1]
+  console.log(command, rule_name)
+
+  if (1) {
+    res.json({
+      "error": false,
+      "message": "Rule added successfully"
+    })
+  }
+  else {
+    res.json({
+      "error": true,
+      "message": "An error occurred"
+    })
+  }
+
+
+})
+
+router.get('/logs', async (req, res) => {
+
+  logs = await getFirewallLogs()
+
+  res.json({ "logs": logs })
+})
 
 
 
