@@ -1,10 +1,13 @@
+const util = require('util');
+const exec = util.promisify(require('child_process').exec)
+
 function extractDHCPRangeInfo(string_configs) {
-    getEachLineRegex = new RegExp('.*dhcp-range((.*?)\n)', 'g')
-    config_line = string_configs.match(getEachLineRegex)
-    dhcpRangeValues = config_line.split("=")[1]
+    let getDHCPRangeLineRegex = new RegExp('.*dhcp-range((.*?)\n)', 'g')
+    let configLine = string_configs.match(getDHCPRangeLineRegex)
+    let dhcpRangeValues = configLine[0].split("=")[1]
     dhcpRangeValues = dhcpRangeValues.split(",")
-    dhcpRangeInfo = {
-        "dhcp_enable": config_line[0] === '#' ? '1': '0',
+    let dhcpRangeInfo = {
+        "dhcp_enable": configLine[0] === '#' ? '0' : '1',
         "start_ip": dhcpRangeValues[0],
         "end_ip":  dhcpRangeValues[1],
         "mask": dhcpRangeValues[2],
@@ -18,6 +21,8 @@ function extractDHCPRangeInfo(string_configs) {
 async function getDHCPRangeInfo(){
     let command = 'cat /etc/dnsmasq.conf' //TODO: needs sudo
     const { stdout, stderr } = await exec('sudo '+ command);
+    // let command  = 'cat /home/jason/workdir/test-dir/dhcp_test.txt'
+    // const { stdout, stderr } = await exec(command);
 
     if (stderr) {
         //console.log('stderr:', stderr);

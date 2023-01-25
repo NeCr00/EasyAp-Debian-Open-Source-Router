@@ -6,13 +6,13 @@ const bodyParser = require('body-parser');
 const validator = require('../middlewares/dataValidator');
 const { getDevices } = require('../utils/getConnectedDevices')
 const { getDHCPRangeInfo, getStaticIPs } = require('../utils/getDHCPConfigs')
+const { editDnsmasqDHCPRange } = require('../utils/setDHCPConfigs')
 
 function validateData(req, res, next) {
   let data = req.body
   let start_ip =validator.validateIP(data.start_ip)
   let end_ip = validator.validateIP(data.end_ip)
   let mask = validator.validateSubMask(data.mask)
-  let lan_ip = validator.validateIP(data.lan_ip)
 
   if(start_ip.error)
     res.json({"error":true,"message":start_ip.message})
@@ -20,8 +20,6 @@ function validateData(req, res, next) {
     res.json({"error":true,"message":end_ip.message})
   else if(mask.error)
     res.json({"error":true,"message":mask.message})
-  else if(lan_ip.error)
-    res.json({"error":true,"message":lan_ip.message})
   else
     next()
 
@@ -47,7 +45,7 @@ router.get('/', (req, res) => {
   router.get('/config',function (req, res) {
 
     var config ={
-      "dhcp_enable": '1',
+      "dhcp_enable": true,
       "start_ip": '192.1.1.1',
       "end_ip": '192.1.1.1',
       "mask": '255.255.255.0',
@@ -62,8 +60,7 @@ router.get('/', (req, res) => {
   })
 
   router.post('/submit', validateData, function(req, res) {
-    console.log(req.body)
-
+    editDnsmasqDHCPRange(req.body)
     
     if (1){
       res.json({"message":"Changes Applied"})
@@ -91,7 +88,6 @@ router.get('/static-ips', function(req, res){
 
 router.post('/static-ips', function(req, res){
   console.log(req.body)
-
     
   if (1){
     res.json({"message":"Changes Applied"})

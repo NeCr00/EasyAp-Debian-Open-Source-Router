@@ -118,7 +118,7 @@ $(document).ready(function () {
         $("#lease-time").prop("checked", true);
 
 
-      if (data.ddns_enabled == "1") {
+      if (data.ddns_enabled === '1') {
         $("#dhcp-status-enable").prop("checked", true);
         $("#dhcp-status-disable").prop("checked", false);
       } else {
@@ -168,7 +168,6 @@ $(document).ready(function () {
     var start_ip = $("#start-ip").val();
     var end_ip = $("#end-ip").val();
     var mask = $("#mask").val();
-    var lan_ip = $("#lan-ip").val();
     var time = $("#time").val();
 
     //Construct json object

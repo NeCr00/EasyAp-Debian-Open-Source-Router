@@ -41,6 +41,7 @@ async function isHostUp(ip) {
 async function getDevices() {
     let active_devices = []
     let command = 'cat /var/lib/misc/dnsmasq.leases'
+    // let command = 'cat /home/jason/workdir/test-dir/devices_test.txt'
     const { stdout, stderr } = await exec(command);
 
     if (stderr) {
