@@ -4,7 +4,8 @@ const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
 const validator = require('../middlewares/dataValidator');
-const { getDevices, getStaticIPs } = require('../utils/getConnectedDevices')
+const { getDevices } = require('../utils/getConnectedDevices')
+const { getDHCPRangeInfo, getStaticIPs } = require('../utils/getDHCPConfigs')
 
 function validateData(req, res, next) {
   let data = req.body
@@ -50,12 +51,14 @@ router.get('/', (req, res) => {
       "start_ip": '192.1.1.1',
       "end_ip": '192.1.1.1',
       "mask": '255.255.255.0',
-      "lan_ip": '192.1.1.1',
-      "time": '240',
+      "time": '24h',
       "lease_isEnabled": true
     }
-
     res.json(config)
+
+    // res.json(getDHCPRangeInfo())
+
+
   })
 
   router.post('/submit', validateData, function(req, res) {

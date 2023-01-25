@@ -75,52 +75,7 @@ async function getDevices() {
     }
 }
 
-function extractDHCPStaticInfo(string_devices) {
-    let dhcpBoundPairs = []
-    getEachLineRegex = new RegExp('((.*?)\n)', 'g')
-    get_lines = string_devices.match(getEachLineRegex)
-    get_lines.forEach(item => {
-        dhcpPair = item.split("=")[1]
-        dhcpPair = dhcpPair.split(",")
-        mac = line[0]
-        ip = line[1]
-        dhcpBoundPairs.push({
-            mac: mac,
-            ip: ip,
-        })
-    })
-
-    return dhcpBoundPairs
-}
-
-async function getStaticIPs(){
-    let staticIPAddresses = []
-    let command = 'cat /etc/dnsmasq.d/static_leases'
-    const { stdout, stderr } = await exec(command);
-
-    if (stderr) {
-        //console.log('stderr:', stderr);
-        return;
-    }
-    else {
-        console.log(stdout)
-        
-        dhcpBoundPairs = extractDHCPStaticInfo(stdout)
-        var finishGettingStaticIPs = new Promise((resolve, reject) => {
-            id = 0
-            devices.forEach(async (item,index,array) => {
-                item.id = ++id
-                staticIPAddresses.push(item)
-                if (index === array.length -1) resolve(staticIPAddresses);
-            })
-            
-        });
-        return  finishGettingStaticIPs;
-    }
-}
-
 module.exports = {
     isHostUp,
     getDevices,
-    getStaticIPs,
 }

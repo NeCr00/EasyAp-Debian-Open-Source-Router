@@ -93,6 +93,11 @@ $(document).ready(function () {
 
   // submit firewall rule --------------------------
   async function submitFirewallRules() {
+
+    var chain = document.querySelector(
+      'input[name="chain"]:checked'
+    ).value;
+
     var rule_name = $("#rule_name").val();
     var ip = $("#ip").val();
     var mac = $("#mac").val();
@@ -101,6 +106,7 @@ $(document).ready(function () {
     var action = $("#action").html();
 
     var rules_data = {
+      chain:chain,
       rule_name: rule_name,
       ip: ip,
       mac: mac,
@@ -108,7 +114,7 @@ $(document).ready(function () {
       protocol: protocol,
       action: action,
     };
-    let response = await postData("firewall/rules");
+    let response = await postData("firewall/rules",rules_data);
     let response_data = await response.json();
 
     if (response_data.error) {
@@ -128,7 +134,7 @@ $(document).ready(function () {
 
   async function CreateFirewallRulesTable() {
     let data = await getData("firewall/rules");
-
+    $("#firewall-table-body").html(" ");
     data.forEach((item, index) => {
       var newRow = $('<tr class="border-bottom border-1 ">');
       var cols = "";
@@ -173,6 +179,7 @@ $(document).ready(function () {
 
       newRow.append(cols);
       $("#firewall-table").append(newRow);
+      
     });
   }
   CreateFirewallRulesTable();
@@ -203,6 +210,7 @@ $(document).ready(function () {
     }
 
     successModal("Firewall rules updated successfully");
+    CreateFirewallRulesTable()
   }
 
   //------------------------------------------------

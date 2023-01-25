@@ -17,9 +17,9 @@ function insertServerData(item) {
 			create = Geolocation.create({ countryNameShort: item.country, requestCounter: item.num_of_requests })
 
 		}
-		else{
+		else {
 			sum_of_requests = doc.requestCounter + item.num_of_requests
-			update = await Geolocation.findOneAndUpdate({countryNameShort:item.country},{requestCounter:sum_of_requests},{new:true})
+			update = await Geolocation.findOneAndUpdate({ countryNameShort: item.country }, { requestCounter: sum_of_requests }, { new: true })
 			console.log(update)
 		}
 	})
@@ -34,14 +34,14 @@ function getServerIP(ips, num_of_requests_per_ip) {
 			index = -1
 			if (data) {
 				index = data.findIndex((element) => element.country === geolocation.country)
-				if (index>-1){
-					data[index].num_of_requests = data[index].num_of_requests+num_of_requests_per_ip[ip]
+				if (index > -1) {
+					data[index].num_of_requests = data[index].num_of_requests + num_of_requests_per_ip[ip]
 				}
-				
+
 			}
-				if(index==-1)
+			if (index == -1)
 				data.push({ "ip": ip, "country": geolocation.country, "num_of_requests": num_of_requests_per_ip[ip] })
-				
+
 		}
 	})
 

@@ -177,7 +177,6 @@ $(document).ready(function () {
       start_ip: start_ip,
       end_ip: end_ip,
       mask: mask,
-      lan_ip: lan_ip,
       time: time,
       lease_isEnabled: lease_isEnabled,
     };

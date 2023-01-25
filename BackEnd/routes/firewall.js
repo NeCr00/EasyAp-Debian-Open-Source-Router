@@ -3,7 +3,7 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
-const { getFirewallLogs, getFirewallRules } = require('../utils/firewallRulesHelper')
+const {applyFirewallRule, getFirewallLogs, getFirewallRules, setCustomFirewallRule,deleteFirewallRules,updateRulesStatus } = require('../utils/firewallRulesHelper')
 
 
 router.get('/', (req, res) => {
@@ -38,11 +38,15 @@ router.get('/rules', async (req, res) => {
 
 })
 
-router.post('/rules', (req, res) => {
+router.post('/rules', async (req, res) => {
 
   let data = req.body
 
-  if (1) {
+  let applied = await applyFirewallRule(data)
+
+  console.log(data)
+  console.log(applied)
+  if (applied) {
     res.json({
       "error": false,
       "message": "Rule added successfully"
@@ -60,12 +64,24 @@ router.post('/rules', (req, res) => {
 router.post('/update-rules', (req, res) => {
 
   let data = req.body
-  console.log(data)
+  
+  changeStatusRules = data[0] // the rules which may status change
+  deletedRules = data[1] //deleted rules
+
+  if (deletedRules){
+    deleteFirewallRules(deletedRules) //delete first the rules from collections nad iptables
+    updateRulesStatus(changeStatusRules)
+  }
+  else{
+    updateRulesStatus(changeStatusRules)
+    console.log('no deleted rules')
+  }
+  
 
   if (1) {
     res.json({
       "error": false,
-      "message": "Rule added successfully"
+      "message": "Rules updated successfully"
     })
   }
   else {
@@ -78,19 +94,21 @@ router.post('/update-rules', (req, res) => {
 
 })
 
-router.post('/custom-rule', (req, res) => {
+router.post('/custom-rule', async (req, res) => {
 
   let data = req.body.rule
   const command_name = data.split("--name");
 
   command = command_name[0]
   rule_name = command_name[1]
-  console.log(command, rule_name)
+  console.log(command, rule_name,data.status)
 
-  if (1) {
+  let status = await setCustomFirewallRule(command, rule_name)
+
+  if (status) {
     res.json({
       "error": false,
-      "message": "Rule added successfully"
+      "message": "Firewall Rule added successfully"
     })
   }
   else {
