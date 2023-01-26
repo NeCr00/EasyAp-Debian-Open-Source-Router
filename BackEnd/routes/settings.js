@@ -3,22 +3,27 @@ const app = express();
 const router = express.Router();
 const path = require("path");
 const bodyParser = require("body-parser");
+const {updatePassAndSSID,getPassAndSSID} = require('../utils/Settings/settingsHandler')
 
 router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../../FrontEnd/settings.html"));
 });
 
-router.get("/settings", (req, res) => {
+router.get("/settings", async (req, res) => {
+
+  data =  getPassAndSSID()
+  console.log(data);
   res.json({
-    ssid: "my network ssid",
-    password: "mypassword",
+    ssid: data.ssid,
+    password: data.wpa_passphrase,
   });
 });
 
-router.post("/settings", (req, res) => {
+router.post("/settings", async (req, res) => {
   let data = req.body;
-
-  if (0) {
+  applied = updatePassAndSSID(data.ssid, data.password);
+  
+  if (!applied.error) {
     res.json({
       error: false,
       message: "Changes applied successfully",
@@ -26,7 +31,7 @@ router.post("/settings", (req, res) => {
   } else {
     res.json({
       error: true,
-      message: "An error occured",
+      message: applied.message,
     });
   }
 });

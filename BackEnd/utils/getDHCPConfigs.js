@@ -53,7 +53,7 @@ function extractDHCPStaticInfo(string_ips) {
 
 async function getStaticIPs(){
     let staticIPAddresses = []
-    let command = 'cat /etc/dnsmasq.d/static_leases' //TODO: needs sudo
+    let command = 'cat /etc/dnsmasq.d/static_leases'
     const { stdout, stderr } = await exec('sudo' + command);
     if (stderr) {
         //console.log('stderr:', stderr);

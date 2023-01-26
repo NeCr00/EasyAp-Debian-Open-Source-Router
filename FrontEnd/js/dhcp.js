@@ -204,7 +204,8 @@ $(document).ready(function () {
       );
       var cols = "";
   
-      cols += '<th class="text-center fs-5" scope="row">' + (index + 1) + "</th>";
+      // cols += '<th class="text-center fs-5" scope="row">' + (index + 1) + '</th>';
+      cols += '<th class="text-center fs-5" scope="row"></th>';
       cols +=
         '<td class=" item item-ip fs-6 fw-bold" contenteditable="false">' +
         item.ip +
@@ -229,7 +230,8 @@ $(document).ready(function () {
     var rows = document.getElementById("static-ip-table-body").rows
       .length;
   
-    cols += '<th class="text-center fs-5" scope="row">' + (rows + 1) + "</th>";
+    // cols += '<th class="text-center fs-5" scope="row">' + (rows + 1) + "</th>";
+    cols += '<th class="text-center fs-5" scope="row"></th>';
     cols +=
       '<td class=" new-item-ip  fs-6 fw-bold" contenteditable="true">Type IP</td>';
     cols +=
@@ -287,7 +289,7 @@ $(document).ready(function () {
   
   
   $("#submit-static").on("click", function(){
-    submitStaticIPChanges
+    submitStaticIPChanges()
   })
   
   

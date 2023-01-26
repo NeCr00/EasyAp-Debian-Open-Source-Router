@@ -42,11 +42,11 @@ router.post('/rules', async (req, res) => {
 
   let data = req.body
 
-  let applied = await applyFirewallRule(data)
+  let error = await applyFirewallRule(data)
 
   console.log(data)
-  console.log(applied)
-  if (applied) {
+
+  if (!error) {
     res.json({
       "error": false,
       "message": "Rule added successfully"

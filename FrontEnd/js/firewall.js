@@ -121,6 +121,7 @@ $(document).ready(function () {
       errorModal(response_data.message);
     } else {
       successModal(response_data.message);
+      CreateFirewallRulesTable()
     }
   }
 

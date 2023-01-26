@@ -107,6 +107,21 @@ $(document).ready(function () {
   });
 
   //----------------------------------------------------------------
+
+// Get wireless settings
+
+async function getWirelessSettings(){
+  data = await getData('/settings/settings');
+
+   $("#ssid").val(data.ssid);
+   $("#password").val(data.password);
+   console.log(data)
+}
+getWirelessSettings()
+
+//---------------------------------------------------------------
+
+
   // Updating the Wireless Settings
 
   async function updateWirelessSettings() {

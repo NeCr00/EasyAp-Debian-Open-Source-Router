@@ -6,9 +6,9 @@ const bodyParser = require('body-parser');
 const validator = require('../middlewares/dataValidator');
 const { getDevices } = require('../utils/getConnectedDevices')
 const { getDHCPRangeInfo, getStaticIPs } = require('../utils/getDHCPConfigs')
-const { editDnsmasqDHCPRange } = require('../utils/setDHCPConfigs')
+const { editDnsmasqDHCPRange, editDnsmasqStaticIPs } = require('../utils/setDHCPConfigs')
 
-function validateData(req, res, next) {
+function validateSettingsData(req, res, next) {
   let data = req.body
   let start_ip =validator.validateIP(data.start_ip)
   let end_ip = validator.validateIP(data.end_ip)
@@ -26,6 +26,26 @@ function validateData(req, res, next) {
   
 }
 
+function validateStaticIP(req, res, next) { 
+  let data = req.body
+  let response = {"error": false, "message": ''}
+  
+  data.forEach(item => {
+    let staticIp = validator.validateIP(item.ip)
+    let mac = validator.validateMac(item.mac)
+
+    if (staticIp.error || mac.error){
+      response.error = true
+      response.message = "Invalid MAC or IP!"
+      return;
+    }
+  });
+  
+  if (response.error)
+    res.json(response)
+  else
+    next()
+}
 
 router.get('/', (req, res) => {
    
@@ -59,7 +79,7 @@ router.get('/', (req, res) => {
 
   })
 
-  router.post('/submit', validateData, function(req, res) {
+  router.post('/submit', validateSettingsData, function(req, res) {
     editDnsmasqDHCPRange(req.body)
     
     if (1){
@@ -86,9 +106,11 @@ router.get('/static-ips', function(req, res){
 })
 
 
-router.post('/static-ips', function(req, res){
+router.post('/static-ips', validateStaticIP, function(req, res){
   console.log(req.body)
-    
+  
+  // editDnsmasqStaticIPs('POST', req.body)
+
   if (1){
     res.json({"message":"Changes Applied"})
   }
@@ -100,7 +122,8 @@ router.post('/static-ips', function(req, res){
 
 router.delete('/static-ips', function(req, res){
   console.log(req.body)
-
+  
+  // editDnsmasqStaticIPs('DELETE', req.body)
     
   if (1){
     res.json({"message":"Changes Applied"})
