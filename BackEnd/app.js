@@ -74,9 +74,9 @@ app.use('/dns_ddns',dns_ddns)
 app.use('/firewall',firewall)
 app.use('/settings',settings)
 app.use('/system',system)
-app.use('/vpn',authorization,vpn)
-app.use('/data_usage',authorization,data_usage)
-app.use('/about',authorization,about)
+app.use('/vpn',vpn)
+app.use('/data_usage',data_usage)
+app.use('/about',about)
 
 
 

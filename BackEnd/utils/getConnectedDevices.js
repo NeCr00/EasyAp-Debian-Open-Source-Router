@@ -57,7 +57,7 @@ async function getDevices() {
                 
                 try {
                     // isDevice = Device.findOne({ MACAddress: item.country }).exec()
-                    isIpOnline = await isHostUp("192.168.2.5") //change to item.ip to apply
+                    isIpOnline = await isHostUp("192.168.2.6") //change to item.ip to apply
                     if (isIpOnline) {
                         item.id = ++id
                         active_devices.push(item)

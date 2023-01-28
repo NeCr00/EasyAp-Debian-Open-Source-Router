@@ -1,4 +1,4 @@
-const User = require('../Database/Model/User')
+const User = require('../../Database/Model/User')
 
 
 async function ChangePassword(reqPassword, reqUsername,reqOldPassword)  {
@@ -16,13 +16,6 @@ async function ChangePassword(reqPassword, reqUsername,reqOldPassword)  {
 }
 
 
-function resetConfiguration(){
-
-}
-
-function restartServices(){
-    
-}
 
 
 module.exports = { ChangePassword }

@@ -139,6 +139,7 @@ getWirelessSettings()
       errorModal(response_data.message);
     } else {
       successModal("Settings Updated");
+      getWirelessSettings()
     }
   }
 

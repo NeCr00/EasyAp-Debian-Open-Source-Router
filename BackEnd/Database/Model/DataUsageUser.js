@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const {Schema,model} = require('../dbConnect')
 
 const dataUsageUserSchema = new Schema({
-    MACAddress: String, //may need to change to a Device instead of String
-    packetsSent: Number,
-    packetsReceived: Number,
-    bytesSent: Number,
-    bytesReceived: Number,
-    hour:Number
+    ip: { type: String, required: true },
+    packetsSent: { type: Number, default: 0 },
+    packetsReceived: { type: Number, default: 0 },
+    bytesSent: { type: Number, default: 0 },
+    bytesReceived: { type: Number, default: 0 },
+    timestamp: { type: String, required: true }
 })
 
 

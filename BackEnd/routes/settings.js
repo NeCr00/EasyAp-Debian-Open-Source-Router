@@ -21,7 +21,8 @@ router.get("/settings", async (req, res) => {
 
 router.post("/settings", async (req, res) => {
   let data = req.body;
-  applied = updatePassAndSSID(data.ssid, data.password);
+  applied = await updatePassAndSSID(data.ssid, data.password);
+  
   
   if (!applied.error) {
     res.json({

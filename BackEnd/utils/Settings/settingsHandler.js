@@ -1,4 +1,7 @@
 const fs = require('fs');
+const path = require('path');
+
+
 
 function getPassAndSSID() {
     // Read the configuration file
@@ -19,28 +22,28 @@ function getPassAndSSID() {
 
 
 
-function updatePassAndSSID(ssid, wpa_passphrase) {
+  function updatePassAndSSID(ssid, wpa_passphrase) {
 
     if (wpa_passphrase.length<6){
         return {error:true,message:"Password must be at least 6 characters"}
     }
     currentConfig = getPassAndSSID()
-  if(currentConfig.ssid === ssid && currentConfig.wpa_passphrase === wpa_passphrase){
+    if(currentConfig.ssid === ssid && currentConfig.wpa_passphrase === wpa_passphrase){
     return {error:true,message:"SSID and password already use this values"}
-  }
-  // Read the configuration file
-  let config = fs.readFileSync('config.txt', 'utf8');
+    }
+    // Read the configuration file
+    let config = fs.readFileSync(__dirname+'/config.txt', 'utf8');
   
-  // Replace the old values with the new ones
-  config = config.replace(/ssid=\S+/g, `ssid=${ssid}`);
-  config = config.replace(/wpa_passphrase=\S+/g, `wpa_passphrase=${wpa_passphrase}`);
+    // Replace the old values with the new ones
+    config = config.replace(/ssid=\S+/g, `ssid=${ssid}`);
+    config = config.replace(/wpa_passphrase=\S+/g, `wpa_passphrase=${wpa_passphrase}`);
   
-  // Write the updated content back to the file
-  fs.writeFileSync('config.txt', config, 'utf8');
-
+    // Write the updated content back to the file
+    let filePath = path.join(__dirname, 'config.txt');
+    fs.writeFileSync(filePath, config, 'utf8');
+    console.log(config);
     return {error:false,message:"Changes applied successfully"}
 }
-
 
 
 function addMACAddress(mac) {
@@ -50,7 +53,7 @@ function addMACAddress(mac) {
     // Read the current contents of the file
     let config = fs.readFileSync(configFile, 'utf8');
     // Append the new MAC address to the end of the file
-    config += `\ndhcp-mac=set:allowed,${mac}`;
+    config += `\ndhcp-mac=set:blocked,${mac}`;
     // Write the updated configuration back to the file
     fs.writeFileSync(configFile, config);
     // Restart the DHCP server
@@ -64,7 +67,7 @@ function removeMACAddress(mac) {
     // Read the current contents of the file
     let config = fs.readFileSync(configFile, 'utf8');
     // Remove the MAC address from the configuration
-    config = config.replace(`\ndhcp-mac=set:allowed,${mac}`, "");
+    config = config.replace(`\ndhcp-mac=set:blocked,${mac}`, "");
     // Write the updated configuration back to the file
     fs.writeFileSync(configFile, config);
     // Restart the DHCP server

@@ -3,7 +3,7 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
-const {ChangePassword} = require('../utils/systemConfiguration')
+const {ChangePassword} = require('../utils/System/changePassword')
 
 
 router.get('/', (req, res) => {
