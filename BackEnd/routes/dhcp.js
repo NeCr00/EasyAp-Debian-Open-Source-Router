@@ -5,8 +5,8 @@ const path = require('path')
 const bodyParser = require('body-parser');
 const validator = require('../middlewares/dataValidator');
 const { getDevices } = require('../utils/getConnectedDevices')
-const { getDHCPRangeInfo, getStaticIPs } = require('../utils/getDHCPConfigs')
-const { editDnsmasqDHCPRange, editDnsmasqStaticIPs } = require('../utils/setDHCPConfigs')
+const { getDHCPRangeInfo, getStaticIPs } = require('../utils/DHCP/getDHCPConfigs')
+const { editDnsmasqDHCPRange, editDnsmasqStaticIPs } = require('../utils/DHCP/setDHCPConfigs')
 
 function validateSettingsData(req, res, next) {
   let data = req.body

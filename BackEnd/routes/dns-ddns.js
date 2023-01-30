@@ -4,6 +4,8 @@ const router = express.Router();
 const path = require("path");
 const bodyParser = require("body-parser");
 const validator = require("../middlewares/dataValidator");
+const { getDnsServers, editDnsServers } = require('../utils/DNS/dnsServers')
+const { getDnsDomains, editDnsDomains } = require('../utils/DNS/dnsDomains')
 
 function validateDataDNS(req, res, next) {
   let data = req.body;
@@ -69,7 +71,7 @@ router.post("/ddns", (req, res) => {
 });
 
 router.get("/dns", (req, res) => {
-  var dns_data = [
+  var dnsServers = [
     {
       id: 1,
       ip: "55.167.74.54",
@@ -83,15 +85,18 @@ router.get("/dns", (req, res) => {
       ip: "250.15.178.134",
     },
   ];
+  // let dnsServers = getDnsServers()
 
-  res.json(dns_data);
+  res.json(dnsServers);
 });
 
 router.post("/dns", validateDataDNS, (req, res) => {
   //Add new dns entries
   data = req.body;
+  console.log('post dns')
   console.log(data);
-
+  // editDnsServers('POST', req.body)
+  
   if (1) {
     res.json({
       error: false,
@@ -106,7 +111,9 @@ router.post("/dns", validateDataDNS, (req, res) => {
 });
 
 router.delete("/dns", (req, res) => {
+  console.log('delete dns')
   console.log(req.body);
+  // editDnsServers('POST', req.body)
 
   if (1) {
     res.json({
@@ -122,7 +129,7 @@ router.delete("/dns", (req, res) => {
 });
 
 router.get("/nameserver", (req, res) => {
-  var authoritative_dns_data = [
+  var authoritativeDnsData = [
     {
       id: 1,
       domain: "www.example.com",
@@ -139,12 +146,14 @@ router.get("/nameserver", (req, res) => {
       ip: "250.15.178.134",
     },
   ];
+  // let authoritativeDnsData = getDnsDomains()
 
-  res.json(authoritative_dns_data);
+  res.json(authoritativeDnsData);
 });
 
 router.post("/nameserver", validateDataNameserver, (req, res) => {
   console.log(req.body);
+  // editDnsDomains('POST', req.body)
   if (1) {
     res.json({
       error: false,
@@ -160,7 +169,7 @@ router.post("/nameserver", validateDataNameserver, (req, res) => {
 
 router.delete("/nameserver", (req, res) => {
   console.log(req.body);
-
+  // editDnsDomains('DELETE', req.body)
   if (1) {
     res.json({
       error: false,

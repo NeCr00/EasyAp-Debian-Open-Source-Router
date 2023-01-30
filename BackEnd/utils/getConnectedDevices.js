@@ -1,11 +1,12 @@
 const util = require('util');
+const { executeCommand } = require('../Helpers/executeCommand');
 const exec = util.promisify(require('child_process').exec)
 
 function extractDeviceInfo(string_devices) {
     let devices = []
     getEachLineRegex = new RegExp('((.*?)\n)', 'g')
-    get_lines = string_devices.match(getEachLineRegex)
-    get_lines.forEach(item => {
+    lines = string_devices.match(getEachLineRegex)
+    lines.forEach(item => {
         line = item.split(" ")
         lease_time = line[0]
         mac = line[1]
@@ -25,7 +26,6 @@ function extractDeviceInfo(string_devices) {
 
 async function isHostUp(ip) {
     command = 'ping -c 1 -W 0.2 ' + ip
-    // run the `ls` command using exec
     const { stdout, stderr } = await exec(command);
 
     if (stderr) {
@@ -40,15 +40,10 @@ async function isHostUp(ip) {
 
 async function getDevices() {
     let active_devices = []
-    let command = 'cat /var/lib/misc/dnsmasq.leases'
+    let command = 'sudo cat /var/lib/misc/dnsmasq.leases'
     // let command = 'cat /home/jason/workdir/test-dir/devices_test.txt'
-    const { stdout, stderr } = await exec(command);
-
-    if (stderr) {
-        //console.log('stderr:', stderr);
-        return;
-    }
-    else {
+    let stdout = ''
+    if ( stdout = executeCommand(command) ) {
         console.log(stdout)
         devices = extractDeviceInfo(stdout)
         var finishGettingDevices = new Promise((resolve, reject) => {
@@ -61,7 +56,6 @@ async function getDevices() {
                     if (isIpOnline) {
                         item.id = ++id
                         active_devices.push(item)
-                        
                     }
                 }
                 catch (error) {

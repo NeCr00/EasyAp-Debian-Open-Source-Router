@@ -241,6 +241,7 @@ $(document).ready(function () {
 
   $("#submit-dns-entry").click(function () {
     SubmitDns(); //Add new row to dns table
+    deletedDns.deletedDns = []
   });
 
   //------------------------------------------------------------------------------------------
@@ -398,6 +399,10 @@ $(document).ready(function () {
 
     //get value
     deletedDomain = item.find(".item").text();
+    deletedDomain = {
+      domain: deletedDomain.replace(/\d+\.\d+\.\d+\.\d+$/, '').trim(),
+      ip:     deletedDomain.replace(/^[^\d]+/, '').trim(),
+    }
     deletedAuthoritativeDns.deletedAuthoritativeDns.push(deletedDomain);
     console.log(deletedAuthoritativeDns);
     updateRowNumAuthoritativeDns();

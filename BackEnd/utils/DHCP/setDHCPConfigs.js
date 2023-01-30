@@ -1,6 +1,5 @@
-const util = require('util');
-const exec = util.promisify(require('child_process').exec)
 const { getDHCPRangeInfo } = require('./getDHCPConfigs.js')
+const { executeCommand } = require('../../Helpers/executeCommand')
 
 function changeDnsmasqConfLine(line, configValueIndex, configsToChange){
     [linePrefix, editedLine] = line.split('=')
@@ -23,15 +22,11 @@ async function editDnsmasqDHCPRange(requestData){
         }
     }
 
-    console.log(configsToChange)
+    // console.log(configsToChange)
 
-    let command = `cat ${filePath}`
-    const { stdout, stderr } = await exec('sudo ' + command);
-    // const { stdout, stderr } = await exec(command);
-    if (stderr) {
-        console.log(stderr);
-        return;
-    } else {
+    let command = `sudo cat ${filePath}`
+    let stdout = ''
+    if( executeCommand(command) ) {
         getEachLineRegex = new RegExp('((.*?)\n)', 'g')
         let lines = stdout.match(getEachLineRegex)
         let getDHCPRangeLineRegex = new RegExp('.*dhcp-range((.*?)\n)', 'g')
@@ -79,33 +74,32 @@ async function editDnsmasqDHCPRange(requestData){
         console.log(newFileContent)
 
         // Write the new file back to disk
-        // command = `echo ${newFileContent} > ${filePath}`
-        // const { stdout, stderr } = await exec('sudo ' + command);
+        command = `sudo echo ${newFileContent} > ${filePath}`
+        executeCommand(command)
         
         // Restart dnsmasq service
-        // command = `systemctl restart dnsmasq`
-        // const { stdout, stderr } = await exec('sudo ' + command);
+        command = `sudo systemctl restart dnsmasq`
+        executeCommand(command)
     }
 
 }
 
 async function editDnsmasqStaticIPs(requestAction, requestData){
     let filePath = '/etc/dnsmasq.d/static_leases'
-    let command = `cat ${filePath}`
-    const { stdout, stderr } = await exec('sudo ' + command);
-    if (stderr) {
-        console.log(stderr);
-        return;
-    } else {
+    let readFileCommand = `sudo cat ${filePath}`
+    let restartDnsmasqCommand = 'sudo systemctl restart dnsmasq'
+    let stdout = ''
+    
+    if ( stdout = executeCommand(readFileCommand) ) {
         switch (requestAction){
             case "POST":
                 requestData.forEach(async (item) => {
-                    command = `dnsmasq --dhcp-host ${item.mac},${item.ip}`
-                    const { stdout, stderr } = await exec('sudo ' + command);
+                    let addHostCommand = `sudo dnsmasq --dhcp-host ${item.mac},${item.ip}`
+                    executeCommand(addHostCommand)
                 });
+                
                 // Restart dnsmasq service
-                // command = 'systemctl restart dnsmasq'
-                // const { postStdout, postStderr } = await exec('sudo ' + command)
+                executeCommand(restartDnsmasqCommand)
                 break;
             
             
@@ -125,12 +119,11 @@ async function editDnsmasqStaticIPs(requestAction, requestData){
                 console.log(newFileContent)
 
                 // Write the new file back to disk
-                // command = `echo ${newFileContent} > ${filePath}`
-                // const { stdout, stderr } = await exec('sudo ' + command);
+                let removeHostCommand = `sudo echo ${newFileContent} > ${filePath}`
+                executeCommand(removeHostCommand)
                 
                 // Restart dnsmasq service
-                // command = 'systemctl restart dnsmasq'
-                // const { deleteStdout, deleteStderr } = await exec('sudo ' + command)
+                executeCommand(restartDnsmasqCommand)
                 break;
 
             default:

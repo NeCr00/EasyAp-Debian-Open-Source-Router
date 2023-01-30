@@ -1,5 +1,4 @@
-const util = require('util');
-const exec = util.promisify(require('child_process').exec)
+const { executeCommand } = require('../../Helpers/executeCommand')
 
 function extractDHCPRangeInfo(string_configs) {
     let getDHCPRangeLineRegex = new RegExp('.*dhcp-range((.*?)\n)', 'g')
@@ -19,17 +18,15 @@ function extractDHCPRangeInfo(string_configs) {
 }
 
 async function getDHCPRangeInfo(){
-    let command = 'cat /etc/dnsmasq.conf' //TODO: needs sudo
-    const { stdout, stderr } = await exec('sudo '+ command);
+    let command = 'sudo cat /etc/dnsmasq.conf' //TODO: needs sudo
     // let command  = 'cat /home/jason/workdir/test-dir/dhcp_test.txt'
     // const { stdout, stderr } = await exec(command);
-
-    if (stderr) {
-        //console.log('stderr:', stderr);
-        return;
+    let stdout = ''
+    if ( stdout = executeCommand(command) ) {
+        return extractDHCPRangeInfo(stdout)
     }
     else {
-        return extractDHCPRangeInfo(stdout)
+        return
     }
 }
 
@@ -53,13 +50,9 @@ function extractDHCPStaticInfo(string_ips) {
 
 async function getStaticIPs(){
     let staticIPAddresses = []
-    let command = 'cat /etc/dnsmasq.d/static_leases'
-    const { stdout, stderr } = await exec('sudo' + command);
-    if (stderr) {
-        //console.log('stderr:', stderr);
-        return;
-    }
-    else {      
+    let command = 'sudo cat /etc/dnsmasq.d/static_leases'
+    let stdout = ''
+    if ( stdout = executeCommand(command) ) {      
         dhcpBoundPairs = extractDHCPStaticInfo(stdout)
         var finishGettingStaticIPs = new Promise((resolve, reject) => {
             id = 0

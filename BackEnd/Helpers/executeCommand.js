@@ -1,3 +1,6 @@
+const util = require('util');
+const exec = util.promisify(require('child_process').exec)
+
 function executeCommand(command) {
     exec(command, (error, stdout, stderr) => {
         if (error) {
@@ -11,7 +14,7 @@ function executeCommand(command) {
         }
         console.log(`stdout: ${stdout}`);
         //command executed successfully
-        return true;
+        return stdout;
     });
 }
 
