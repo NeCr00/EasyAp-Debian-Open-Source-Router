@@ -208,10 +208,10 @@ getWirelessSettings()
       let host = $(this).parent().parent().find(".host").val();
 
       if (checked) {
-        filter_mac.push({ ip: ip, mac: mac, host: host, status: "enabled" });
+        filter_mac.push(mac);
       }
     });
-    response = await postData("settings/connected-devices/ban");
+    response = await postData("settings/devices/ban",filter_mac);
     response_data = await response.json();
 
     if (response_data.error) {
@@ -274,16 +274,16 @@ getWirelessSettings()
 
   //---------------------------------------------------------------------
 
+var deletedMac = []
+  
   async function submitBannedMac() {
-    var mac_table = {
-      mac_table: [],
-    };
+    var mac_table = []
 
     $("#mac-filter-table tr").each(function (index) {
       if (index) {
         var item = $(this).find(".new-item").html();
         if(item)
-        mac_table.mac_table.push(item);
+        mac_table.push(item);
       }
     });
     console.log(mac_table, deletedMac);
@@ -302,6 +302,7 @@ getWirelessSettings()
         errorModal(response_delete_data.message);
         return;
       }
+      deletedMac=[]
     }
    
 
@@ -315,16 +316,9 @@ getWirelessSettings()
   });
 
   //------------------------------------------------------------------------------------------
-  var deletedMac = {
-    deletedMac: [],
-  };
 
-  function updateBannedMAC() {
-    $("#mac-filter-table-body th").each(function (index, item) {
-      //console.log(item.innerText)
-      item.innerText = index + 1;
-    });
-  }
+
+
 
   $(document).on("click", ".table-remove", function () {
     var item = $(this).closest("tr");
@@ -332,9 +326,9 @@ getWirelessSettings()
 
     //get value
     mac = item.find(".item").text();
-    deletedMac.deletedMac.push(mac);
-    console.log(deletedMac);
-    updateBannedMAC();
+    deletedMac.push(mac);
+    
+    
   });
 
   //---------------------------------------------------------------------------
@@ -347,7 +341,7 @@ getWirelessSettings()
     data = await getData('settings/ip-forwarding')
 
     data.forEach((item, index) => {
-      var newRow = $('<tr class="border-bottom border-1 ">');
+      var newRow = $('<tr class="old-item border-bottom border-1 ">');
       var cols = "";
       let status = "";
 
@@ -470,6 +464,7 @@ getWirelessSettings()
 
   // Change Status for a firewall rule
   var ipForwardData = [];
+  var ipForwardChangeStatus = [];
   async function UpdateFirewallRuleStatus() {
     
 
@@ -484,16 +479,33 @@ getWirelessSettings()
         internal_ip: internal_ip,
         internal_port: internal_port,
         external_port: external_port,
-        status: status[0].checked,
+        status: status[0].checked
       });
       //alert($(this).find('td').eq(0).text() );
     });
 
+    $("#ip-forward-table  tbody > .old-item").each(function () {
+      let status = $(this).find(".status");
+      let internal_ip = $(this).find("td").eq(0).text();
+      let internal_port = $(this).find("td").eq(1).text();
+      let external_port = $(this).find("td").eq(2).text();
+
+
+      ipForwardChangeStatus.push({
+        internal_ip: internal_ip,
+        internal_port: internal_port,
+        external_port: external_port,
+        status: status[0].checked
+      });
+      //alert($(this).find('td').eq(0).text() );
+    });
     
     //data = [ipForwardData,deletedRule]
     
+
+
     if(ipForwardData.length > 0) {
-      response_post = await postData('settings/ip-forwarding',ipForwardData);
+      response_post = await postData('settings/ip-forwarding/add',ipForwardData);
       response_post_data = response_post.json()
       if (response_post_data.error){
         errorModal(response_post_data.message)
@@ -509,6 +521,15 @@ getWirelessSettings()
         errorModal(response_post_data.message)
         return
       }
+    }
+    if(ipForwardChangeStatus.length > 0) {
+      response_post = await postData('settings/ip-forwarding/status',ipForwardChangeStatus);
+      response_post_data = response_post.json()
+      if (response_post_data.error){
+        errorModal(response_post_data.message)
+        return
+      }
+
     }
 
     successModal("Changes applied successfully")

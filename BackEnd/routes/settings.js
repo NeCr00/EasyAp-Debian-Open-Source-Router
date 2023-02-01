@@ -9,7 +9,7 @@ const { updatePassAndSSID,
   addMACAddress,
   removeMACAddress } = require('../utils/Settings/settingsHandler')
 const { getDevices } = require('../utils/Dashboard/getConnectedDevices')
-
+const { forwardPort, removeForwardPort,changeStatusIPForwarding,getAllRules} = require('../utils/Settings/portForwading')
 router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../../FrontEnd/settings.html"));
 });
@@ -64,7 +64,8 @@ router.get("/devices/ban", (req, res) => {
 });
 
 router.post("/devices/ban", (req, res) => {
-  let bannedMac = req.body
+  let bannedMac = req.body.mac_table
+  console.log(bannedMac);
   error = addMACAddress (bannedMac);
   if (!error) {
     res.json({
@@ -81,6 +82,7 @@ router.post("/devices/ban", (req, res) => {
 
 router.delete("/devices/ban", (req, res) => {
   let mac = req.body
+  console.log(mac)
   deleted = removeMACAddress(mac)
 
   if (deleted) {
@@ -96,41 +98,11 @@ router.delete("/devices/ban", (req, res) => {
   }
 })
 
-router.post("/connected-devices/ban", (req, res) => {
-  let data = req.body
-  if (0) {
-    res.json({
-      error: false,
-      message: "Changes applied successfully",
-    });
-  } else {
-    res.json({
-      error: true,
-      message: "An error occured",
-    });
-  }
-});
+
 
 router.get("/ip-forwarding", (req, res) => {
-  let data = [{
-    "id": 1,
-    "internal_ip": "100.196.150.242",
-    "internal_port": 49,
-    "external_port": 77,
-    "status": false
-  }, {
-    "id": 2,
-    "internal_ip": "65.209.89.81",
-    "internal_port": 98,
-    "external_port": 50,
-    "status": false
-  }, {
-    "id": 3,
-    "internal_ip": "7.221.27.61",
-    "internal_port": 75,
-    "external_port": 28,
-    "status": true
-  }]
+//get all the port forwarding rules
+data = getAllRules()
 
   res.json(data);
 });
@@ -138,8 +110,10 @@ router.get("/ip-forwarding", (req, res) => {
 router.post("/ip-forwarding", (req, res) => {
 
   data = req.body
+  statusChanged = changeStatusIPForwarding('wlan0',data.internal_port,data.internal_ip,data.external_port,data.status,)
+
   console.log(data);
-  if (1) {
+  if (statusChanged)  {
     res.json({
       error: false,
       message: "Changes applied successfully",
@@ -152,10 +126,52 @@ router.post("/ip-forwarding", (req, res) => {
   }
 });
 
+router.post("/ip-forwarding/add", (req, res) => {
+
+  data = req.body
+  applied = forwardPort('wlan0',data.internal_port,data.internal_ip,data.external_port)
+
+  console.log(data);
+  if (applied)  {
+    res.json({
+      error: false,
+      message: "Changes applied successfully",
+    });
+  } else {
+    res.json({
+      error: true,
+      message: "An error occured",
+    });
+  }
+});
+
+router.post("/ip-forwarding/status", (req, res) => {
+
+  data = req.body
+  statusChanged = changeStatusIPForwarding('wlan0',data.internal_port,data.internal_ip,data.external_port,data.status,)
+
+  console.log(data);
+  if (statusChanged)  {
+    res.json({
+      error: false,
+      message: "Changes applied successfully",
+    });
+  } else {
+    res.json({
+      error: true,
+      message: "An error occured",
+    });
+  }
+});
+
+
 router.delete("/ip-forwarding", (req, res) => {
   data = req.body
+  //delete  the port forwarding rules
+  deleted = removeForwardPort('wlan0',data.internal_port,data.internal_ip,data.external_port)
   console.log(data);
-  if (1) {
+
+  if (deleted) {
     res.json({
       error: false,
       message: "Changes applied successfully",

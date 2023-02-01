@@ -3,6 +3,8 @@ const path = require('path');
 const  {restartService}  = ('../../Helpers/restartServices');
 
 
+// TODO: At change should restart service and return status 
+
 function getPassAndSSID() {
     // Read the configuration file
     let config = fs.readFileSync(__dirname + '/config.txt', 'utf8');
@@ -49,7 +51,7 @@ function updatePassAndSSID(ssid, wpa_passphrase) {
 function addMACAddress(mac_add) {
 
     // Configuration file path
-    const configFile = '/etc/dnsmasq.conf';
+    const configFile = __dirname+'/dnsmasq.conf';
 
 
     mac_add.forEach(mac => {
@@ -69,7 +71,7 @@ function addMACAddress(mac_add) {
 
 function removeMACAddress(mac) {
     // Configuration file path
-    const configFile = '/etc/dnsmasq.conf';
+    const configFile = __dirname+'/dnsmasq.conf';
     // Read the current contents of the file
     let config = fs.readFileSync(configFile, 'utf8');
     // Remove the MAC address from the configuration
@@ -84,7 +86,7 @@ function removeMACAddress(mac) {
 
 function getBlockedMACAddresses() {
     // Configuration file path
-    const configFile = '/etc/dnsmasq.conf';
+    const configFile = __dirname+'/dnsmasq.conf';
     // Read the current contents of the file
     let config = fs.readFileSync(configFile, 'utf8');
     // Create a regular expression to match the blocked MAC addresses

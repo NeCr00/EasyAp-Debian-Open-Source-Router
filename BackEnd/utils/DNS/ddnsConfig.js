@@ -10,6 +10,7 @@ const { executeCommand } = require('../../Helpers/executeCommand')
 // password=<password>
 // <hostname>
 
+
 function extractDDnsConfigs(string_configs) {
     let ddnsConfigs = {}
     let getEachLineRegex = new RegExp('((.*?)\n)', 'g')
