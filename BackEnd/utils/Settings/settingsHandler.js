@@ -1,64 +1,70 @@
 const fs = require('fs');
 const path = require('path');
-
+const  {restartService}  = ('../../Helpers/restartServices');
 
 
 function getPassAndSSID() {
     // Read the configuration file
-    let config = fs.readFileSync(__dirname+'/config.txt', 'utf8');
-    
+    let config = fs.readFileSync(__dirname + '/config.txt', 'utf8');
+
     // Extract the values of the "ssid" and "wpa_passphrase" parameters
     let ssid = config.match(/ssid=(\S+)/);
     let wpa_passphrase = config.match(/wpa_passphrase=(\S+)/);
-    if(ssid && wpa_passphrase){
-      ssid=ssid[1];
-      wpa_passphrase=wpa_passphrase[1];
-    }else{
-      return {error:"one or both parameters not found"}
+    if (ssid && wpa_passphrase) {
+        ssid = ssid[1];
+        wpa_passphrase = wpa_passphrase[1];
+    } else {
+        return { error: "one or both parameters not found" }
     }
     // Return the values as an object
     return { ssid, wpa_passphrase };
-  }
+}
 
 
 
-  function updatePassAndSSID(ssid, wpa_passphrase) {
+function updatePassAndSSID(ssid, wpa_passphrase) {
 
-    if (wpa_passphrase.length<6){
-        return {error:true,message:"Password must be at least 6 characters"}
+    if (wpa_passphrase.length < 6) {
+        return { error: true, message: "Password must be at least 6 characters" }
     }
     currentConfig = getPassAndSSID()
-    if(currentConfig.ssid === ssid && currentConfig.wpa_passphrase === wpa_passphrase){
-    return {error:true,message:"SSID and password already use this values"}
+    if (currentConfig.ssid === ssid && currentConfig.wpa_passphrase === wpa_passphrase) {
+        return { error: true, message: "SSID and password already use this values" }
     }
     // Read the configuration file
-    let config = fs.readFileSync(__dirname+'/config.txt', 'utf8');
-  
+    let config = fs.readFileSync(__dirname + '/config.txt', 'utf8');
+
     // Replace the old values with the new ones
     config = config.replace(/ssid=\S+/g, `ssid=${ssid}`);
     config = config.replace(/wpa_passphrase=\S+/g, `wpa_passphrase=${wpa_passphrase}`);
-  
+
     // Write the updated content back to the file
     let filePath = path.join(__dirname, 'config.txt');
     fs.writeFileSync(filePath, config, 'utf8');
     console.log(config);
-    return {error:false,message:"Changes applied successfully"}
+    return { error: false, message: "Changes applied successfully" }
 }
 
 
-function addMACAddress(mac) {
+function addMACAddress(mac_add) {
+
     // Configuration file path
     const configFile = '/etc/dnsmasq.conf';
 
-    // Read the current contents of the file
-    let config = fs.readFileSync(configFile, 'utf8');
-    // Append the new MAC address to the end of the file
-    config += `\ndhcp-mac=set:blocked,${mac}`;
-    // Write the updated configuration back to the file
-    fs.writeFileSync(configFile, config);
-    // Restart the DHCP server
-    //require('child_process').execSync('service dnsmasq restart');
-    console.log(`MAC address ${mac} added to configuration file and DHCP server restarted.`);
+
+    mac_add.forEach(mac => {
+
+        // Read the current contents of the file
+        let config = fs.readFileSync(configFile, 'utf8');
+        // Append the new MAC address to the end of the file
+        config += `\ndhcp-mac=set:blocked,${mac}`;
+        // Write the updated configuration back to the file
+        fs.writeFileSync(configFile, config);
+    })
+
+    //restartService('dnsmasq');
+    console.log(`MAC address ${mac_add} added to configuration file and DHCP server restarted.`);
+    
 }
 
 function removeMACAddress(mac) {
@@ -71,7 +77,7 @@ function removeMACAddress(mac) {
     // Write the updated configuration back to the file
     fs.writeFileSync(configFile, config);
     // Restart the DHCP server
-    //require('child_process').execSync('service dnsmasq restart');
+    //restartService('dnsmasq');
     console.log(`MAC address ${mac} removed from configuration file and DHCP server restarted.`);
 }
 
@@ -87,7 +93,9 @@ function getBlockedMACAddresses() {
     let match;
     let blockedMACs = []
     while ((match = macRegex.exec(config)) !== null) {
-        blockedMACs.push(match[1])
+        blockedMACs.push({
+            "mac": match[1]
+        })
     }
     return blockedMACs;
 }
@@ -95,5 +103,5 @@ function getBlockedMACAddresses() {
 
 
 module.exports = {
-    updatePassAndSSID,getPassAndSSID
+    updatePassAndSSID, getPassAndSSID, getBlockedMACAddresses, addMACAddress,removeMACAddress
 }

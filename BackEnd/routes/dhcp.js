@@ -4,7 +4,7 @@ const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
 const validator = require('../middlewares/dataValidator');
-const { getDevices } = require('../utils/getConnectedDevices')
+const { getDevices } = require('../utils/Dashboard/getConnectedDevices')
 const { getDHCPRangeInfo, getStaticIPs } = require('../utils/DHCP/getDHCPConfigs')
 const { editDnsmasqDHCPRange, editDnsmasqStaticIPs } = require('../utils/DHCP/setDHCPConfigs')
 

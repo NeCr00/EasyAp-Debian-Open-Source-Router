@@ -3,12 +3,12 @@ const { executeCommand } = require('../../Helpers/executeCommand')
 function extractDnsDomains(string_configs) {
     let domains = []
     let getEachLineRegex = new RegExp('((.*?)\n)', 'g')
-    let getDnsDomainsLineRegex = new RegExp('server=.*', 'g') // ??? how to find the right ones?
-    lines = string_devices.match(getEachLineRegex)
+    let getDnsDomainsLineRegex = new RegExp('EasyAP', 'g')
+    let lines = string_configs.match(getEachLineRegex)
     let domainId = 0
     lines.forEach(item => {
         if (arr[index].match(getDnsDomainsLineRegex)) {
-            line = item.split(/(\s+)/)
+            let line = item.split(/(\s+)/)
             domains.push({
                 id: ++domainId,
                 ip: line[0],
@@ -23,7 +23,7 @@ async function getDnsDomains(){
     let command = 'sudo cat /etc/hosts'
     let stdout = ''
     if ( stdout = executeCommand(command) ) {
-        return extractDnsServers(stdout)
+        return extractDnsDomains(stdout)
     }
     else {
         return
@@ -32,11 +32,12 @@ async function getDnsDomains(){
 
 async function editDnsDomains(requestAction, requestData){
     let filePath = '/etc/hosts'
-    let currentDnsServers = await getDnsServers().map(item => item.ip)
-    domainsToEdit = {}
+    let currentDnsDomains = await getDnsDomains()
+    let domainsToEdit = {}
+    let easyAPComment = '#EasyAP config'
     
     requestData.forEach((item, index) => {
-        if ( currentDnsServers.includes(requestData[index]) ){
+        if ( currentDnsDomains.includes(requestData[index]) ){
             domainsToEdit.push(requestData[index])
         }
     })
@@ -50,14 +51,14 @@ async function editDnsDomains(requestAction, requestData){
         switch (requestMethod) {
             case 'POST':
                 domainsToEdit.forEach( (item, index) => {
-                    lines.push(`${domainsToEdit[index][ip]}\t\t${domainsToEdit[index][domain]}`)
+                    lines.push(`${domainsToEdit[index][ip]}\t\t${domainsToEdit[index][domain]} ${easyAPComment}`)
                 });
                 break;
             
             case 'DELETE':
                 lines.forEach( (item, linesIndex, arr) => {
-                    domainsToEdit.forEach( (item, serversIndex) => {
-                        if (lines[linesIndex].match(`server=${domainsToEdit[serversIndex]}`)) { 
+                    domainsToEdit.forEach( (item, domainsIndex) => {
+                        if (lines[linesIndex].match(`${domainsToEdit[domainsIndex][ip]}.*${domainsToEdit[domainsIndex][domain]}`)) { 
                             lines[linesIndex] = ''
                         }
                     });

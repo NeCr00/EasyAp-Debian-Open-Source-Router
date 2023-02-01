@@ -1,3 +1,4 @@
+// Modules
 const express = require('express')
 const path = require('path')
 const session = require('express-session')
@@ -6,10 +7,16 @@ const router = express.Router()
 const app = express()
 const port = 3000
 const {authorization} = require('./middlewares/authorization')
+//-----------------------------------------------------------------------------------------
+
+// Functions that should be executed to configure and  initialize some functionalities
+
 const {monitorNetworkConnections} = require('./utils/getServerIP')
 const {saveTrafficData} = require('./utils/networkTrafficMonitor')
 const {initializeModel} = require('./utils/networkTrafficMonitor')
 const {enableFirwallLogs} = require('./utils/firewallRulesHelper')
+//-----------------------------------------------------------------------------------------
+
 //Routes
 const login = require('./routes/login')
 const index = require('./routes/index')
@@ -23,21 +30,26 @@ const system = require('./routes/system')
 const vpn = require('./routes/vpn')
 const data_usage = require('./routes/data_usage')
 const about = require('./routes/about');
+//------------------------------------------------------------------------------------------
 
 
-
-
+// Enabling body parsing to read json data from request body
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
+
+
 //Making accessible the resources for all html files
 app.use('/static/css', express.static(path.join(__dirname, '../FrontEnd/css'))) //static files for css files
 app.use('/static/js', express.static(path.join(__dirname, '../FrontEnd/js'))) //static files for js files
 app.use('/static/assets', express.static(path.join(__dirname, '../FrontEnd/assets'))) //static files for js files
 
+// Default headers for caching
 app.use(function(req, res, next) {
   res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   next();
 });
+
+
 //Authentication Mechanisms explained:
 //creates an express session. At the first land of the user in /login a cookie is returned. Cookie does not contain a userID value.
 //At successful login, api appends a cookie with userID value with the corresponding id 
@@ -50,17 +62,18 @@ app.use(session({
   resave: false
 }));
 
-//This function are enable Traffic amount functionality
-
-//monitors the ips for the server which the devices are communicating
-//monitorNetworkConnections()
-
+//This section contains functions that must run periodically
+  
+   // enables the network monitor for the dashboard
+  //monitorNetworkConnections() 
+ 
 // save the data for the traffic amount
 //initializeModel()
 //setInterval(saveTrafficData,5000)
 
 //enableFirwallLogs()
 
+// Unprotected Routes
 app.use('/',index) // if is authenticated redirects user to dashboard,otherwise redirect to login
 app.use('/login',login) //Login endpoint, if is authenticated redirects user to dashboard,otherwise redirect to login
 app.use('/logout',logout) 

@@ -1,5 +1,5 @@
 const util = require('util');
-const { executeCommand } = require('../Helpers/executeCommand');
+const { executeCommand } = require('../../Helpers/executeCommand');
 const exec = util.promisify(require('child_process').exec)
 
 function extractDeviceInfo(string_devices) {

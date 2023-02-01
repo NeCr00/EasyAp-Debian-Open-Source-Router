@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const validator = require("../middlewares/dataValidator");
 const { getDnsServers, editDnsServers } = require('../utils/DNS/dnsServers')
 const { getDnsDomains, editDnsDomains } = require('../utils/DNS/dnsDomains')
+const { getDDnsConfigs, editDDnsConfigs } = require('../utils/DNS/ddnsConfig')
 
 function validateDataDNS(req, res, next) {
   let data = req.body;
@@ -54,6 +55,7 @@ router.get("/ddns", (req, res) => {
       password: "admin",
     },
   ];
+  // let data = getDDnsConfigs()
 
   res.json(data);
 });

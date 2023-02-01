@@ -133,10 +133,11 @@ getWirelessSettings()
       password: password,
     };
     response = await postData("/settings/settings", data);
-    response_data = response.json();
+    response_data = await response.json();
 
     if (response_data.error) {
       errorModal(response_data.message);
+      getWirelessSettings()
     } else {
       successModal("Settings Updated");
       getWirelessSettings()
@@ -273,7 +274,7 @@ getWirelessSettings()
 
   //---------------------------------------------------------------------
 
-  async function SubmitDns() {
+  async function submitBannedMac() {
     var mac_table = {
       mac_table: [],
     };
@@ -310,7 +311,7 @@ getWirelessSettings()
   }
 
   $("#submit-mac").click(function () {
-    SubmitDns(); //Add new row to dns table
+    submitBannedMac(); //Add new row to dns table
   });
 
   //------------------------------------------------------------------------------------------
@@ -318,7 +319,7 @@ getWirelessSettings()
     deletedMac: [],
   };
 
-  function updateRowNumDns() {
+  function updateBannedMAC() {
     $("#mac-filter-table-body th").each(function (index, item) {
       //console.log(item.innerText)
       item.innerText = index + 1;
@@ -333,7 +334,7 @@ getWirelessSettings()
     mac = item.find(".item").text();
     deletedMac.deletedMac.push(mac);
     console.log(deletedMac);
-    updateRowNumDns();
+    updateBannedMAC();
   });
 
   //---------------------------------------------------------------------------

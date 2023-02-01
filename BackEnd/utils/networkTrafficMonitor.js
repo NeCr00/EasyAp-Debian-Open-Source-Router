@@ -96,8 +96,8 @@ async function saveTrafficData() {
 }
 
 
-async function initializeModel() {
-    //saveTrafficData()
+async function initializeTrafficMonitorData() {
+    
     dataUsage.count(async function (err, count) {
         if (!err && count === 0) { //if is empty initialize the data usage entries
             for (var hour = 0; hour < 12; hour++) {
@@ -121,5 +121,5 @@ async function initializeModel() {
 
 module.exports = {
 
-    getCurrentTrafficData, saveTrafficData, initializeModel,getTrafficStats
+    getCurrentTrafficData, saveTrafficData, initializeTrafficMonitorData,getTrafficStats
 }

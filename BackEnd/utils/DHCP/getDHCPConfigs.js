@@ -18,9 +18,7 @@ function extractDHCPRangeInfo(string_configs) {
 }
 
 async function getDHCPRangeInfo(){
-    let command = 'sudo cat /etc/dnsmasq.conf' //TODO: needs sudo
-    // let command  = 'cat /home/jason/workdir/test-dir/dhcp_test.txt'
-    // const { stdout, stderr } = await exec(command);
+    let command = 'sudo cat /etc/dnsmasq.conf'
     let stdout = ''
     if ( stdout = executeCommand(command) ) {
         return extractDHCPRangeInfo(stdout)
