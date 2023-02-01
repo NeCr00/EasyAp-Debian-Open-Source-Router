@@ -70,6 +70,8 @@ router.post("/ddns", (req, res) => {
       message: "An error occurred",
     });
   } //if error is occured
+
+  // editDDnsConfigs(req.body)
 });
 
 router.get("/dns", (req, res) => {

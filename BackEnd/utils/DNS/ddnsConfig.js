@@ -55,6 +55,38 @@ function generateFrontendKeys(ddnsConfigs) {
     return ddnsConfigs
 }
 
+function getProtocolServer(requestData) {
+    let protocol = '', 
+        server   = ''
+    
+    switch(requestData['provider']){
+        case "NO-IP":
+            protocol = 'dyndns2' 
+            server = 'dynupdate.no-ip.com'
+            break;
+        
+        case "DYN":
+            protocol = 'dyndns2'
+            server = 'members.dyndns.org'
+            break;
+        
+        case "ZONEEDIT":
+            protocol = 'zoneedit1'
+            server = 'www.zoneedit.com'
+            break;
+        
+        case "DNSEXIT":
+            protocol = 'dnsexit'
+            server = 'update.dnsexit.com'
+            break;
+        
+        default:
+            break;
+    }
+
+    return [protocol, server]
+}
+
 async function getDDnsConfigs(){
     let command = 'sudo cat /etc/ddclient.conf'
     let stdout = ''
@@ -68,7 +100,29 @@ async function getDDnsConfigs(){
 }
 
 async function editDDnsConfigs(requestData){
-    //TODO
+    
+    requestData['ddns_enabled'] = requestData['ddns_enabled'] === '1' ? 'true' : 'false'
+    [requestData['protocol'], requestData['server']] = getProtocolServer(requestData)
+
+    let newFileContent = 
+    `
+    #ddns_enabled=${requestData['ddns_enabled']}
+    protocol=${requestData['protocol']}
+    ssl=yes
+    server=${requestData['server']}
+    login=${requestData['username']}
+    password=${requestData['password']}
+    ${requestData['domain']}
+    `;
+
+    let command = `sudo echo "${newFileContent}" > /etc/ddclient.conf`
+    if ( stdout = executeCommand(command) ) {
+        configs = extractDDnsConfigs(stdout)
+        return generateFrontendKeys(configs)
+    }
+    
+    command = 'sudo systemctl restart ddclient'
+    executeCommand(command)
 }
 
 module.exports = {

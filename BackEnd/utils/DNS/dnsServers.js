@@ -75,7 +75,7 @@ async function editDnsServers(requestMethod, requestData){
         console.log(newFileContent)
 
         // Write the new file back to disk
-        command = `sudo echo ${newFileContent} > ${filePath}`
+        command = `sudo echo "${newFileContent}" > ${filePath}`
         executeCommand(command)
         
         // Restart dnsmasq service
