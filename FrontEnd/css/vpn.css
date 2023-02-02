@@ -225,3 +225,37 @@ hr{
     border:none !important;
     height: 2px !important;
 }
+
+.status-light {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.disconnected {
+  background-color: #f44336;
+}
+
+.connected {
+  background-color: #4caf50;
+}
+
+#connect-btn {
+  margin-top: 20px;
+}
+
+#disconnect-btn {
+  margin-top: 20px;
+}
+
+#vpn-status:empty {
+  display: none;
+}
+#vpn-status:contains("Connected") {
+  background-color: green;
+}
+#vpn-status:contains("Disconnected") {
+  background-color: red;
+}

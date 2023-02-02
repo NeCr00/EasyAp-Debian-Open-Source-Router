@@ -100,6 +100,19 @@ async function getDDnsConfigs(){
     }
 }
 
+async function handleDdnsService(requestData){
+    let currentDdnsConfigs = getDDnsConfigs()
+
+    if (requestData['ddns_enabled'] === currentDdnsConfigs['ddns_enabled']
+        &&  currentDdnsConfigs['ddns_enabled'] === 'true'){
+            executeCommand('sudo systemctl restart ddclient')
+    } else if (requestData['ddns_enabled'] === 'true' &&  currentDdnsConfigs['ddns_enabled'] === 'false') {
+        executeCommand('sudo systemctl enable ddclinet')
+    } else if (requestData['ddns_enabled'] === 'false' &&  currentDdnsConfigs['ddns_enabled'] === 'true') {
+        executeCommand('sudo systemctl disable ddclinet')
+    }
+}
+
 async function editDDnsConfigs(requestData){
     
     requestData['ddns_enabled'] = requestData['ddns_enabled'] === '1' ? 'true' : 'false'
@@ -117,13 +130,9 @@ async function editDDnsConfigs(requestData){
     `;
 
     let command = `sudo echo "${newFileContent}" > /etc/ddclient.conf`
-    if ( stdout = executeCommand(command) ) {
-        configs = extractDDnsConfigs(stdout)
-        return generateFrontendKeys(configs)
-    }
-    
-    command = 'sudo systemctl restart ddclient'
     executeCommand(command)
+    
+    await handleDdnsService(requestData)
 }
 
 module.exports = {

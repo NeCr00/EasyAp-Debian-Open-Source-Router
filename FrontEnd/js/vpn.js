@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-  
+
   //get data from
   function getData(url) {
     let data = fetch(url)
@@ -57,14 +57,14 @@ $(document).ready(function () {
     //console.log($("#provider").html())
     $('#hash').html($(this).text())
   });
-   //set selected value to tls-cipher dropdown
-   $('#tls-cipher-list li').on('click', function () {
+  //set selected value to tls-cipher dropdown
+  $('#tls-cipher-list li').on('click', function () {
     //console.log($("#provider").html())
     $('#tls-cipher').html($(this).text())
   });
 
-   // Set Modal Backgroud without color
-   $("#modal").modal({
+  // Set Modal Backgroud without color
+  $("#modal").modal({
     backdrop: false,
   });
   //Error Modal
@@ -97,7 +97,7 @@ $(document).ready(function () {
 
   // Get VPN configuration-----------------------------------------
 
-   async function SubmitVpnConf() {
+  async function SubmitVpnConf() {
     //get which radio is checked
     var vpn_enable = document.querySelector('input[name="vpn-status"]:checked').value;
     var ssid = $("#ssid").val();
@@ -117,37 +117,37 @@ $(document).ready(function () {
     var add_config = $("#add-config").val();
 
 
-  var data = {
-    "vpn_enable": vpn_enable,
-    "ssid": ssid,
-    "port": port,
-    "protocol": protocol,
-    "enc_cipher": enc_cipher,
-    "hash": hash,
-    "cred_enable": cred_enable,
-    "username": username,
-    "password": password,
-    "tls_cipher": tls_cipher,
-    "key_pass": key_pass,
-    "tls_auth_key": tls_auth_key,
-    "ca_cert": ca_cert,
-    "pub_cert": pub_cert,
-    "pri_cert": pri_cert,
-    "add_config": add_config
+    var data = {
+      "vpn_enable": vpn_enable,
+      "ssid": ssid,
+      "port": port,
+      "protocol": protocol,
+      "enc_cipher": enc_cipher,
+      "hash": hash,
+      "cred_enable": cred_enable,
+      "username": username,
+      "password": password,
+      "tls_cipher": tls_cipher,
+      "key_pass": key_pass,
+      "tls_auth_key": tls_auth_key,
+      "ca_cert": ca_cert,
+      "pub_cert": pub_cert,
+      "pri_cert": pri_cert,
+      "add_config": add_config
+    }
+    response = await postData('vpn/config', data);
+    response_data = await response.json();
+
+    if (response_data.error) {
+      errorModal(response_data.message);
+    } else {
+      successModal(response_data.message);
+    }
+
   }
-  response = await postData('vpn/config', data);
-  response_data = await response.json();
-
-  if (response_data.error) {
-    errorModal(response_data.message);
-  } else {
-    successModal(response_data.message);
-  }
-
-  }
 
 
-  
+
   $("#submit-vpn").click(function () {
     SubmitVpnConf();
     $('#modal').modal('show');
@@ -156,7 +156,7 @@ $(document).ready(function () {
 
   //Get VPN configuration-----------------------------------------
 
- async  function GetVpnConf() {
+  async function GetVpnConf() {
     let data = await getData('vpn/config')
 
     if (data.cred_enable == "1") {
@@ -176,58 +176,99 @@ $(document).ready(function () {
     }
 
     $("#ssid").val(data.ssid);
-     $("#port").val(data.port);
-     $("#protocol").html(data.protocol);
-     $("#enc_cipher").html(data.enc_cipher);
+    $("#port").val(data.port);
+    $("#protocol").html(data.protocol);
+    $("#enc_cipher").html(data.enc_cipher);
     $("#hash").html(data.hash);
-     $("#username").val(data.username);
-     $("#password").val(data.password);
-     $("#tls-cipher").html(data.tls_cipher);
-     $("#key-pass").val(data.key_pass);
-     $("#tls-auth-key").val(data.tls_auth_key);
-   $("#ca-cert").val(data.ca_cert);
-     $("#pub-cert").val(data.pub_cert);
-     $("#pri-cert").val(data.pri_cert);
+    $("#username").val(data.username);
+    $("#password").val(data.password);
+    $("#tls-cipher").html(data.tls_cipher);
+    $("#key-pass").val(data.key_pass);
+    $("#tls-auth-key").val(data.tls_auth_key);
+    $("#ca-cert").val(data.ca_cert);
+    $("#pub-cert").val(data.pub_cert);
+    $("#pri-cert").val(data.pri_cert);
     $("#add-config").val(data.add_config);
 
   }
-
   GetVpnConf()
 
 
   // Configuration File overview
-  async function getConfigFile(){
-   let data = await getData("vpn/config_file");
-   $("#vpn-file").val(data.file);
+  async function getConfigFile() {
+    let data = await getData("vpn/config_file");
+    $("#vpn-file").val(data.file);
   }
   getConfigFile()
 
 
   // Open vpn logs
-  async function getLogs(){
+  async function getLogs() {
     let data = await getData("vpn/logs");
     $("#vpn-logs").val(data.file);
-   }
- 
-   getLogs()
+  }
+  getLogs()
 
 
-   //  Modal Window
- $("#submit-vpn").on('click', function () {
-  $('#modal').modal('show');
-})
-
-$("#close_modal_header").on('click', function () {
-  $('#modal').modal('hide');
-})
-
-$("#close_modal").on('click', function () {
-  $('#modal').modal('hide');
-})
+  async function PostConfigFile() {
+    let data = $("#vpn-file").val();
+    await postData('/vpn/config_file', { data })
+  }
+  $("#apply-vpn-configs").click(function () {
+    PostConfigFile();
+    $('#modal').modal('show');
+  })
 
 
-$("#proceed").on('click', function () {
-  $('#modal').modal('hide');
-})
-//--------------------------------------------------------------------------
+  //  Modal Window
+  $("#submit-vpn").on('click', function () {
+    $('#modal').modal('show');
+  })
+
+  $("#close_modal_header").on('click', function () {
+    $('#modal').modal('hide');
+  })
+
+  $("#close_modal").on('click', function () {
+    $('#modal').modal('hide');
+  })
+
+
+  $("#proceed").on('click', function () {
+    $('#modal').modal('hide');
+  })
+  //--------------------------------------------------------------------------
+
+  $("#connect-btn").click(async function () {
+
+    let connect = await postData('/vpn/connect', []);
+    let connect_data = await connect.json();
+
+    if (connect_data.error) {
+      errorModal(response_data.message);
+      return;
+    }
+
+    $(".status-light").removeClass("disconnected");
+    $(".status-light").addClass("connected");
+    $("#vpn-status").html("Connected");
+  });
+
+  $("#disconnect-btn").click(async function () {
+
+    let disconnect = await postData('/vpn/disconnect', []);
+    let connect_data = await disconnect.json();
+
+    if (connect_data.error) {
+      errorModal(response_data.message);
+      return;
+    }
+
+    $(".status-light").removeClass("connected");
+    $(".status-light").addClass("disconnected");
+    $("#vpn-status").html("Disconnected");
+  });
+
+
+
 });
