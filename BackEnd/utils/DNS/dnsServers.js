@@ -22,7 +22,7 @@ function extractDnsServers(string_configs) {
 async function getDnsServers(){
     let command = 'sudo cat /etc/dnsmasq.conf'
     let stdout = ''
-    if ( stdout = executeCommand(command) ) {
+    if ( stdout = await executeCommand(command) ) {
         return extractDnsServers(stdout)
     }
     else {
@@ -43,7 +43,7 @@ async function editDnsServers(requestMethod, requestData){
 
     let command = `sudo cat ${filePath}`
     let stdout = ''
-    if( executeCommand(command) ) {
+    if( await executeCommand(command) ) {
         getEachLineRegex = new RegExp('((.*?)\n)', 'g')
         let lines = stdout.match(getEachLineRegex)
 
@@ -76,11 +76,11 @@ async function editDnsServers(requestMethod, requestData){
 
         // Write the new file back to disk
         command = `sudo echo "${newFileContent}" > ${filePath}`
-        executeCommand(command)
+        await executeCommand(command)
         
         // Restart dnsmasq service
         command = `sudo systemctl restart dnsmasq`
-        executeCommand(command)
+        await executeCommand(command)
     }
 
 }

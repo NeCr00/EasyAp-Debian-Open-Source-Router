@@ -168,23 +168,8 @@
 
                     <div class="row  row-cols-1 mt-5  justify-content-md-center gx-5">
 
-                        <div class="container-fluid mt-5 pb-1">
-                            <h1 class="text-center">VPN Status</h1>
-                            <div class="row justify-content-center">
-                              <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <p>
-                                  Current Status: 
-                                  <span class="status-light disconnected"></span>
-                                  <span id="vpn-status">Disconnected</span>
-                                </p>
-                                <div class="text-center">
-                                  <button id="connect-btn" class="btn btn-success">Connect</button>
-                                  <button id="disconnect-btn" class="btn btn-danger">Disconnect</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <hr>
+                       
+                        
 
                         <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
@@ -193,161 +178,10 @@
                                 </div>
                             </div>
                             <div
-                                class="container-fluid table-responsive rounded-bottom  position-relative  vpn-container vpn-card shadow-sm ">
+                                class="container-fluid table-responsive rounded-bottom  position-relative  card-sizing shadow-sm ">
                                 <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                   
                                     <div class=" col-sm-10  col-md-10  mt-md-5">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    OpenVPN
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="vpn-status"
-                                                            id="vpn-status-enabled" value="1">
-                                                        <label class="form-check-label" for="vpn-status-enabled">
-                                                            Enabled
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ms-lg-5 ms-3">
-                                                        <input class="form-check-input" type="radio" name="vpn-status"
-                                                            id="vpn-status-disabled" value="0" checked>
-                                                        <label class="form-check-label" for="vpn-status-disabled">
-                                                            Disabled
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10  mt-md-2">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Server IP/Name
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <div class="icon-in-input ">
-                                                        <ion-icon name="finger-print-sharp"></ion-icon>
-                                                    </div>
-
-                                                    <input id="ssid" type="text" class="form-control"
-                                                        placeholder="Type IP/Name" aria-label="First name">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10  mt-md-2">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Port
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <div class="icon-in-input ">
-                                                        <ion-icon name="lock-closed-sharp"></ion-icon>
-                                                    </div>
-
-                                                    <input id="port" type="text" class="form-control"
-                                                        placeholder="Type your Password" aria-label="First name">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10  mt-md-2">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Protocol
-                                                </div>
-                                                <div class="col-md-6 col-sm-12 d-flex flex-row">
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="protocol" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            Select a Protocol
-                                                        </button>
-                                                        <ul id=protocol-list class="dropdown-menu"
-                                                            aria-labelledby="protocol">
-                                                            <li><a class="dropdown-item" href="#">TCP</a></li>
-                                                            <li><a class="dropdown-item" href="#">UDP</a></li>
-
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10 mt-md-2">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Encryption Cipher
-                                                </div>
-                                                <div class="col-md-6 col-sm-12 d-flex flex-row">
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="enc_cipher" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            Select Encryption Cipher
-                                                        </button>
-                                                        <ul id=enc_cipher-list class="dropdown-menu"
-                                                            aria-labelledby="protocol">
-                                                            <li> <a class="dropdown-item" href="#">AES-128-CBC</a> </li>
-                                                            <li> <a class="dropdown-item" href="#">AES-192-CBC</a> </li>
-                                                            <li> <a class="dropdown-item" href="#">AES-256-CBC</a> </li>
-                                                            <li> <a class="dropdown-item" href="#">BF-CBC</a> </li>
-                                                            <li> <a class="dropdown-item" href="#">CAMELLIA-128-CBC</a>
-                                                            </li>
-                                                            <li> <a class="dropdown-item" href="#">CAMELLIA-192-CBC</a>
-                                                            </li>
-                                                            <li> <a class="dropdown-item" href="#">CAMELLIA-256-CBC</a>
-                                                            </li>
-                                                            <li> <a class="dropdown-item" href="#">DES-CBC</a> </li>
-                                                            <li> <a class="dropdown-item" href="#">DES-EDE-CBC</a> </li>
-                                                            <li> <a class="dropdown-item" href="#">DES-EDE3-CBC</a>
-                                                            </li>
-                                                            <li> <a class="dropdown-item" href="#">DESX-CBC</a> </li>
-                                                            <li> <a class="dropdown-item" href="#">IDEA-CBC</a> </li>
-                                                            <li> <a class="dropdown-item" href="#">SEED-CBC</a> </li>
-
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10 mt-md-2">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Hash Algorithm
-                                                </div>
-                                                <div class="col-md-6 col-sm-12 d-flex flex-row">
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="hash" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            Select Hash Algorithm
-                                                        </button>
-                                                        <ul id="hash-list" class="dropdown-menu"
-                                                            aria-labelledby="protocol">
-
-                                                            <li><a class="dropdown-item" href="#">SHA1</a></li>
-                                                            <li><a class="dropdown-item" href="#">SHA-224</a></li>
-                                                            <li><a class="dropdown-item" href="#">SHA-256</a></li>
-                                                            <li><a class="dropdown-item" href="#">SHA-384</a></li>
-                                                            <li><a class="dropdown-item" href="#">SHA-512</a></li>
-                                                            <li><a class="dropdown-item" href="#">MD-5</a></li>
-                                                            <li><a class="dropdown-item" href="#">RSA MD-4</a></li>
-
-
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10  mt-md-2">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
@@ -372,7 +206,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" col-sm-10  col-md-10  mt-md-2">
+                                    <div class=" col-sm-10  col-md-10  mt-md-4">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
@@ -389,7 +223,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" col-sm-10  col-md-10 mt-md-2">
+                                    <div class=" col-sm-10  col-md-10 mt-md-4">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
@@ -407,128 +241,16 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class=" col-sm-10  col-md-12 mt-0 ">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-8 col-sm-2 mt-2 input-size d fw-semibold">
-                                                    <p class="float-start ">Advanced Settings</p>
-                                                </div>
-                                                <div class="col-md-4 col-sm-12 d-flex flex-row">
-                                                    <hr style="background-color:black;">
-                                                </div>
-                                            </div>
+                                    
+                                    <div class="container h-100 mt-md-4">
+                                        <div class="d-flex h-100 justify-content-center align-items-center">
+                                          <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="openVPNFileInput" accept=".ovpn">
+                                            <label class="custom-file-label" for="openVPNFileInput">Choose OpenVPN File</label>
+                                          </div>
                                         </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10  mt-md-3">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
-                                                    TLS Mode
-                                                </div>
-                                                <div class="col-md-6 col-sm-12 d-flex flex-row ms-lg-2">
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="tls-cipher" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            Select a Mode
-                                                        </button>
-                                                        <ul id="tls-cipher-list" class="dropdown-menu"
-                                                            aria-labelledby="protocol">
-                                                            <li><a class="dropdown-item" href="#">None</a></li>
-                                                            <li><a class="dropdown-item" href="#">TLS-Auth</a></li>
-                                                            <li><a class="dropdown-item" href="#">TLS-Crypt </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   
-
-                                    <div class=" col-sm-10  col-md-10 mt-md-3">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
-                                                    TLS Auth Key
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <textarea class="small-textarea" id="tls-auth-key"
-                                                        class="form-control " rows="15"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10 mt-md-3">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
-                                                    CA Cert
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <textarea class="small-textarea" id="ca-cert" class="form-control "
-                                                        rows="15"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10 mt-md-3">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
-                                                    Public Cert
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <textarea class="small-textarea" id="pub-cert" class="form-control "
-                                                        rows="15"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10  mt-md-3">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
-                                                    Private Cert
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <textarea class="small-textarea" id="pri-cert" class="form-control "
-                                                        rows="15"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10 mt-md-2">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
-                                                    Key Pass
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <div class="icon-in-input ">
-                                                        <ion-icon name="lock-closed-sharp"></ion-icon>
-                                                    </div>
-
-                                                    <input id="key-pass" type="password" class="form-control"
-                                                        placeholder="Type your Password" aria-label="First name">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-10  mt-md-3">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold ">
-                                                    Additional Config
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
-                                                    <textarea class="small-textarea" id="add-config"
-                                                        class="form-control " rows="15"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                      </div>
+                                      
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4">
                                         <div id="submit-vpn" class="float-end">
                                             <button id="apply-vpn-form" class="btn btn-pass btn-dark me-4"
@@ -544,68 +266,98 @@
                         </div>
 
 
-                        <div class="col-sm-12 col-md-5 mt-md-5">
-                            <div class="container-fluid">
-                                <div class="row row-cols-1 ">
-                                    <div class="col-12 mt-md-5 table-responsive">
-                                        <div class=" table-header py-1 rounded-top shadow-lg">
-                                            <div class="ms-4">
-                                                <h4 class=" table-header fw-bold ">OpenVPN Configuration File</h4>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
-                                            <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
-                                                <div class=" col-sm-10  col-md-12  align-center">
-                                                    <div class="text-area mt-1">
-                                                        <textarea class="card-textarea" id="vpn-file" name="vp"
-                                                            class="form-control " rows="15"></textarea>
-                                                    </div>
-                                                </div>
 
-                                                <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                    <div class="float-end">
-                                                        <button id="apply-vpn-configs"
-                                                            class="btn btn-pass btn-dark me-4"
-                                                            type="button">Apply</button>
-                                                        <button id="reset-vpn-configs" class="btn  btn-pass btn-danger "
-                                                            type="button">Reset</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+
+                        <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
+                            <div class=" table-header py-1 rounded-top shadow-lg">
+                                <div class="ms-4">
+                                    <h4 class=" table-header fw-bold ">OpenVPN File Overview</h4>
+                                </div>
+                            </div>
+                            <div
+                                class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                    <div class=" col-sm-10  col-md-12  align-center">
+                                        <div class="text-area mt-1">
+                                            <textarea class="card-textarea" id="vpn-config" name="vp"
+                                                class="form-control " rows="15"></textarea>
                                         </div>
                                     </div>
 
-                                    <div class="col-12 mt-md-5 table-responsive">
-                                        <div class=" table-header py-1 rounded-top shadow-lg">
-                                            <div class="ms-4">
-                                                <h4 class=" table-header fw-bold ">OpenVPN Logs</h4>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
-                                            <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
-                                                <div class=" col-sm-10  col-md-12  align-center">
-                                                    <div class="text-area mt-1">
-                                                        <textarea class="card-textarea" id="vpn-logs" disabled
-                                                            class="form-control " rows="15">test</textarea>
-                                                    </div>
-                                                </div>
-
-                                                <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                    <div class="float-end">
-                                                        <button id="refresh-vpn-logs" class="btn btn-pass btn-dark me-4"
-                                                            type="button">Refresh</button>
-                                                        <button class="btn  btn-pass btn-danger "
-                                                            type="button">Reset</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="position-absolute bottom-0 end-0 mb-4 me-4">
+                                        <div class="float-end">
+                                            <button id="apply-vpn-configs" class="btn btn-pass btn-dark me-4"
+                                                type="button">Apply</button>
+                                            <button id="reset-vpn-configs" class="btn  btn-pass btn-danger "
+                                                type="button">Refresh</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
+                            <div class=" table-header py-1 rounded-top shadow-lg">
+                                <div class="ms-4">
+                                    <h4 class=" table-header fw-bold ">OpenVPN Connection</h4>
+                                </div>
+                            </div>
+                            <div
+                                class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+
+
+                                    <div class="container-fluid mt-5 pb-1">
+                                        <h1 class="text-center">VPN Status</h1>
+                                        <div class="row justify-content-center">
+                                            <div class="col-12 text-center mt-5">
+                                                <p>
+                                                    <span class="fs-5 fw-bold ">Current Status: </span> 
+                                                    <span class="status-light disconnected bold"></span>
+                                                    <span class="fs-5 fw-bold " id="vpn-status">Disconnected</span>
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="position-absolute bottom-0 end-0 mb-4 me-4">
+                                        <div class="float-end">
+                                            <button id="connect-btn" class="btn btn-success">Connect</button>
+                                            <button id="disconnect-btn" class="btn btn-danger">Disconnect</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
+                            <div class=" table-header py-1 rounded-top shadow-lg">
+                                <div class="ms-4">
+                                    <h4 class=" table-header fw-bold ">OpenVPN Logs</h4>
+                                </div>
+                            </div>
+                            <div
+                                class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                    <div class=" col-sm-10  col-md-12  align-center">
+                                        <div class="text-area mt-1">
+                                            <textarea class="card-textarea" id="vpn-logs" disabled class="form-control "
+                                                rows="15">test</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="position-absolute bottom-0 end-0 mb-4 me-4">
+                                        <div class="float-end">
+                                            <button id="refresh-vpn-logs" class="btn btn-pass btn-dark me-4"
+                                                type="button">Refresh</button>
+                                            <button class="btn  btn-pass btn-danger " type="button">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
 
 

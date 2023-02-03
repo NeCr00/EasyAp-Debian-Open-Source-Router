@@ -91,7 +91,7 @@ function getProtocolServer(requestData) {
 async function getDDnsConfigs(){
     let command = 'sudo cat /etc/ddclient.conf'
     let stdout = ''
-    if ( stdout = executeCommand(command) ) {
+    if ( stdout = await executeCommand(command) ) {
         configs = extractDDnsConfigs(stdout)
         return generateFrontendKeys(configs)
     }
@@ -105,11 +105,11 @@ async function handleDdnsService(requestData){
 
     if (requestData['ddns_enabled'] === currentDdnsConfigs['ddns_enabled']
         &&  currentDdnsConfigs['ddns_enabled'] === 'true'){
-            executeCommand('sudo systemctl restart ddclient')
+            await executeCommand('sudo systemctl restart ddclient')
     } else if (requestData['ddns_enabled'] === 'true' &&  currentDdnsConfigs['ddns_enabled'] === 'false') {
-        executeCommand('sudo systemctl enable ddclinet')
+        await executeCommand('sudo systemctl enable ddclinet')
     } else if (requestData['ddns_enabled'] === 'false' &&  currentDdnsConfigs['ddns_enabled'] === 'true') {
-        executeCommand('sudo systemctl disable ddclinet')
+        await executeCommand('sudo systemctl disable ddclinet')
     }
 }
 
@@ -130,7 +130,7 @@ async function editDDnsConfigs(requestData){
     `;
 
     let command = `sudo echo "${newFileContent}" > /etc/ddclient.conf`
-    executeCommand(command)
+    await executeCommand(command)
     
     await handleDdnsService(requestData)
 }

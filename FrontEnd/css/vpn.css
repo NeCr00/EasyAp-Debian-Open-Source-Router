@@ -120,7 +120,7 @@ body{
   
   .card-sizing{
     width: 668px;
-    height: 500px;
+    height: 480px;
     background-color: rgb(255, 255, 255);
   }
 
@@ -258,4 +258,16 @@ hr{
 }
 #vpn-status:contains("Disconnected") {
   background-color: red;
+}
+
+.custom-file-input {
+  display: none;
+}
+
+.custom-file-label {
+  background-color: #2388f3;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
 }

@@ -22,11 +22,9 @@ async function editDnsmasqDHCPRange(requestData){
         }
     }
 
-    // console.log(configsToChange)
-
     let command = `sudo cat ${filePath}`
     let stdout = ''
-    if( executeCommand(command) ) {
+    if( await executeCommand(command) ) {
         getEachLineRegex = new RegExp('((.*?)\n)', 'g')
         let lines = stdout.match(getEachLineRegex)
         let getDHCPRangeLineRegex = new RegExp('.*dhcp-range((.*?)\n)', 'g')
@@ -75,11 +73,11 @@ async function editDnsmasqDHCPRange(requestData){
 
         // Write the new file back to disk
         command = `sudo echo "${newFileContent}" > ${filePath}`
-        executeCommand(command)
+        await executeCommand(command)
         
         // Restart dnsmasq service
         command = `sudo systemctl restart dnsmasq`
-        executeCommand(command)
+        await executeCommand(command)
     }
 
 }
@@ -90,16 +88,16 @@ async function editDnsmasqStaticIPs(requestAction, requestData){
     let restartDnsmasqCommand = 'sudo systemctl restart dnsmasq'
     let stdout = ''
     
-    if ( stdout = executeCommand(readFileCommand) ) {
+    if ( stdout = await executeCommand(readFileCommand) ) {
         switch (requestAction){
             case "POST":
                 requestData.forEach(async (item) => {
                     let addHostCommand = `sudo dnsmasq --dhcp-host ${item.mac},${item.ip}`
-                    executeCommand(addHostCommand)
+                    await executeCommand(addHostCommand)
                 });
                 
                 // Restart dnsmasq service
-                executeCommand(restartDnsmasqCommand)
+                await executeCommand(restartDnsmasqCommand)
                 break;
             
             
@@ -120,10 +118,10 @@ async function editDnsmasqStaticIPs(requestAction, requestData){
 
                 // Write the new file back to disk
                 let removeHostCommand = `sudo echo ${newFileContent} > ${filePath}`
-                executeCommand(removeHostCommand)
+                await executeCommand(removeHostCommand)
                 
                 // Restart dnsmasq service
-                executeCommand(restartDnsmasqCommand)
+                await executeCommand(restartDnsmasqCommand)
                 break;
 
             default:

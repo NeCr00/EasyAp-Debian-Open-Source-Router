@@ -5,7 +5,7 @@ const exec = util.promisify(require('child_process').exec)
 function extractDeviceInfo(string_devices) {
     let devices = []
     getEachLineRegex = new RegExp('((.*?)\n)', 'g')
-    lines = string_devices.match(getEachLineRegex)
+    lines = string_devices.split('\n')
     lines.forEach(item => {
         line = item.split(" ")
         lease_time = line[0]
@@ -41,9 +41,8 @@ async function isHostUp(ip) {
 async function getDevices() {
     let active_devices = []
     let command = 'sudo cat /var/lib/misc/dnsmasq.leases'
-    // let command = 'cat /home/jason/workdir/test-dir/devices_test.txt'
     let stdout = ''
-    if ( stdout = executeCommand(command) ) {
+    if ( stdout = await executeCommand(command) ) {
         console.log(stdout)
         devices = extractDeviceInfo(stdout)
         var finishGettingDevices = new Promise((resolve, reject) => {

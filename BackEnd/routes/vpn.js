@@ -3,107 +3,92 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
-const { response } = require('express');
-const { startVPN, stopVPN, readVPNConfig, writeVPNConfig } = require('../utils/VPN/configVPN')
-const { extractVPNConfig } = require('../utils/VPN/extractVpnConfig')
-
+const { startVPN, stopVPN, readVPNConfig, writeVPNConfig, getVpnStatus,writeVPNConfigGUI,readVpnLogs } = require('../utils/VPN/configVPN');
 
 
 router.get('/', (req, res) => {
    
-    res.sendFile(path.join(__dirname,'../../FrontEnd/vpn.html'));
-    extractVPNConfig()
+  res.sendFile(path.join(__dirname,'../../FrontEnd/vpn.html'));
+  
     
 })
 
-router.post('/connect', (req, res) => {
+router.get('/status', async (req, res) => {
   
-  let connected = {}
+  let status = await getVpnStatus()
+  res.json(status)
+})
 
-  startVPN()
-
+router.post('/connect', async (req, res) => {
+  
+  let connected = await startVPN()
+  console.log(connected)
   if(connected.error){
-    res.json({error:true,message:'Cannot connect to VPN'})
+    res.json({error:true, message:'Cannot connect to VPN'})
   }
   else{
-    res.json({error:false,message:'Connected to VPN'})
+    res.json({error:false, message:'Connected to VPN'})
   }
 })
 
-router.post('/disconnect', (req, res) => {
-  if(connected.error){
-    res.json({error:true,message:'Cannot disconnect to VPN'})
+router.post('/disconnect', async (req, res) => {
+
+  let disconnected = await stopVPN()
+  console.log(disconnected)
+  if(disconnected.error){
+    res.json({error:true, message:'Cannot disconnect to VPN'})
   }
   else{
-    res.json({error:false,message:'disconnected to VPN'})
+    res.json({error:false, message:'disconnected to VPN'})
   }
 })
 
-router.get('/config', (req, res) => {
+
+
+router.post('/config_file/upload', (req, res) => {
+
+  let config = req.body.file
+  let username = req.body.username
+  let password = req.body.password
+  let credentials = req.body.cred_enable
+
+  applied = writeVPNConfigGUI(config, username, password, credentials)
   
-  let data = {
-    "vpn_enable": '0',
-    "ssid": 'test',
-    "port": '1',
-    "protocol": 'Select',
-    "enc_cipher": 'Select',
-    "hash": 'Select',
-    "cred_enable": '1',
-    "username": '1',
-    "password": 'test',
-    "tls_cipher": 'Select',
-    "key_pass": 'test',
-    "tls_auth_key": 'test',
-    "ca_cert": 'test',
-    "pub_cert": 'test',
-    "pri_cert": 'test',
-    "add_config": 'test'
-  }
-
-  res.json(data)
-  
-})
-
-
-router.post('/config', (req, res) => {
-  
-  let data = req.body
-
-  console.log(data)
-
-  if (1){
-    res.json({"message":"Changes Applied"})
+  if(applied.error){
+    res.json({error:true, message:applied.error})
   }
   else{
-    res.json({"error":true,"status":'Something happen, try again !'})
+    res.json({error:false, message:'VPN file uploaded successfully'})
   }
   
 })
-
-
-
 
 router.get('/config_file', (req, res) => {
   
-  res.json({"file":"This is the file overview"})
+  let config = readVPNConfig()
+  console.log(config)
+  if(config.error)
+  {
+    res.json({"file":"No Data to Preview"})
+  }
+  else{
+    res.json({"file": config.config})
+  }
   
 })
 
 router.post('/config_file', (req, res) => {
-  // console.log(req.body)
-  let config = req.body.data
   
-  config = config.split('\n').join('\n')
-  console.log(config)
+  let config = req.body.data
   res.json(writeVPNConfig(config))
-  // res.json({"file":"This is the file overview"})
   
 })
 
 
-router.get('/logs', (req, res) => {
+router.get('/logs', async (req, res) => {
   
-  res.json({"file":"This is the logs"})
+  let logs = await readVpnLogs()
+  res.json({"file": logs.logs})
     
 })
  

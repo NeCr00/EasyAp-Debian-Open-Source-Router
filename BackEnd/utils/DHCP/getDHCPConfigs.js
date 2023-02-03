@@ -20,7 +20,7 @@ function extractDHCPRangeInfo(string_configs) {
 async function getDHCPRangeInfo(){
     let command = 'sudo cat /etc/dnsmasq.conf'
     let stdout = ''
-    if ( stdout = executeCommand(command) ) {
+    if ( stdout = await executeCommand(command) ) {
         return extractDHCPRangeInfo(stdout)
     }
     else {
@@ -50,7 +50,7 @@ async function getStaticIPs(){
     let staticIPAddresses = []
     let command = 'sudo cat /etc/dnsmasq.d/static_leases'
     let stdout = ''
-    if ( stdout = executeCommand(command) ) {      
+    if ( stdout = await executeCommand(command) ) {      
         dhcpBoundPairs = extractDHCPStaticInfo(stdout)
         var finishGettingStaticIPs = new Promise((resolve, reject) => {
             id = 0
