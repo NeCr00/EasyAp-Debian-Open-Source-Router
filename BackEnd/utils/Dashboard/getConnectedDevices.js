@@ -2,6 +2,8 @@ const util = require('util');
 const { executeCommand } = require('../../Helpers/executeCommand');
 const exec = util.promisify(require('child_process').exec)
 
+const DNSMASQ_LEASES_FILE = '/var/lib/misc/dnsmasq.leases'
+
 function extractDeviceInfo(string_devices) {
     let devices = []
     getEachLineRegex = new RegExp('((.*?)\n)', 'g')

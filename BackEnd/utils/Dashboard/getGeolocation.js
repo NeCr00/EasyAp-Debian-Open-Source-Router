@@ -1,4 +1,4 @@
-const Geolocation = require('../Database/Model/Geolocation');
+const Geolocation = require('../../Database/Model/Geolocation');
 
 
 async function getGeolocationData() {

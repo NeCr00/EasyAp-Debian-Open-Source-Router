@@ -4,8 +4,8 @@ const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
 const { getDevices } = require('../utils/Dashboard/getConnectedDevices')
-const { getGeolocationData, calculateTheData } = require('../utils/getGeolocation')
-const { getUsage } = require('../utils/getUsage')
+const { getGeolocationData, calculateTheData } = require('../utils/Dashboard/getGeolocation')
+const { getUsage } = require('../utils/Dashboard/getUsage')
 const { getTrafficStats } = require('../utils/networkTrafficMonitor')
 
 

@@ -11,16 +11,15 @@ const { executeCommand } = require('../../Helpers/executeCommand')
 // <hostname>
 
 
-function extractDDnsConfigs(string_configs) {
+function extractDDnsConfigs(configs) {
     let ddnsConfigs = {}
-    let getEachLineRegex = new RegExp('((.*?)\n)', 'g')
-    let lines = string_configs.match(getEachLineRegex)
+    let lines = configs.split('\n')
+    
     lines.forEach((item, index) => {
         let [configKey, configValue] = item.split('=')
+        configKey = configKey.replace('#', '')
         
-        if (index === 0){ // parsing ddns_enabled
-            ddnsConfigs[configKey.replace('#', '')] = configValue === 'true' ? '1' : '0'
-        } else if (index === lines.length-1) { // parsing domain
+        if (configValue === undefined) { // parsing domain
             ddnsConfigs['domain'] = configValue
         } else {
             ddnsConfigs[configKey] = configValue
@@ -119,8 +118,7 @@ async function editDDnsConfigs(requestData){
     [requestData['protocol'], requestData['server']] = getProtocolServer(requestData)
 
     let newFileContent = 
-    `
-    #ddns_enabled=${requestData['ddns_enabled']}
+    `#ddns_enabled=${requestData['ddns_enabled']}
     protocol=${requestData['protocol']}
     ssl=yes
     server=${requestData['server']}

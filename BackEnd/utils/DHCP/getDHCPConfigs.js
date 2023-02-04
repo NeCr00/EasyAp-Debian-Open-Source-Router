@@ -1,10 +1,11 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
 
-function extractDHCPRangeInfo(string_configs) {
+function extractDHCPRangeInfo(dhcpRangeConfigs) {
     let getDHCPRangeLineRegex = new RegExp('.*dhcp-range((.*?)\n)', 'g')
-    let configLine = string_configs.match(getDHCPRangeLineRegex)
+    let configLine = dhcpRangeConfigs.match(getDHCPRangeLineRegex)
     let dhcpRangeValues = configLine[0].split("=")[1]
     dhcpRangeValues = dhcpRangeValues.split(",")
+    
     let dhcpRangeInfo = {
         "dhcp_enable": configLine[0] === '#' ? '0' : '1',
         "start_ip": dhcpRangeValues[0],
@@ -28,40 +29,31 @@ async function getDHCPRangeInfo(){
     }
 }
 
-function extractDHCPStaticInfo(string_ips) {
-    let dhcpBoundPairs = []
-    getEachLineRegex = new RegExp('((.*?)\n)', 'g')
-    get_lines = string_ips.match(getEachLineRegex)
-    get_lines.forEach(item => {
-        dhcpPair = item.split("=")[1]
-        dhcpPair = dhcpPair.split(",")
-        mac = line[0]
-        ip = line[1]
-        dhcpBoundPairs.push({
-            mac: mac,
-            ip: ip,
+function extractDHCPStaticInfo(staticAddrConfigs) {
+    let dhcpStaticAddrPairs = []
+    let lines = staticAddrConfigs.split('\n')
+    
+    lines.forEach(line => {
+        let values = line.split("=")[1]
+        values = values.split(",")
+        
+        dhcpStaticAddrPairs.push({
+            mac: values[0],
+            ip: values[1],
         })
     })
 
-    return dhcpBoundPairs
+    return dhcpStaticAddrPairs
 }
 
 async function getStaticIPs(){
-    let staticIPAddresses = []
     let command = 'sudo cat /etc/dnsmasq.d/static_leases'
     let stdout = ''
-    if ( stdout = await executeCommand(command) ) {      
-        dhcpBoundPairs = extractDHCPStaticInfo(stdout)
-        var finishGettingStaticIPs = new Promise((resolve, reject) => {
-            id = 0
-            devices.forEach(async (item,index,array) => {
-                item.id = ++id
-                staticIPAddresses.push(item)
-                if (index === array.length -1) resolve(staticIPAddresses);
-            })
-            
-        });
-        return  finishGettingStaticIPs;
+    if ( stdout = await executeCommand(command) ) {
+        return extractDHCPStaticInfo(stdout)
+    }
+    else {
+        return
     }
 }
 

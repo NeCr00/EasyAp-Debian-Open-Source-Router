@@ -1,18 +1,18 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
 
 
-function extractDnsServers(string_configs) {
+function extractDnsServers(serverConfigs) {
     let servers = []
-    let getEachLineRegex = new RegExp('((.*?)\n)', 'g')
     let getDnsServersLineRegex = new RegExp('server=.*', 'g')
-    lines = string_devices.match(getEachLineRegex)
+    lines = serverConfigs.split('\n')
     let serverId = 0
-    lines.forEach(item => {
+
+    lines.forEach(line => {
         if (arr[index].match(getDnsServersLineRegex)) {
-            line = item.split("=")
+            let values = line.split("=")
             servers.push({
                 id: ++serverId,
-                ip: line[1]
+                ip: values[1]
             })
         }  
     })
@@ -33,7 +33,7 @@ async function getDnsServers(){
 async function editDnsServers(requestMethod, requestData){
     let filePath = '/etc/dnsmasq.conf'
     let currentDnsServers = await getDnsServers().map(item => item.ip)
-    serversToEdit = {}
+    let serversToEdit = {}
     
     requestData.forEach((item, index) => {
         if ( currentDnsServers.includes(requestData[index]) ){
@@ -44,8 +44,7 @@ async function editDnsServers(requestMethod, requestData){
     let command = `sudo cat ${filePath}`
     let stdout = ''
     if( await executeCommand(command) ) {
-        getEachLineRegex = new RegExp('((.*?)\n)', 'g')
-        let lines = stdout.match(getEachLineRegex)
+        let lines = stdout.split('\n')
 
         switch (requestMethod) {
             case 'POST':

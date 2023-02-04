@@ -1,18 +1,18 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
 
-function extractDnsDomains(string_configs) {
+function extractDnsDomains(configs) {
     let domains = []
-    let getEachLineRegex = new RegExp('((.*?)\n)', 'g')
     let getDnsDomainsLineRegex = new RegExp('EasyAP', 'g')
-    let lines = string_configs.match(getEachLineRegex)
+    let lines = configs.split('\n')
     let domainId = 0
-    lines.forEach(item => {
+
+    lines.forEach(line => {
         if (arr[index].match(getDnsDomainsLineRegex)) {
-            let line = item.split(/(\s+)/)
+            let values = line.split(/(\s+)/)
             domains.push({
                 id: ++domainId,
-                ip: line[0],
-                domain: line[1],
+                ip: values[0],
+                domain: values[1],
             })
         }  
     })

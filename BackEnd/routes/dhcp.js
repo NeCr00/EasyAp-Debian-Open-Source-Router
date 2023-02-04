@@ -99,9 +99,7 @@ router.get('/static-ips', function(req, res){
     "mac": "98-1D-20-04-09-B9"
   }]
   res.json(data)
-  // getStaticIPs().then(function (staticIPs) {
-  //   res.json(staticIPs);
-  // })
+  // res.json(getStaticIPs());
 
 })
 

@@ -118,11 +118,6 @@ async function applyFirewallRule(options) {
             return true
         }
     })
-
-
-
-
-
 }
 
 async function setCustomFirewallRule(rule, name) { //finished
@@ -267,6 +262,8 @@ async function getFirewallLogs() { //Finished
 
     let logs = "Logs are not available for the moment."
 
+    // Crashes the server if file doesn't exist
+    // Maybe use tail instead 
     return new Promise((resolve, reject) => {
         readLastLines.read('/var/log/iptables.log', 10)
             .then((lines) => {
@@ -278,12 +275,11 @@ async function getFirewallLogs() { //Finished
                 }
             });
     })
-
 }
 
 
 //TODO: we have to specify if the firewallLogs activation should be configured by function or from bash
-async function enableFirwallLogs() {
+async function enableFirewallLogs() {
 
     command = 'sudo vi /etc/syslog.conf >> kern.warning /var/log/iptables.log'
     // run the `ls` command using exec

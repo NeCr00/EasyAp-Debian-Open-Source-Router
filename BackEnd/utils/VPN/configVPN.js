@@ -3,6 +3,9 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec)
 const { executeCommand } = require('../../Helpers/executeCommand')
 
+const OVPN_CLIENT_CONFIG_FILE = '/etc/openvpn/client.conf'
+const OVPN_LOG_FILE           = '/var/log/easyap/openvpn.log'
+
 async function configureVpnRule() {
     try {
       // Redirect all traffic from the clients to the VPN tunnel
@@ -49,10 +52,10 @@ function writeVPNConfigGUI(config,username,password,credentials) {
             config+= username+'\n'
             config+= 'auth-password\n'
         }
-        
         config += '\nlog /var/log/easyap/openvpn.log'
+        
         // Write the OpenVPN configuration file to disk
-        let filePath = __dirname+'/test.conf'
+        let filePath = '/etc/openvpn/client.conf'
         fs.writeFileSync(filePath, config, 'utf8');
         return { error: false, message: 'OpenVPN configuration written to disk successfully' };
     } catch (error) {
@@ -64,7 +67,7 @@ function writeVPNConfigGUI(config,username,password,credentials) {
 function readVPNConfig() {
     try {
         // Read the OpenVPN configuration file
-        const config = fs.readFileSync(__dirname+'/test.conf', 'utf-8');
+        const config = fs.readFileSync('/etc/openvpn/client.conf', 'utf-8');
         return {error:false, config:config}
     } catch (error) {
         return { error: true, message: 'File not found' }
@@ -74,8 +77,7 @@ function readVPNConfig() {
 async function startVPN() {
     try {
         // Start the OpenVPN client
-        // await exec('sudo systemctl restart openvpn@client');
-        await exec('sudo systemctl restart openvpn');
+        await exec('sudo systemctl restart openvpn@client');
         // adds the iptable rule to enable vpn tunneling
         let status = await configureVpnRule()
         return status
@@ -87,8 +89,7 @@ async function startVPN() {
 
 async function stopVPN() {
     try {
-        // await exec('sudo systemctl stop openvpn@client');
-        await exec('sudo systemctl stop openvpn');
+        await exec('sudo systemctl stop openvpn@client');
         let status = await deleteVpnRule()
         return status
 
@@ -98,10 +99,8 @@ async function stopVPN() {
 }
 
 async function getVpnStatus() {
-    let stdout = await executeCommand('sudo systemctl status openvpn | head -n 3')
-    // console.log(stdout)
+    let stdout = await executeCommand('sudo systemctl status openvpn@client | head -n 3')
     let statusLine = stdout.split('\n')[2].split(': ')[1]
-    // console.log(statusLine)
     if (statusLine.includes('inactive')){
         return {vpn_status : 'disconnected'}
     } else {
@@ -111,10 +110,7 @@ async function getVpnStatus() {
 
 async function readVpnLogs() {
     try {
-        // Read the OpenVPN configuration file
-        //path:/var/log/easyap/openvpn.log
-        // const config = fs.readFileSync(__dirname+'/test.conf', 'utf-8');
-        let stdout = await executeCommand(`sudo tail -n 1000  ${__dirname}/test.conf`)
+        let stdout = await executeCommand(`sudo tail -n 1000 /var/log/easyap/openvpn.log`)
         return {error:false, logs: stdout}
     } catch (error) {
         return { error: true, message: 'File not found' }

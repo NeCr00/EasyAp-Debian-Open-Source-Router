@@ -1,6 +1,9 @@
 const { getDHCPRangeInfo } = require('./getDHCPConfigs.js')
 const { executeCommand } = require('../../Helpers/executeCommand')
 
+const DNSMASQ_CONF_FILE = '/etc/dnsmasq.conf'
+const DNSMASQ_STATIC_LEASES_FILE = '/etc/dnsmasq.d/static_leases'
+
 function changeDnsmasqConfLine(line, configValueIndex, configsToChange){
     [linePrefix, editedLine] = line.split('=')
     editedLine = editedLine.split(',')
@@ -12,7 +15,6 @@ function changeDnsmasqConfLine(line, configValueIndex, configsToChange){
 
 async function editDnsmasqDHCPRange(requestData){
     let filePath = '/etc/dnsmasq.conf'
-    // let filePath = '/home/jason/workdir/test-dir/dhcp_test.txt'
     let currentConfigs = await getDHCPRangeInfo()
     configsToChange = {}
     
