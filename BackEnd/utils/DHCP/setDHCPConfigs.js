@@ -14,7 +14,7 @@ function changeDnsmasqConfLine(line, configValueIndex, configsToChange){
 }
 
 async function editDnsmasqDHCPRange(requestData){
-    let filePath = '/etc/dnsmasq.conf'
+    let filePath = DNSMASQ_CONF_FILE
     let currentConfigs = await getDHCPRangeInfo()
     configsToChange = {}
     
@@ -27,8 +27,7 @@ async function editDnsmasqDHCPRange(requestData){
     let command = `sudo cat ${filePath}`
     let stdout = ''
     if( await executeCommand(command) ) {
-        getEachLineRegex = new RegExp('((.*?)\n)', 'g')
-        let lines = stdout.match(getEachLineRegex)
+        let lines = stdout.split('\n')
         let getDHCPRangeLineRegex = new RegExp('.*dhcp-range((.*?)\n)', 'g')
 
         lines.forEach( (item, index, arr) => {
@@ -71,8 +70,6 @@ async function editDnsmasqDHCPRange(requestData){
         // Join the lines back together
         const newFileContent = lines.join('\n');
 
-        console.log(newFileContent)
-
         // Write the new file back to disk
         command = `sudo echo "${newFileContent}" > ${filePath}`
         await executeCommand(command)
@@ -85,7 +82,7 @@ async function editDnsmasqDHCPRange(requestData){
 }
 
 async function editDnsmasqStaticIPs(requestAction, requestData){
-    let filePath = '/etc/dnsmasq.d/static_leases'
+    let filePath = DNSMASQ_STATIC_LEASES_FILE
     let readFileCommand = `sudo cat ${filePath}`
     let restartDnsmasqCommand = 'sudo systemctl restart dnsmasq'
     let stdout = ''
@@ -104,22 +101,20 @@ async function editDnsmasqStaticIPs(requestAction, requestData){
             
             
             case "DELETE":
-                getEachLineRegex = new RegExp('((.*?)\n)', 'g')
-                let lines = stdout.match(getEachLineRegex)
+                let lines = stdout.split('\n')
 
                 lines.forEach((lineItem, index, arr) => {
                     requestData.forEach(dataItem => {
                         if (lines[index].includes(dataItem.mac)){
-                            lines[index] = ''
+                            // lines[index] = ''
+                            lines.splice(index, 1)
                         }
                     });
                 });
                 const newFileContent = lines.join('\n');
 
-                console.log(newFileContent)
-
                 // Write the new file back to disk
-                let removeHostCommand = `sudo echo ${newFileContent} > ${filePath}`
+                let removeHostCommand = `sudo echo "${newFileContent}" > ${filePath}`
                 await executeCommand(removeHostCommand)
                 
                 // Restart dnsmasq service

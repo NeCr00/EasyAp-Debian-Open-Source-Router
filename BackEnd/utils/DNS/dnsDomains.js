@@ -1,5 +1,7 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
 
+const HOSTS_FILE = '/etc/hosts'
+
 function extractDnsDomains(configs) {
     let domains = []
     let getDnsDomainsLineRegex = new RegExp('EasyAP', 'g')
@@ -20,7 +22,7 @@ function extractDnsDomains(configs) {
 }
 
 async function getDnsDomains(){
-    let command = 'sudo cat /etc/hosts'
+    let command = `sudo cat ${HOSTS_FILE}`
     let stdout = ''
     if ( stdout = await executeCommand(command) ) {
         return extractDnsDomains(stdout)
@@ -31,7 +33,7 @@ async function getDnsDomains(){
 }
 
 async function editDnsDomains(requestAction, requestData){
-    let filePath = '/etc/hosts'
+    let filePath = HOSTS_FILE
     let currentDnsDomains = await getDnsDomains()
     let domainsToEdit = {}
     let easyAPComment = '#EasyAP config'
@@ -45,8 +47,7 @@ async function editDnsDomains(requestAction, requestData){
     let command = `sudo cat ${filePath}`
     let stdout = ''
     if( await executeCommand(command) ) {
-        getEachLineRegex = new RegExp('((.*?)\n)', 'g')
-        let lines = stdout.match(getEachLineRegex)
+        let lines = stdout.split('\n')
 
         switch (requestMethod) {
             case 'POST':
@@ -58,8 +59,9 @@ async function editDnsDomains(requestAction, requestData){
             case 'DELETE':
                 lines.forEach( (item, linesIndex, arr) => {
                     domainsToEdit.forEach( (item, domainsIndex) => {
-                        if (lines[linesIndex].match(`${domainsToEdit[domainsIndex][ip]}.*${domainsToEdit[domainsIndex][domain]}`)) { 
-                            lines[linesIndex] = ''
+                        if (lines[linesIndex].match(`/${domainsToEdit[domainsIndex][ip]}\s+${domainsToEdit[domainsIndex][domain]}/`)) { 
+                            // lines[linesIndex] = ''
+                            lines.splice(linesIndex, 1)
                         }
                     });
                 });

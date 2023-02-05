@@ -97,11 +97,11 @@ async function stopVPN() {
         return { error: true, message: `Error writing OpenVPN configuration to disk: ${error}` }
     }
 }
-
+// Active: activating (auto-restart) (Result: exit-code) since Sat 2023-02-04 22:54:26 EET; 826ms ago
 async function getVpnStatus() {
     let stdout = await executeCommand('sudo systemctl status openvpn@client | head -n 3')
     let statusLine = stdout.split('\n')[2].split(': ')[1]
-    if (statusLine.includes('inactive')){
+    if (statusLine.includes('inactive') || statusLine.includes('activating')){
         return {vpn_status : 'disconnected'}
     } else {
         return {vpn_status : 'connected'}

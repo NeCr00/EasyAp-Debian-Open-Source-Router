@@ -8,12 +8,12 @@ function executeCommand(command) {
         exec(command, (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
-                return false;
+                resolve(false);
             }
             if (stderr) {
                 console.log(`stderr: ${stderr}`);
                 //command produced error
-                return false;
+                resolve(false);
             }
             // console.log(`stdout: ${stdout}`);
             //command executed successfully

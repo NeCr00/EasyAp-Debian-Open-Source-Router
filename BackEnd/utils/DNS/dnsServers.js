@@ -1,5 +1,6 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
 
+const DNSMASQ_CONF_FILE = '/etc/dnsmasq.conf'
 
 function extractDnsServers(serverConfigs) {
     let servers = []
@@ -20,7 +21,7 @@ function extractDnsServers(serverConfigs) {
 }
 
 async function getDnsServers(){
-    let command = 'sudo cat /etc/dnsmasq.conf'
+    let command = `sudo cat ${DNSMASQ_CONF_FILE}`
     let stdout = ''
     if ( stdout = await executeCommand(command) ) {
         return extractDnsServers(stdout)
@@ -31,7 +32,7 @@ async function getDnsServers(){
 }
 
 async function editDnsServers(requestMethod, requestData){
-    let filePath = '/etc/dnsmasq.conf'
+    let filePath = DNSMASQ_CONF_FILE
     let currentDnsServers = await getDnsServers().map(item => item.ip)
     let serversToEdit = {}
     
@@ -57,7 +58,8 @@ async function editDnsServers(requestMethod, requestData){
                 lines.forEach( (item, linesIndex, arr) => {
                     serversToEdit.forEach( (item, serversIndex) => {
                         if (lines[linesIndex].match(`server=${serversToEdit[serversIndex]}`)) { 
-                            lines[linesIndex] = ''
+                            // lines[linesIndex] = ''
+                            lines.splice(linesIndex, 1)
                         }
                     });
                 });
@@ -70,8 +72,6 @@ async function editDnsServers(requestMethod, requestData){
         
         // Join the lines back together
         const newFileContent = lines.join('\n');
-
-        console.log(newFileContent)
 
         // Write the new file back to disk
         command = `sudo echo "${newFileContent}" > ${filePath}`

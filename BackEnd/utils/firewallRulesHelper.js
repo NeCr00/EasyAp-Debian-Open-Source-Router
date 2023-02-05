@@ -1,10 +1,11 @@
 const util = require('util');
 const Firewall = require('../Database/Model/Firewall');
 const exec = util.promisify(require('child_process').exec)
-const readLastLines = require('read-last-lines');
+// const readLastLines = require('read-last-lines');
 const e = require('express');
+const { executeCommand } = require('../Helpers/executeCommand');
 
-
+const IPTABLES_LOG_FILE = '/var/log/iptables.log'
 
 async function ruleOrNameAlreadyExists(rule, name) {
     //Checks if the rule name already exists
@@ -260,21 +261,21 @@ async function getFirewallRules() {  //Finished
 
 async function getFirewallLogs() { //Finished
 
-    let logs = "Logs are not available for the moment."
-
     // Crashes the server if file doesn't exist
-    // Maybe use tail instead 
-    return new Promise((resolve, reject) => {
-        readLastLines.read('/var/log/iptables.log', 10)
-            .then((lines) => {
-                if (lines) {
-                    resolve(lines)
-                }
-                else {
-                    resolve(logs)
-                }
-            });
-    })
+    // Maybe use tail instead
+    let stdout = await executeCommand(`sudo tail -n 10 ${IPTABLES_LOG_FILE}`) 
+    // return new Promise((resolve, reject) => {
+    //     readLastLines.read('/var/log/iptables.log', 10)
+    //         .then((lines) => {
+    //             if (lines) {
+    //                 resolve(lines)
+    //             }
+    //             else {
+    //                 resolve(logs)
+    //             }
+    //         });
+    // })
+    return stdout
 }
 
 

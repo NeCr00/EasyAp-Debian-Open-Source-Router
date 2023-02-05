@@ -49,6 +49,7 @@ async function saveTrafficData(ip, currentData) {
   // Find all data for the specific IP
   const records = await dataUsageUser.find({ ip: ip });
 
+
   // Shift all existing data by one hour and update in the database
   for (let i = records.length - 1; i >= 1; i--) {
     records[i].packetsSent = records[i - 1].packetsSent;
@@ -59,10 +60,10 @@ async function saveTrafficData(ip, currentData) {
   }
 
   // Update the first entry with the current data
-  records[0].packetsSent = data.packetsSent;
-  records[0].packetsReceived = data.packetsReceived;
-  records[0].bytesSent = data.bytesSent;
-  records[0].bytesReceived = data.bytesReceived;
+  records[0].packetsSent = data.packetsSent - records[0].packetsSent;
+  records[0].packetsReceived = data.packetsReceived - records[0].packetsSent;
+  records[0].bytesSent = data.bytesSent - records[0].packetsSent;
+  records[0].bytesReceived = data.bytesReceived - records[0].packetsSent;
   await records[0].save();
 }
 

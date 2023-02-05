@@ -1,5 +1,8 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
 
+const DNSMASQ_CONF_FILE = '/etc/dnsmasq.conf'
+const DNSMASQ_STATIC_LEASES_FILE = '/etc/dnsmasq.d/static_leases'
+
 function extractDHCPRangeInfo(dhcpRangeConfigs) {
     let getDHCPRangeLineRegex = new RegExp('.*dhcp-range((.*?)\n)', 'g')
     let configLine = dhcpRangeConfigs.match(getDHCPRangeLineRegex)
@@ -19,7 +22,7 @@ function extractDHCPRangeInfo(dhcpRangeConfigs) {
 }
 
 async function getDHCPRangeInfo(){
-    let command = 'sudo cat /etc/dnsmasq.conf'
+    let command = `sudo cat ${DNSMASQ_CONF_FILE}`
     let stdout = ''
     if ( stdout = await executeCommand(command) ) {
         return extractDHCPRangeInfo(stdout)
@@ -47,7 +50,7 @@ function extractDHCPStaticInfo(staticAddrConfigs) {
 }
 
 async function getStaticIPs(){
-    let command = 'sudo cat /etc/dnsmasq.d/static_leases'
+    let command = `sudo cat ${DNSMASQ_STATIC_LEASES_FILE}`
     let stdout = ''
     if ( stdout = await executeCommand(command) ) {
         return extractDHCPStaticInfo(stdout)

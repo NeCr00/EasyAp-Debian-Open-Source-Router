@@ -31,21 +31,18 @@ async function isHostUp(ip) {
     const { stdout, stderr } = await exec(command);
 
     if (stderr) {
-        //console.log('stderr:', stderr);
         return false;
     }
-    else {
-        //console.log('stdout:', stdout);
-        return true;
-    }
+    
+    return true;
 }
 
 async function getDevices() {
     let active_devices = []
-    let command = 'sudo cat /var/lib/misc/dnsmasq.leases'
+    let command = `sudo cat ${DNSMASQ_LEASES_FILE}`
     let stdout = ''
     if ( stdout = await executeCommand(command) ) {
-        console.log(stdout)
+        // console.log(stdout)
         devices = extractDeviceInfo(stdout)
         var finishGettingDevices = new Promise((resolve, reject) => {
             id = 0

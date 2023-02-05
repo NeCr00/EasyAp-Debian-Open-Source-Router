@@ -164,14 +164,30 @@
 
                 </div>
 
+
+                <div class="container-fluid table-responsive rounded-bottom position-relative shadow-sm p-5">
+                    <div class="row">
+                      <div class="col-lg-10 col-12 d-flex align-items-center mt-5 p-3 mx-auto">
+                        <span class="fs-5 fw-bold">Current Status: </span>
+                        <span class="ms-4 status-light disconnected bold"></span>
+                        <span class="fs-5 fw-bold ml-3" id="vpn-status">Disconnected</span>
+                        <div class="d-flex align-items-center ms-5 ml-auto">
+                            <button id="connect-btn" class="btn btn-success mx-3">Connect</button>
+                            <button id="disconnect-btn" class="btn btn-danger mx-3">Disconnect</button>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+
                 <div class="container-fluid my-5">
 
                     <div class="row  row-cols-1 mt-5  justify-content-md-center gx-5">
 
-                       
-                        
 
-                        <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
+
+
+                        <div class="col-sm-12 col-md-5  py-4 mt-0 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
                                     <h4 class=" table-header fw-bold ">OpenVPN Configuration</h4>
@@ -179,8 +195,8 @@
                             </div>
                             <div
                                 class="container-fluid table-responsive rounded-bottom  position-relative  card-sizing shadow-sm ">
-                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
-                                   
+                                <div class="row row-cols-1  g-sm-2 g-md-4  ">
+
                                     <div class=" col-sm-10  col-md-10  mt-md-5">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1">
@@ -241,16 +257,18 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    
+
                                     <div class="container h-100 mt-md-4">
                                         <div class="d-flex h-100 justify-content-center align-items-center">
-                                          <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="openVPNFileInput" accept=".ovpn">
-                                            <label class="custom-file-label" for="openVPNFileInput">Choose OpenVPN (.ovpn) File</label>
-                                          </div>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="openVPNFileInput"
+                                                    accept=".ovpn">
+                                                <label class="custom-file-label" for="openVPNFileInput">Choose OpenVPN
+                                                    (.ovpn) File</label>
+                                            </div>
                                         </div>
-                                      </div>
-                                      
+                                    </div>
+
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4">
                                         <div id="submit-vpn" class="float-end">
                                             <button id="apply-vpn-form" class="btn btn-pass btn-dark me-4"
@@ -268,7 +286,7 @@
 
 
 
-                        <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
+                        <div class="col-sm-12 col-md-5  py-4 mt-0 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
                                     <h4 class=" table-header fw-bold ">OpenVPN File Overview</h4>
@@ -276,7 +294,7 @@
                             </div>
                             <div
                                 class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
-                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  ">
                                     <div class=" col-sm-10  col-md-12  align-center">
                                         <div class="text-area mt-1">
                                             <textarea class="card-textarea" id="vpn-config" name="vp"
@@ -296,42 +314,8 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
-                            <div class=" table-header py-1 rounded-top shadow-lg">
-                                <div class="ms-4">
-                                    <h4 class=" table-header fw-bold ">OpenVPN Connection</h4>
-                                </div>
-                            </div>
-                            <div
-                                class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
-                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
 
-
-                                    <div class="container-fluid mt-5 pb-1">
-                                        <h1 class="text-center">VPN Status</h1>
-                                        <div class="row justify-content-center">
-                                            <div class="col-12 text-center mt-5">
-                                                <p>
-                                                    <span class="fs-5 fw-bold ">Current Status: </span> 
-                                                    <span class="status-light disconnected bold"></span>
-                                                    <span class="fs-5 fw-bold " id="vpn-status">Disconnected</span>
-                                                </p>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                        <div class="float-end">
-                                            <button id="connect-btn" class="btn btn-success">Connect</button>
-                                            <button id="disconnect-btn" class="btn btn-danger">Disconnect</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
+                        <div class="col-sm-12 col-md-10  py-4 mt-5 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
                                     <h4 class=" table-header fw-bold ">OpenVPN Logs</h4>
@@ -339,7 +323,7 @@
                             </div>
                             <div
                                 class="container-fluid table-responsive rounded-bottom position-relative card-sizing position-relative shadow-sm ">
-                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  ">
                                     <div class=" col-sm-10  col-md-12  align-center">
                                         <div class="text-area mt-1">
                                             <textarea class="card-textarea" id="vpn-logs" disabled class="form-control "
