@@ -1,6 +1,7 @@
 const exec = require('child_process').exec;
+const { getVpnStatus } = require('../VPN/configVPN')
 
-function restartServices() {
+async function restartServices() {
     let error = false;
     let errorMessage = "";
 
@@ -34,6 +35,22 @@ function restartServices() {
             errorMessage += `Error restarting hostapd: ${err}\n`;
         }
     });
+    exec('sudo systemctl restart ddclient', (err, stdout, stderr) => {
+        if (err) {
+            error = true;
+            errorMessage += `Error restarting ddclient: ${err}\n`;
+        }
+    });
+    
+    // if user is connected to VPN when services restart is initiated 
+    if (await getVpnStatus()['vpn_status'] === 'connected') { 
+        exec('sudo systemctl restart openvpn@client', (err, stdout, stderr) => {
+            if (err) {
+                error = true;
+                errorMessage += `Error restarting openvpn@client: ${err}\n`;
+            }
+        });
+    }
     return {error: error, message: errorMessage};
 }
 

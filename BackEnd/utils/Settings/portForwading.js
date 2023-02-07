@@ -1,9 +1,9 @@
 
 const { exec } = require('child_process');
-const IpForwarding = require('../../Database/Model/IPForwarding')
+const PortForwarding = require('../../Database/Model/PortForwarding')
 
 async function ruleExists(internalIP, internalPort, externalPort) {
-    const rule = await IpForwarding.findOne({
+    const rule = await PortForwarding.findOne({
         internalIP: internalIP,
         internalPort: internalPort,
         externalPort: externalPort
@@ -13,7 +13,7 @@ async function ruleExists(internalIP, internalPort, externalPort) {
 
 
 async function getAllRules() {
-    const rules = await IpForwarding.find({});
+    const rules = await PortForwarding.find({});
     const formattedRules = rules.map(rule => ({
         internal_ip: rule.internalIP,
         internal_port: rule.internalPort,
@@ -36,7 +36,7 @@ async function forwardPort(interface, internalPort, machineIP, externalPort) {
             return;
         }
         //insert into the database
-        appendRule = await IpForwarding.create({
+        appendRule = await PortForwarding.create({
             internalIP: machineIP,
             internalPort: internalPort,
             externalPort: externalPort,
@@ -51,7 +51,7 @@ async function forwardPort(interface, internalPort, machineIP, externalPort) {
 
 
 async function removeForwardPort(interface, internalPort, machineIP, externalPort) {
-    await IpForwarding.findOne({
+    await PortForwarding.findOne({
         internalIP: machineIP,
         internalPort: internalPort,
         externalPort: externalPort
@@ -85,7 +85,7 @@ async function removeForwardPort(interface, internalPort, machineIP, externalPor
 
 async function changeStatusIPForwarding(interface, internalPort, machineIP, externalPort, status) {
     // Find the rule in the collection
-    let rule = await IpForwarding.findOne({
+    let rule = await PortForwarding.findOne({
         internalIP: machineIP,
         internalPort: internalPort,
         externalPort: externalPort

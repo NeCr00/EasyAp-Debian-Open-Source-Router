@@ -1,7 +1,7 @@
 const User = require('../../Database/Model/User')
 
 
-async function ChangePassword(reqPassword, reqUsername,reqOldPassword)  {
+async function changePassword(reqPassword, reqUsername,reqOldPassword)  {
 
     let user = await User.findOne({ username: reqUsername, password: reqOldPassword})
     console.log(user)
@@ -18,4 +18,4 @@ async function ChangePassword(reqPassword, reqUsername,reqOldPassword)  {
 
 
 
-module.exports = { ChangePassword }
+module.exports = { changePassword }

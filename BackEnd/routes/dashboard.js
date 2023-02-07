@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const { getDevices } = require('../utils/Dashboard/getConnectedDevices')
 const { getGeolocationData, calculateTheData } = require('../utils/Dashboard/getGeolocation')
 const { getUsage } = require('../utils/Dashboard/getUsage')
-const { getTrafficStats } = require('../utils/networkTrafficMonitor')
+const { getTrafficStats } = require('../utils/Dashboard/networkTrafficMonitor')
 
 
 router.get('/', (req, res) => {

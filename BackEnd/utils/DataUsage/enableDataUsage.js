@@ -17,6 +17,7 @@ the iptables -I command is used to insert the rule in the FORWARD chain
 const fs = require('fs');
 const exec = require('child_process').exec;
 const dataUsageUser = require('../../Database/Model/DataUsageUser')
+const { DNSMASQ_LEASES_FILE } = require('../../Helpers/constants')
 
 function initializeDataUsageForIP(ipv4) {
     //find if the functionality has been enabled already for the specific ip
@@ -47,7 +48,7 @@ function initializeDataUsageForIP(ipv4) {
 // Define the function to apply iptables rules
 function enableDataUsageForIP() {
     // Read the DHCP leases file
-    fs.readFile('/var/lib/misc/dnsmasq.leases', 'utf8', function (err, data) {
+    fs.readFile(DNSMASQ_LEASES_FILE, 'utf8', function (err, data) {
         if (err) {
             console.error(err);
             return;

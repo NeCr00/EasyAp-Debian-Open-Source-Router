@@ -1,6 +1,5 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
-
-const HOSTS_FILE = '/etc/hosts'
+const { HOSTS_FILE } = require('../../Helpers/constants')
 
 function extractDnsDomains(configs) {
     let domains = []
@@ -59,7 +58,8 @@ async function editDnsDomains(requestAction, requestData){
             case 'DELETE':
                 lines.forEach( (item, linesIndex, arr) => {
                     domainsToEdit.forEach( (item, domainsIndex) => {
-                        if (lines[linesIndex].match(`/${domainsToEdit[domainsIndex][ip]}\s+${domainsToEdit[domainsIndex][domain]}/`)) { 
+                        let domainToDeleteRegex = new RegExp(`${domainsToEdit[domainsIndex][ip]}\s+${domainsToEdit[domainsIndex][domain]}`, 'i')
+                        if (lines[linesIndex].match(domainToDeleteRegex)) { 
                             // lines[linesIndex] = ''
                             lines.splice(linesIndex, 1)
                         }

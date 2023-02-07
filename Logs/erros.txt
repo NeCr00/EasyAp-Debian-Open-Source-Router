@@ -1,2 +1,0 @@
-sudo: kill(144174, SIGTERM): Permission denied
-sudo: kill(144174, SIGCONT): Permission denied

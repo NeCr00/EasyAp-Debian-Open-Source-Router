@@ -1,11 +1,12 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
-
+const { DDCLIENT_CONF_FILE } = require('../../Helpers/constants')
 // Example ddclient config file:
 //
 // #ddns_enabled=true OR false
-// protocol=<ddns_provider>
-// ssl=yes
-// server=<ddns_provider_update_url>
+// use=web, web=<find-ip url>, web-skip='<text to ignore>'
+// protocol=<ddns provider protocol>
+// ssl=yes OR no
+// server=<ddns provider update server url>
 // login=<username>
 // password=<password>
 // <hostname>
@@ -13,6 +14,7 @@ const { executeCommand } = require('../../Helpers/executeCommand')
 
 function extractDDnsConfigs(configs) {
     let ddnsConfigs = {}
+    let skipKeys = ['use', 'ssl']
     let lines = configs.split('\n')
     
     lines.forEach((item, index) => {
@@ -21,6 +23,8 @@ function extractDDnsConfigs(configs) {
         
         if (configValue === undefined) { // parsing domain
             ddnsConfigs['domain'] = configValue
+        } else if (skipKeys.includes(configKey)){
+            return; // skips this iteration
         } else {
             ddnsConfigs[configKey] = configValue
         }
@@ -55,40 +59,55 @@ function generateFrontendKeys(ddnsConfigs) {
     return ddnsConfigs
 }
 
-function getProtocolServer(requestData) {
+function getProviderConfigs(requestData) {
     let protocol = '', 
-        server   = ''
+        server   = '',
+        ssl      = '',
+        web      = '',
+        web_skip = ''
     
     switch(requestData['provider']){
         case "NO-IP":
             protocol = 'dyndns2' 
             server = 'dynupdate.no-ip.com'
+            ssl = 'yes'
+            web = 'checkip.dyndns.org/'
+            web_skip = "'IP Address'"
             break;
         
         case "DYN":
             protocol = 'dyndns2'
             server = 'members.dyndns.org'
+            ssl = 'yes'
+            web = 'checkip.dyndns.org/'
+            web_skip = "'Current IP Address: '"
             break;
         
         case "ZONEEDIT":
             protocol = 'zoneedit1'
             server = 'www.zoneedit.com'
+            ssl = 'yes'
+            web = 'checkip.zoneedit.com/'
+            web_skip = "'Address: "
             break;
         
         case "DNSEXIT":
             protocol = 'dnsexit'
             server = 'update.dnsexit.com'
+            ssl = 'yes'
+            web = 'checkip.dnsexit.com/'
+            web_skip = "'Current IP Address:'"
             break;
         
         default:
             break;
     }
 
-    return [protocol, server]
+    return [protocol, server, ssl, web, web_skip]
 }
 
 async function getDDnsConfigs(){
-    let command = 'sudo cat /etc/ddclient.conf'
+    let command = `sudo cat ${DDCLIENT_CONF_FILE}`
     let stdout = ''
     if ( stdout = await executeCommand(command) ) {
         configs = extractDDnsConfigs(stdout)
@@ -115,19 +134,22 @@ async function handleDdnsService(requestData){
 async function editDDnsConfigs(requestData){
     
     requestData['ddns_enabled'] = requestData['ddns_enabled'] === '1' ? 'true' : 'false'
-    [requestData['protocol'], requestData['server']] = getProtocolServer(requestData)
+    [requestData['protocol'], requestData['server'], 
+        requestData['web'], requestData['web-skip'], 
+        requestData['ssl']] = getProviderConfigs(requestData)
 
     let newFileContent = 
     `#ddns_enabled=${requestData['ddns_enabled']}
+    use=web, web=${requestData['web']}, web-skip=${requestData['web-skip']}
     protocol=${requestData['protocol']}
-    ssl=yes
+    ssl=${requestData['ssl']}
     server=${requestData['server']}
     login=${requestData['username']}
     password=${requestData['password']}
     ${requestData['domain']}
     `;
 
-    let command = `sudo echo "${newFileContent}" > /etc/ddclient.conf`
+    let command = `sudo echo "${newFileContent}" > ${DDCLIENT_CONF_FILE}`
     await executeCommand(command)
     
     await handleDdnsService(requestData)

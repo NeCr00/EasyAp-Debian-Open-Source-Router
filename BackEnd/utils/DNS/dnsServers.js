@@ -1,6 +1,5 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
-
-const DNSMASQ_CONF_FILE = '/etc/dnsmasq.conf'
+const { DNSMASQ_CONF_FILE } = require('../../Helpers/constants')
 
 function extractDnsServers(serverConfigs) {
     let servers = []

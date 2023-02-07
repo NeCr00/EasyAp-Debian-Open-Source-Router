@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { DNSMASQ_CONF_FILE, HOSTAPD_CONFIG_FILE } = require('../../Helpers/constants');
 const  {restartService}  = ('../../Helpers/restartServices');
 
 
@@ -7,7 +8,7 @@ const  {restartService}  = ('../../Helpers/restartServices');
 
 function getPassAndSSID() {
     // Read the configuration file
-    let config = fs.readFileSync(__dirname + '/config.txt', 'utf8');
+    let config = fs.readFileSync(HOSTAPD_CONFIG_FILE, 'utf8');
 
     // Extract the values of the "ssid" and "wpa_passphrase" parameters
     let ssid = config.match(/ssid=(\S+)/);
@@ -34,15 +35,14 @@ function updatePassAndSSID(ssid, wpa_passphrase) {
         return { error: true, message: "SSID and password already use this values" }
     }
     // Read the configuration file
-    let config = fs.readFileSync(__dirname + '/config.txt', 'utf8');
+    let config = fs.readFileSync(HOSTAPD_CONFIG_FILE, 'utf8');
 
     // Replace the old values with the new ones
     config = config.replace(/ssid=\S+/g, `ssid=${ssid}`);
     config = config.replace(/wpa_passphrase=\S+/g, `wpa_passphrase=${wpa_passphrase}`);
 
     // Write the updated content back to the file
-    let filePath = path.join(__dirname, 'config.txt');
-    fs.writeFileSync(filePath, config, 'utf8');
+    fs.writeFileSync(HOSTAPD_CONFIG_FILE, config, 'utf8');
     console.log(config);
     return { error: false, message: "Changes applied successfully" }
 }
@@ -50,18 +50,14 @@ function updatePassAndSSID(ssid, wpa_passphrase) {
 
 function addMACAddress(mac_add) {
 
-    // Configuration file path
-    const configFile = __dirname+'/dnsmasq.conf';
-
-
     mac_add.forEach(mac => {
 
         // Read the current contents of the file
-        let config = fs.readFileSync(configFile, 'utf8');
+        let config = fs.readFileSync(DNSMASQ_CONF_FILE, 'utf8');
         // Append the new MAC address to the end of the file
         config += `\ndhcp-mac=set:blocked,${mac}`;
         // Write the updated configuration back to the file
-        fs.writeFileSync(configFile, config);
+        fs.writeFileSync(DNSMASQ_CONF_FILE, config);
     })
 
     //restartService('dnsmasq');
@@ -70,14 +66,13 @@ function addMACAddress(mac_add) {
 }
 
 function removeMACAddress(mac) {
-    // Configuration file path
-    const configFile = __dirname+'/dnsmasq.conf';
+
     // Read the current contents of the file
-    let config = fs.readFileSync(configFile, 'utf8');
+    let config = fs.readFileSync(DNSMASQ_CONF_FILE, 'utf8');
     // Remove the MAC address from the configuration
     config = config.replace(`\ndhcp-mac=set:blocked,${mac}`, "");
     // Write the updated configuration back to the file
-    fs.writeFileSync(configFile, config);
+    fs.writeFileSync(DNSMASQ_CONF_FILE, config);
     // Restart the DHCP server
     //restartService('dnsmasq');
     console.log(`MAC address ${mac} removed from configuration file and DHCP server restarted.`);
@@ -85,10 +80,9 @@ function removeMACAddress(mac) {
 
 
 function getBlockedMACAddresses() {
-    // Configuration file path
-    const configFile = __dirname+'/dnsmasq.conf';
+
     // Read the current contents of the file
-    let config = fs.readFileSync(configFile, 'utf8');
+    let config = fs.readFileSync(DNSMASQ_CONF_FILE, 'utf8');
     // Create a regular expression to match the blocked MAC addresses
     const macRegex = /dhcp-mac=set:blocked,([\w:]+)/g;
     // Use the regular expression to find all blocked MAC addresses in the configuration

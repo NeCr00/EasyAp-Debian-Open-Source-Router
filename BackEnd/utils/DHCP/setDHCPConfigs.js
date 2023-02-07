@@ -1,8 +1,6 @@
 const { getDHCPRangeInfo } = require('./getDHCPConfigs.js')
 const { executeCommand } = require('../../Helpers/executeCommand')
-
-const DNSMASQ_CONF_FILE = '/etc/dnsmasq.conf'
-const DNSMASQ_STATIC_LEASES_FILE = '/etc/dnsmasq.d/static_leases'
+const {DNSMASQ_CONF_FILE, DNSMASQ_STATIC_LEASES_FILE} = require('../../Helpers/constants')
 
 function changeDnsmasqConfLine(line, configValueIndex, configsToChange){
     [linePrefix, editedLine] = line.split('=')

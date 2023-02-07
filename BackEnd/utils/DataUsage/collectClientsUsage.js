@@ -1,12 +1,12 @@
 const fs = require('fs');
 const mongoose = require('mongoose');
 const dataUsageUser = require('../../Database/Model/DataUsageUser')
-
+const { DNSMASQ_LEASES_FILE } = require('../../Helpers/constants')
 
 // Function to collect and store device traffic usage data
 function collectTrafficDataIPs() {
   // Read the dnsmasq lease file
-  let leases = fs.readFileSync('/var/lib/misc/dnsmasq.leases', 'utf8');
+  let leases = fs.readFileSync(DNSMASQ_LEASES_FILE, 'utf8');
 
   // Split the leases by newline
   leases = leases.split('\n');

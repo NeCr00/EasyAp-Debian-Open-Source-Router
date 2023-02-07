@@ -10,9 +10,15 @@ const { updatePassAndSSID,
   removeMACAddress } = require('../utils/Settings/settingsHandler')
 const { getDevices } = require('../utils/Dashboard/getConnectedDevices')
 const { forwardPort, removeForwardPort,changeStatusIPForwarding,getAllRules} = require('../utils/Settings/portForwading')
+const interface = require('../Helpers/constants')
+
+
+
 router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../../FrontEnd/settings.html"));
 });
+
+
 
 router.get("/settings", async (req, res) => {
 
@@ -110,7 +116,7 @@ data = getAllRules()
 router.post("/ip-forwarding", (req, res) => {
 
   data = req.body
-  statusChanged = changeStatusIPForwarding('wlan0',data.internal_port,data.internal_ip,data.external_port,data.status,)
+  statusChanged = changeStatusIPForwarding(interface,data.internal_port,data.internal_ip,data.external_port,data.status,)
 
   console.log(data);
   if (statusChanged)  {
@@ -129,7 +135,7 @@ router.post("/ip-forwarding", (req, res) => {
 router.post("/ip-forwarding/add", (req, res) => {
 
   data = req.body
-  applied = forwardPort('wlan0',data.internal_port,data.internal_ip,data.external_port)
+  applied = forwardPort(interface,data.internal_port,data.internal_ip,data.external_port)
 
   console.log(data);
   if (applied)  {
@@ -148,7 +154,7 @@ router.post("/ip-forwarding/add", (req, res) => {
 router.post("/ip-forwarding/status", (req, res) => {
 
   data = req.body
-  statusChanged = changeStatusIPForwarding('wlan0',data.internal_port,data.internal_ip,data.external_port,data.status,)
+  statusChanged = changeStatusIPForwarding(interface,data.internal_port,data.internal_ip,data.external_port,data.status)
 
   console.log(data);
   if (statusChanged)  {
@@ -168,7 +174,7 @@ router.post("/ip-forwarding/status", (req, res) => {
 router.delete("/ip-forwarding", (req, res) => {
   data = req.body
   //delete  the port forwarding rules
-  deleted = removeForwardPort('wlan0',data.internal_port,data.internal_ip,data.external_port)
+  deleted = removeForwardPort(interface,data.internal_port,data.internal_ip,data.external_port)
   console.log(data);
 
   if (deleted) {

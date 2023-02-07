@@ -3,21 +3,21 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
-const {ChangePassword} = require('../utils/System/changePassword')
+const { changePassword } = require('../utils/System/changePassword');
+const { restartServices } = require('../utils/System/servicesRestart');
+const { resetConfiguration } = require('../utils/System/resetConfig');
 
 
 router.get('/', (req, res) => {
    
     res.sendFile(path.join(__dirname,'../../FrontEnd/system.html'));
-
     
   })
 
 
 router.post('/change-pass', async (req, res) => {
-    data =req.body
-    console.log(data)
-    success = await ChangePassword(data.password,data.username,data.oldpassword)
+    data = req.body
+    success = await changePassword(data.password, data.username, data.oldpassword)
 
   if (success) {
     res.json({
@@ -33,30 +33,34 @@ router.post('/change-pass', async (req, res) => {
 })
 
 
-router.post('/reset', (req, res) => {
-  if (0) {
-    res.json({
-      error: false,
-      message: "Configuration has been reset",
-    });
-  } else {
+router.post('/reset', async (req, res) => {
+  let error = await resetConfiguration()
+
+  if (error.error) {
     res.json({
       error: true,
       message: "An error occured",
+    });
+  } else {
+    res.json({
+      error: false,
+      message: "Configuration has been reset",
     });
   }
 })
 
-router.post('/restart-services', (req, res) => {
-  if (0) {
-    res.json({
-      error: false,
-      message: "Configuration has been reset",
-    });
-  } else {
+router.post('/restart-services', async (req, res) => {
+  let error = await restartServices()
+  
+  if (error.error) {
     res.json({
       error: true,
       message: "An error occured",
+    });
+  } else {
+    res.json({
+      error: false,
+      message: "Configuration has been reset",
     });
   }
 })

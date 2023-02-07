@@ -11,10 +11,10 @@ const {authorization} = require('./middlewares/authorization')
 
 // Functions that should be executed to configure and  initialize some functionalities
 
-const {monitorNetworkConnections} = require('./utils/getServerIP')
-const {saveTrafficData} = require('./utils/networkTrafficMonitor')
-const {initializeModel} = require('./utils/networkTrafficMonitor')
-const {enableFirwallLogs} = require('./utils/firewallRulesHelper')
+const {monitorNetworkConnections} = require('./utils/Dashboard/getServerIP')
+const {saveTrafficData} = require('./utils/Dashboard/networkTrafficMonitor')
+const {initializeModel} = require('./utils/Dashboard/networkTrafficMonitor')
+const {enableFirwallLogs} = require('./utils/Firewall/firewallRulesHelper')
 //-----------------------------------------------------------------------------------------
 
 //Routes

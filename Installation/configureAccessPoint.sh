@@ -3,6 +3,15 @@
 echo "Enter the interface which the Access Point will use: "
 read interface
 echo "Configuring the Access Point using the $interface interface ..."
+
+#------------------------------------------------------------------------------------------------
+#Setting up EasyAP config file based on user input
+sudo mkdir /etc/easyap.d/
+sudo touch /etc/easyap.d/easyap.conf
+sudo bash -c "cat > /etc/easyap.d/easyap.conf <<EOF
+interface=$interface
+EOF"
+
 #------------------------------------------------------------------------------------------------
 # Unmask hostapd
 echo "Unmasking hostapd..."
@@ -102,26 +111,6 @@ fi
 
 #------------------------------------------------------------------------------------------------
 #Configuring the Dnsmasq server
-# Rename the default configuration file and create a new one
-echo "Renaming the default configuration file..."
-sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
-
-if [ $? -eq 0 ]; then
-  echo "Default configuration file renamed successfully."
-else
-  echo "Error: Renaming the default configuration file failed."
-  exit 1
-fi
-
-echo "Creating a new configuration file..."
-sudo touch /etc/dnsmasq.conf
-
-if [ $? -eq 0 ]; then
-  echo "New configuration file created successfully."
-else
-  echo "Error: Creating the new configuration file failed."
-  exit 1
-fi
 
 # Add the following to the file
 echo "Adding the following to the configuration file..."
@@ -133,11 +122,13 @@ address=/gw.wlan/192.168.4.1
                 # Alias for this router" | sudo tee -a /etc/dnsmasq.conf
 
 if [ $? -eq 0 ]; then
-  echo "Content added to the configuration file successfully."
+  echo "Dnsmasq configuration file added successfully."
 else
   echo "Error: Adding content to the configuration file failed."
   exit 1
 fi
+
+sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf.default || { echo "Error: default dnsmasq file creation failed"; exit 1; }
 #------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------
@@ -170,7 +161,7 @@ fi
 # Write the new configuration to the file
 sudo bash -c "cat > /etc/hostapd/hostapd.conf <<EOF
 country_code=GR
-interface=wlan0
+interface=$interface
 ssid=$ssid
 hw_mode=g
 channel=7
@@ -185,21 +176,104 @@ rsn_pairwise=CCMP
 EOF"
 
 if [ $? -eq 0 ]; then
-  echo "The configuration was added successfully."
+  echo "The hostapd configuration was added successfully."
 else
   echo "Error: failed to add the configuration."
   exit 1
 fi
-#------------------------------------------------------------------------------------------------
+
+sudo cp /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.default || { echo "Error: default hostapd file creation failed"; exit 1; }
 
 #------------------------------------------------------------------------------------------------
 
-#Restarting all the services to start the Access Point
-echo "Rebooting system..."
+#------------------------------------------------------------------------------------------------
+#Enable Custom path for ipatables Logs
+sudo iptables -A INPUT -j LOG  --log-level 7 --log-prefix='[netfilter] '
+
+sudo touch /etc/rsyslog.d/00-my_iptables.conf
+
+sudo echo ":msg,contains,"[netfilter] " -/var/log/easyap/iptables.log" > /etc/rsyslog.d/00-my_iptables.conf
+
+sudo echo  "& ~" >> /etc/rsyslog.d/00-my_iptables.conf
+
+sudo service rsyslog restart
+
+echo "Adding iptables logging rules"
+sudo iptables -A INPUT -j LOG  --log-level 7 --log-prefix='[netfilter] ' || { echo "Error: iptables rule addition failed"; exit 1; }
+echo "iptables rule added successfully"
+
+echo "Creating /etc/rsyslog.d/90-my_iptables.conf file"
+sudo touch /etc/rsyslog.d/90-my_iptables.conf || { echo "Error: file creation failed"; exit 1; }
+echo "File created successfully"
+
+echo "Adding contents to /etc/rsyslog.d/90-my_iptables.conf file"
+sudo echo ":msg,contains,'[netfilter] ' -/var/log/easyap/iptables.log" > /etc/rsyslog.d/90-my_iptables.conf || { echo "Error: Failed to add contents to the file"; exit 1; }
+sudo echo  "& ~" >> /etc/rsyslog.d/90-my_iptables.conf || { echo "Error: Failed to add contents to the file"; exit 1; }
+echo "Contents added successfully"
+
+#------------------------------------------------------------------------------------------------
+#Create a blank configuration file for ddclient
+sudo bash -c "cat > /etc/ddclient.conf <<EOF
+#ddns_enabled=false
+use=web
+ssl=no
+protocol=
+server=
+login=
+password=
+EOF"
+
+if [ $? -eq 0 ]; then
+  echo "The ddclient configuration was added successfully."
+else
+  echo "Error: failed to add the configuration."
+  exit 1
+fi
+
+sudo cp /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.default || { echo "Error: default ddclient file creation failed"; exit 1; }
+
+#------------------------------------------------------------------------------------------------
+#Configure the DHCP Static IP Address configuration File
+sudo touch /etc/dnsmasq.d/static_leases || {echo "Error: Failed to configure the DHCP Static IP Address configuration"}
+sudo dnsmasq --dhcp-hostsfile=/etc/dnsmasq.d/static_leases  || {echo "Error: Failed to configure the DHCP Static IP Address configuration"}
+
+#------------------------------------------------------------------------------------------------
+# Installing and Configuring the MongoDB
+echo "Adding MongoDB repository to sources list..."
+if ! sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install gnupg -y; then
+  echo "Error: Failed to install required packages."
+  exit 1
+fi
+
+if ! wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -; then
+  echo "Error: Failed to add MongoDB key to apt."
+  exit 1
+fi
+
+echo "deb [ arch=arm64 ] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+
+echo "Installing MongoDB..."
+if ! sudo apt-get update && sudo apt-get install mongodb-org -y; then
+  echo "Error: Failed to install MongoDB."
+  exit 1
+fi
+
+echo "Starting MongoDB service..."
+if ! sudo systemctl start mongod && sudo systemctl enable mongod; then
+  echo "Error: Failed to start MongoDB service."
+  exit 1
+fi
+
+echo "MongoDB installation complete."
+
+#------------------------------------------------------------------------------------------------
+#Restarting all the services to start the Access Point and apply all the changes to the services
+
+echo "Rebooting services..."
 sudo systemctl reboot
 if [ $? -eq 0 ]; then
-  echo "System rebooted successfully. Access Point should be up !"
+  echo "Services rebooted successfully.\n Access Point should be up !"
 else
-  echo "Error: System reboot failed."
+  echo "Error: Services reboot failed."
   exit 1
 fi
