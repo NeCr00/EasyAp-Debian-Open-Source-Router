@@ -283,7 +283,7 @@ echo "MongoDB installation complete."
 EASYAP_SERVICE_FILE=/etc/systemd/system/easyap.service
 WEB_SERVER_FILE=$(readlink -f ../BackEnd/app.js)
 
-sudo bash -c "echo > $EASYAP_SERVICE_FILE
+sudo bash -c "cat > $EASYAP_SERVICE_FILE <<EOF
 [Unit]
 Description=EasyAP Web Server
 After=network.target
@@ -296,11 +296,24 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-"
+EOF"
 
 sudo systemctl daemon-reload
 sudo systemctl enable easyap
 sudo systemctl start easyap
+
+#------------------------------------------------------------------------------------------------
+#Install 18.14 LTS version of Nodejs
+
+if ! sudo curl -fsSL https://deb.nodesource.com/setup_18.14 | bash - &&\; then
+  echo "Error: Failed to setup NodeJS."
+  exit 1
+fi
+
+if ! sudo apt install -y nodejs; then
+  echo "Error: Failed to install NodeJS."
+  exit 1
+fi
 
 #------------------------------------------------------------------------------------------------
 #Restarting all the services to start the Access Point and apply all the changes to the services
