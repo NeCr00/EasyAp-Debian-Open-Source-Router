@@ -4,11 +4,17 @@ echo "Enter the interface which the Access Point will use: "
 read interface
 echo "Configuring the Access Point using the $interface interface ..."
 
+# TODO: wpa_supplicant configuration
+
 #------------------------------------------------------------------------------------------------
 #Setting up EasyAP config file based on user input
+
+EASYAP_CONF_FILE=/etc/easyap.d/easyap.conf
+
 sudo mkdir /etc/easyap.d/
-sudo touch /etc/easyap.d/easyap.conf
-sudo bash -c "cat > /etc/easyap.d/easyap.conf <<EOF
+sudo touch $EASYAP_CONF_FILE
+
+sudo bash -c "cat > $EASYAP_CONF_FILE <<EOF
 interface=$interface
 EOF"
 
@@ -34,7 +40,6 @@ else
   echo "Error: hostapd enabling failed."
   exit 1
 fi
-#------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------
 # Install netfilter-persistent and iptables-persistent
@@ -49,10 +54,8 @@ else
 fi
 
 echo "Script execution complete."
-#------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------
-
 # Add the static IP address configuration
 echo "Adding the static IP address configuration..."
 if echo -e "interface $interface\n    static ip_address=192.168.4.1/24\n    nohook wpa_supplicant" | sudo tee -a /etc/dhcpcd.conf > /dev/null; then
@@ -61,29 +64,30 @@ else
   echo "Error: Static IP address configuration addition failed."
   exit 1
 fi
-#------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------
 #Configuring ip forwarding for the access point
+
+ROUTED_AP_CONF_FILE=/etc/sysctl.d/routed-ap.conf
+
 # Check if the file exists
-if [ -f /etc/sysctl.d/routed-ap.conf ]; then
+if [ -f $ROUTED_AP_CONF_FILE ]; then
   echo "The file exists, updating the content..."
   echo "# Enable IPv4 routing
-net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/routed-ap.conf
+net.ipv4.ip_forward=1" | sudo tee $ROUTED_AP_CONF_FILE
 else
   echo "The file does not exist, creating it..."
-  sudo touch /etc/sysctl.d/routed-ap.conf
+  sudo touch $ROUTED_AP_CONF_FILE
   echo "# Enable IPv4 routing
-net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/routed-ap.conf
+net.ipv4.ip_forward=1" | sudo tee $ROUTED_AP_CONF_FILE
 fi
 
 if [ $? -eq 0 ]; then
-  echo "File /etc/sysctl.d/routed-ap.conf created/updated successfully."
+  echo "File $ROUTED_AP_CONF_FILE created/updated successfully."
 else
-  echo "Error: Failed to create/update the file /etc/sysctl.d/routed-ap.conf."
+  echo "Error: Failed to create/update the file $ROUTED_AP_CONF_FILE."
   exit 1
 fi
-#------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------
 # Apply NAT to the Ethernet interface
@@ -107,10 +111,11 @@ else
   echo "Error: iptables save failed."
   exit 1
 fi
-#------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------
 #Configuring the Dnsmasq server
+
+DNSMASQ_CONF_FILE=/etc/dnsmasq.conf
 
 # Add the following to the file
 echo "Adding the following to the configuration file..."
@@ -119,7 +124,7 @@ dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h
                 # Pool of IP addresses served via DHCP
 domain=wlan     # Local wireless DNS domain
 address=/gw.wlan/192.168.4.1
-                # Alias for this router" | sudo tee -a /etc/dnsmasq.conf
+                # Alias for this router" | sudo tee -a $DNSMASQ_CONF_FILE
 
 if [ $? -eq 0 ]; then
   echo "Dnsmasq configuration file added successfully."
@@ -128,8 +133,7 @@ else
   exit 1
 fi
 
-sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf.default || { echo "Error: default dnsmasq file creation failed"; exit 1; }
-#------------------------------------------------------------------------------------------------
+sudo cp -f $DNSMASQ_CONF_FILE $DNSMASQ_CONF_FILE.default || { echo "Error: default dnsmasq file creation failed"; exit 1; }
 
 #------------------------------------------------------------------------------------------------
 # Ensure WiFi radio is not blocked on your Raspberry Pi
@@ -143,7 +147,6 @@ else
   echo "Error: wlan unblocking failed."
   exit 1
 fi
-#------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------
 # Ask user for SSID and WPA passphrase
@@ -153,13 +156,15 @@ read ssid
 echo "Enter the WPA passphrase for the network:"
 read wpa_passphrase
 
+HOSTAPD_CONF_FILE=/etc/hostapd/hostapd.conf
+
 # Create /etc/hostapd/hostapd.conf if it doesn't exist
-if [ ! -f /etc/hostapd/hostapd.conf ]; then
-  sudo touch /etc/hostapd/hostapd.conf
+if [ ! -f $HOSTAPD_CONF_FILE ]; then
+  sudo touch $HOSTAPD_CONF_FILE
 fi
 
 # Write the new configuration to the file
-sudo bash -c "cat > /etc/hostapd/hostapd.conf <<EOF
+sudo bash -c "cat > $HOSTAPD_CONF_FILE <<EOF
 country_code=GR
 interface=$interface
 ssid=$ssid
@@ -182,38 +187,41 @@ else
   exit 1
 fi
 
-sudo cp /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.default || { echo "Error: default hostapd file creation failed"; exit 1; }
-
-#------------------------------------------------------------------------------------------------
+sudo cp -f $HOSTAPD_CONF_FILE $HOSTAPD_CONF_FILE.default || { echo "Error: default hostapd file creation failed"; exit 1; }
 
 #------------------------------------------------------------------------------------------------
 #Enable Custom path for ipatables Logs
+
+RSYSLOG_IPTABLES_CONF_FILE=/etc/rsyslog.d/90-my_iptables.conf
+EASYAP_IPTABLES_LOG_FILE=/var/log/easyap/iptables.log
+
 sudo iptables -A INPUT -j LOG  --log-level 7 --log-prefix='[netfilter] '
 
-sudo touch /etc/rsyslog.d/00-my_iptables.conf
+sudo touch $RSYSLOG_IPTABLES_CONF_FILE
 
-sudo echo ":msg,contains,"[netfilter] " -/var/log/easyap/iptables.log" > /etc/rsyslog.d/00-my_iptables.conf
+sudo echo ":msg,contains,"[netfilter] " -$EASYAP_IPTABLES_LOG_FILE" > $RSYSLOG_IPTABLES_CONF_FILE
 
-sudo echo  "& ~" >> /etc/rsyslog.d/00-my_iptables.conf
+sudo echo  "& ~" >> $RSYSLOG_IPTABLES_CONF_FILE
 
-sudo service rsyslog restart
+sudo systemctl restart rsyslog
 
 echo "Adding iptables logging rules"
 sudo iptables -A INPUT -j LOG  --log-level 7 --log-prefix='[netfilter] ' || { echo "Error: iptables rule addition failed"; exit 1; }
 echo "iptables rule added successfully"
 
-echo "Creating /etc/rsyslog.d/90-my_iptables.conf file"
-sudo touch /etc/rsyslog.d/90-my_iptables.conf || { echo "Error: file creation failed"; exit 1; }
+echo "Creating $RSYSLOG_IPTABLES_CONF_FILE file"
+sudo touch $RSYSLOG_IPTABLES_CONF_FILE || { echo "Error: file creation failed"; exit 1; }
 echo "File created successfully"
 
-echo "Adding contents to /etc/rsyslog.d/90-my_iptables.conf file"
-sudo echo ":msg,contains,'[netfilter] ' -/var/log/easyap/iptables.log" > /etc/rsyslog.d/90-my_iptables.conf || { echo "Error: Failed to add contents to the file"; exit 1; }
-sudo echo  "& ~" >> /etc/rsyslog.d/90-my_iptables.conf || { echo "Error: Failed to add contents to the file"; exit 1; }
+echo "Adding contents to $RSYSLOG_IPTABLES_CONF_FILE file"
+sudo echo ":msg,contains,'[netfilter] ' -$EASYAP_IPTABLES_LOG_FILE" > $RSYSLOG_IPTABLES_CONF_FILE || { echo "Error: Failed to add contents to the file"; exit 1; }
+sudo echo  "& ~" >> $RSYSLOG_IPTABLES_CONF_FILE || { echo "Error: Failed to add contents to the file"; exit 1; }
 echo "Contents added successfully"
 
 #------------------------------------------------------------------------------------------------
 #Create a blank configuration file for ddclient
-sudo bash -c "cat > /etc/ddclient.conf <<EOF
+DDCLIENT_CONF_FILE=/etc/ddclient.conf
+sudo bash -c "cat > $DDCLIENT_CONF_FILE <<EOF
 #ddns_enabled=false
 use=web
 ssl=no
@@ -230,12 +238,15 @@ else
   exit 1
 fi
 
-sudo cp /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.default || { echo "Error: default ddclient file creation failed"; exit 1; }
+sudo cp -f $DDCLIENT_CONF_FILE $DDCLIENT_CONF_FILE.default || { echo "Error: default ddclient file creation failed"; exit 1; }
 
 #------------------------------------------------------------------------------------------------
 #Configure the DHCP Static IP Address configuration File
-sudo touch /etc/dnsmasq.d/static_leases || {echo "Error: Failed to configure the DHCP Static IP Address configuration"}
-sudo dnsmasq --dhcp-hostsfile=/etc/dnsmasq.d/static_leases  || {echo "Error: Failed to configure the DHCP Static IP Address configuration"}
+
+DNSMASQ_STATIC_LEASES_FILE=/etc/dnsmasq.d/static_leases
+
+sudo touch $DNSMASQ_STATIC_LEASES_FILE || {echo "Error: Failed to configure the DHCP Static IP Address configuration"}
+sudo dnsmasq --dhcp-hostsfile=$DNSMASQ_STATIC_LEASES_FILE || {echo "Error: Failed to configure the DHCP Static IP Address configuration"}
 
 #------------------------------------------------------------------------------------------------
 # Installing and Configuring the MongoDB
@@ -265,6 +276,31 @@ if ! sudo systemctl start mongod && sudo systemctl enable mongod; then
 fi
 
 echo "MongoDB installation complete."
+
+#------------------------------------------------------------------------------------------------
+#Setup web server as system service
+
+EASYAP_SERVICE_FILE=/etc/systemd/system/easyap.service
+WEB_SERVER_FILE=$(readlink -f ../BackEnd/app.js)
+
+sudo bash -c "echo > $EASYAP_SERVICE_FILE
+[Unit]
+Description=EasyAP Web Server
+After=network.target
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/bin/node $WEB_SERVER_FILE
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+"
+
+sudo systemctl daemon-reload
+sudo systemctl enable easyap
+sudo systemctl start easyap
 
 #------------------------------------------------------------------------------------------------
 #Restarting all the services to start the Access Point and apply all the changes to the services

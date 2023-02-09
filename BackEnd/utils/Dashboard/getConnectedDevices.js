@@ -33,10 +33,10 @@ function extractDeviceInfo(string_devices) {
 
 async function isHostUp(ip) {
     // Define the command to check if the given IP is reachable
-    const command = `ping -c 1 -W 0.2 ${ip}`;
+    let command = `ping -c 1 -W 0.2 ${ip}`;
   
     // Execute the command and capture its output
-    const { stdout, stderr } = await exec(command);
+    let { stdout, stderr } = await exec(command);
   
     // If there is an error, return false
     if (stderr) {
@@ -50,22 +50,22 @@ async function isHostUp(ip) {
 
 async function getDevices() {
     let activeDevices = [];
-    const command = `sudo cat ${DNSMASQ_LEASES_FILE}`;
+    let command = `sudo cat ${DNSMASQ_LEASES_FILE}`;
 
     // Execute the command and store the result in 'stdout'
-    const stdout = await executeCommand(command);
+    let stdout = await executeCommand(command);
 
     if (stdout) {
         // Extract device information from the 'stdout' result
-        const devices = extractDeviceInfo(stdout);
+        let devices = extractDeviceInfo(stdout);
 
         // Create a promise that will resolve with the active devices array
-        const finishGettingDevices = new Promise((resolve, reject) => {
+        let finishGettingDevices = new Promise((resolve, reject) => {
             let id = 0;
             devices.forEach(async (item, index, array) => {
                 try {
                     // Check if the device's IP is online
-                    const isIpOnline = await isHostUp(item.ip);
+                    let isIpOnline = await isHostUp(item.ip);
 
                     // If the IP is online, add the device to the active devices array
                     if (isIpOnline) {
