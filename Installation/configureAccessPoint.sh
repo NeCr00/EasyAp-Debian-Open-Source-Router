@@ -116,7 +116,11 @@ fi
 #Configuring the Dnsmasq server
 
 DNSMASQ_CONF_FILE=/etc/dnsmasq.conf
+DNSMASQ_STATIC_LEASES_FILE=/etc/dnsmasq.d/static_leases
 
+sudo touch $DNSMASQ_STATIC_LEASES_FILE || {echo "Error: Failed to configure the DHCP Static IP Address configuration"}
+
+sudo echo "" >> $DNSMASQ_CONF_FILE
 # Add the following to the file
 echo "Adding the following to the configuration file..."
 echo "interface=$interface # Listening interface
@@ -124,7 +128,8 @@ dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h
                 # Pool of IP addresses served via DHCP
 domain=wlan     # Local wireless DNS domain
 address=/gw.wlan/192.168.4.1
-                # Alias for this router" | sudo tee $DNSMASQ_CONF_FILE
+                # Alias for this router
+dhcp-hostsfile=$DNSMASQ_STATIC_LEASES_FILE" | sudo tee $DNSMASQ_CONF_FILE
 
 if [ $? -eq 0 ]; then
   echo "Dnsmasq configuration file added successfully."
@@ -241,14 +246,6 @@ fi
 sudo cp -f $DDCLIENT_CONF_FILE $DDCLIENT_CONF_FILE.default || { echo "Error: default ddclient file creation failed"; exit 1; }
 
 #------------------------------------------------------------------------------------------------
-#Configure the DHCP Static IP Address configuration File
-
-DNSMASQ_STATIC_LEASES_FILE=/etc/dnsmasq.d/static_leases
-
-sudo touch $DNSMASQ_STATIC_LEASES_FILE || {echo "Error: Failed to configure the DHCP Static IP Address configuration"}
-sudo dnsmasq --dhcp-hostsfile=$DNSMASQ_STATIC_LEASES_FILE || {echo "Error: Failed to configure the DHCP Static IP Address configuration"}
-
-#------------------------------------------------------------------------------------------------
 # Installing and Configuring the MongoDB
 echo "Adding MongoDB repository to sources list..."
 if ! sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install gnupg -y; then
@@ -285,8 +282,12 @@ sudo apt install nodejs
 sudo apt install build-essential
 
 #------------------------------------------------------------------------------------------------
-cd ../BackEnd/ 
+#Installing npm packages
+
+cd ../BackEnd/
 npm install
+cd ../Installation/
+
 #------------------------------------------------------------------------------------------------
 #Setup web server as system service
 
@@ -307,6 +308,8 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 EOF"
+
+chmod 644 $EASYAP_SERVICE_FILE
 
 sudo systemctl daemon-reload
 sudo systemctl enable easyap

@@ -12,7 +12,7 @@ echo "Installing tools..."
 
 for tool in "${tools[@]}"; do
   echo "Installing $tool..."
-  if sudo apt-get install -y "$tool" 2>/dev/null; then
+  if sudo apt install -y "$tool" 2>/dev/null; then
     echo "$tool was installed successfully."
   else
     echo "Error: $tool installation failed."
