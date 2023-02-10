@@ -120,18 +120,18 @@ function getNetworkMonitorResults() {
 
 // Function to monitor network connections using tcpdump
 function monitorNetworkConnections() {
-	// Define standard input/output for the child process
-	const stdio = [
-		// Send standard input to /dev/null
-		0,
-		// Write standard output to networkMonitor.txt file
-		fs.openSync(__dirname + '/../../Logs/networkMonitor.txt', 'w'),
-		// Write standard error to erros.txt file
-		fs.openSync(__dirname + '/../../Logs/erros.txt', 'w')
-	];
+	// // Define standard input/output for the child process
+	// const stdio = [
+	// 	// Send standard input to /dev/null
+	// 	0,
+	// 	// Write standard output to networkMonitor.txt file
+	// 	fs.openSync(__dirname + '/../../Logs/networkMonitor.txt', 'w'),
+	// 	// Write standard error to erros.txt file
+	// 	fs.openSync(__dirname + '/../../Logs/erros.txt', 'w')
+	// ];
 
 	// Spawn a child process using sh and the tcpdump command
-	const child = spawn('sh', ["-c", " sudo  tcpdump -i wlo0  -nn -q ip --direction=in | tee somefile.txt "], { stdio, detached: true });
+	const child = spawn('sh', ["-c", " sudo  tcpdump -i wlo0  -nn -q ip --direction=in | tee somefile.txt "], { detached: true });
 
 	// Set a timeout to kill the child process after 5 seconds
 	setTimeout(async function () {
