@@ -124,7 +124,7 @@ dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h
                 # Pool of IP addresses served via DHCP
 domain=wlan     # Local wireless DNS domain
 address=/gw.wlan/192.168.4.1
-                # Alias for this router" | sudo tee -a $DNSMASQ_CONF_FILE
+                # Alias for this router" | sudo tee $DNSMASQ_CONF_FILE
 
 if [ $? -eq 0 ]; then
   echo "Dnsmasq configuration file added successfully."
@@ -261,7 +261,7 @@ if ! wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key
   exit 1
 fi
 
-echo "deb [ arch=arm64 ] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
 echo "Installing MongoDB..."
 if ! sudo apt-get update && sudo apt-get install mongodb-org -y; then
@@ -305,15 +305,8 @@ sudo systemctl start easyap
 #------------------------------------------------------------------------------------------------
 #Install 18.14 LTS version of Nodejs
 
-if ! sudo curl -fsSL https://deb.nodesource.com/setup_18.14 | bash - &&\; then
-  echo "Error: Failed to setup NodeJS."
-  exit 1
-fi
-
-if ! sudo apt install -y nodejs; then
-  echo "Error: Failed to install NodeJS."
-  exit 1
-fi
+sudo curl -fsSL https://deb.nodesource.com/setup_18.14 | bash - &&\
+sudo apt install -y nodejs
 
 #------------------------------------------------------------------------------------------------
 #Restarting all the services to start the Access Point and apply all the changes to the services
