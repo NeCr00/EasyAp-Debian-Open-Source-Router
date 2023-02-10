@@ -3,7 +3,7 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
-const {applyFirewallRule, getFirewallLogs, getFirewallRules, setCustomFirewallRule,deleteFirewallRules,updateRulesStatus } = require('../utils/firewallRulesHelper')
+const {applyFirewallRule, getFirewallLogs, getFirewallRules, setCustomFirewallRule,deleteFirewallRules,updateRulesStatus } = require('../utils/Firewall/firewallRulesHelper')
 
 
 router.get('/', (req, res) => {

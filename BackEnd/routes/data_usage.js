@@ -3,7 +3,7 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
-const getClientsDataUsage = require('../utils/DataUsage/getClientsDataUsage')
+const {getClientsDataUsage} = require('../utils/DataUsage/getClientsDataUsage')
 
 
 

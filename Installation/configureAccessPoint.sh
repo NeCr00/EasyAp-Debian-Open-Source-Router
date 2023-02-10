@@ -264,7 +264,7 @@ fi
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
 echo "Installing MongoDB..."
-if ! sudo apt-get update && sudo apt-get install mongodb-org -y; then
+if ! sudo apt update && sudo apt install mongodb-org -y; then
   echo "Error: Failed to install MongoDB."
   exit 1
 fi
@@ -277,6 +277,16 @@ fi
 
 echo "MongoDB installation complete."
 
+#------------------------------------------------------------------------------------------------
+#Install 18.14 LTS version of Nodejs
+
+curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+sudo apt install nodejs
+sudo apt install build-essential
+
+#------------------------------------------------------------------------------------------------
+cd ../BackEnd/ 
+npm install
 #------------------------------------------------------------------------------------------------
 #Setup web server as system service
 
@@ -302,11 +312,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable easyap
 sudo systemctl start easyap
 
-#------------------------------------------------------------------------------------------------
-#Install 18.14 LTS version of Nodejs
 
-sudo curl -fsSL https://deb.nodesource.com/setup_18.14 | bash - &&\
-sudo apt install -y nodejs
 
 #------------------------------------------------------------------------------------------------
 #Restarting all the services to start the Access Point and apply all the changes to the services
