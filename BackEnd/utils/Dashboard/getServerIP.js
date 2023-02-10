@@ -136,8 +136,8 @@ function monitorNetworkConnections() {
 	// Set a timeout to kill the child process after 5 seconds
 	setTimeout(async function () {
 		// Kill the child process
-		process.kill(child.pid)
-
+		// process.kill(child.pid)
+		child.kill()
 		// Get the results of the network monitor
 		getNetworkMonitorResults()
 
