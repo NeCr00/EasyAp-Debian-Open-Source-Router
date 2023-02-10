@@ -76,21 +76,23 @@ function transferDataBetweenHours(data) {
 async function saveTrafficData() {
 
     //get traffic data from collection
-    getTraffic = await dataUsage.find().sort({ hour: 0 })
-    data = getTraffic
+   let  getTrafficData = await dataUsage.find({ hour: { $gte: 0, $lt: 12 } }).sort({ hour: 0 });
+   console.log(getTrafficData)
 
     //get current time traffic amount
     traffic_now = await getCurrentTrafficData()
 
-    data = await transferDataBetweenHours(data) // transfers the data of i to i +1, passing the
+    data = await transferDataBetweenHours(getTrafficData) // transfers the data of i to i +1, passing the
     //data to the next hour ex. 9:00 to 10:00
 
     //save the monitor data to 0:00 
     data[0].packetsSent = traffic_now[1].tx_packets
     data[0].packetsReceived = traffic_now[0].rx_packets
 
-    await dataUsage.deleteMany() //deletes all the previous data
-    insert = await dataUsage.insertMany(data) // inserts the new data
+    await dataUsage.deleteMany({}) //deletes all the previous data
+    insert = await dataUsage.insertMany(data)
+    
+     // inserts the new data
     console.log(data[0], data[1], data[2])
 }
 
@@ -100,23 +102,23 @@ async function initializeTrafficMonitorData() {
     //This function should be called  once at the start of the software and adds the propriate entries for each hour
 
     //Checks if data are already inserted into the collection. If not, then creates 12 entries for each hour between 0-11
-    dataUsage.count(async function (err, count) {
-        if (!err && count === 0) { //if is empty initialize the data usage entries
-            for (var hour = 0; hour < 12; hour++) {
 
+   dataUsage.find({hour:0}, async function(err, data) {
+    if ( data.length === 0 ) {
+        console.log("initializeTrafficMonitorData")
+      //if is empty initialize the data usage entries
+      for (var hour = 0; hour < 12; hour++) {
+        creation = await dataUsage.create({
+          packetsSent: 0,
+          packetsReceived: 0,
+          hour: hour
+        });
+      }
+    } else {
+      console.log("Data Usage for traffic monitor has been already initialized");
+    }
+  });
 
-                creation = await dataUsage.create({
-                    packetsSent: 0,
-                    packetsReceived: 0,
-                    hour: hour
-                })
-            }
-        }
-        else {
-            console.log("Data Usage for traffic monitor has been already initialized")
-
-        }
-    });
 
 }
 

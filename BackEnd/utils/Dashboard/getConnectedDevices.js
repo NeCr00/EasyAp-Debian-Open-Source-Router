@@ -33,7 +33,7 @@ function extractDeviceInfo(string_devices) {
 
 async function isHostUp(ip) {
     // Define the command to check if the given IP is reachable
-    let command = `ping -c 1 -W 0.2 ${ip}`;
+    let command = `ping -c 1 -W 1 ${ip}`;
   
     // Execute the command and capture its output
     let { stdout, stderr } = await exec(command);

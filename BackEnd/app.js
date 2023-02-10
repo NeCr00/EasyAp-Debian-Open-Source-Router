@@ -64,12 +64,12 @@ app.use(session({
 
 
 //Initialization Functions that needs to run at the beginning
-initializeTrafficMonitorData()
+ initializeTrafficMonitorData()
 
 //This section contains functions that must run periodically
   
 // enables the network monitor for the dashboard
-  monitorNetworkConnections() 
+  
 setInterval(saveTrafficData,5000)
 setInterval(monitorNetworkConnections,5000)
 
