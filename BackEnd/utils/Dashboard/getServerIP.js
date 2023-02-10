@@ -131,7 +131,7 @@ function monitorNetworkConnections() {
 	// ];
 
 	// Spawn a child process using sh and the tcpdump command
-	const child = spawn('sh', ["-c", " sudo  tcpdump -i wlo0  -nn -q ip --direction=in | tee somefile.txt "], { detached: true });
+	const child = spawn('sh', ["-c", " sudo  tcpdump -i wlan0  -nn -q ip --direction=in | tee somefile.txt "], { detached: true });
 
 	// Set a timeout to kill the child process after 5 seconds
 	setTimeout(async function () {
