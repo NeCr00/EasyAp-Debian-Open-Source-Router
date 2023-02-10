@@ -25,7 +25,7 @@ async function getTrafficStats() {
 
 async function getCurrentTrafficData() {
     let network_stats = []
-    command = " ifconfig wlo1 | grep -E 'RX packets|TX packets'"
+    command = " ifconfig wlan0 | grep -E 'RX packets|TX packets'"
     // run the `ls` command using exec
     const { stdout, stderr } = await exec(command);
 
