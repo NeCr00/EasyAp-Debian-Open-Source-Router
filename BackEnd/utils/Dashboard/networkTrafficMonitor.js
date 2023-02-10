@@ -76,8 +76,8 @@ function transferDataBetweenHours(data) {
 async function saveTrafficData() {
 
     //get traffic data from collection
-    getTrafficStats = await dataUsage.find().sort({ hour: 0 })
-    data = getTrafficStats
+    getTraffic = await dataUsage.find().sort({ hour: 0 })
+    data = getTraffic
 
     //get current time traffic amount
     traffic_now = await getCurrentTrafficData()
