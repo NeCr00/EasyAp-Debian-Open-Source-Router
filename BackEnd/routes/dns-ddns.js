@@ -46,23 +46,25 @@ router.get("/", (req, res) => {
 
 router.get("/ddns", (req, res) => {
   //get the already configured ddns from the database
-  let data = [
-    {
-      ddns_enabled: "1",
-      domain: "localhost",
-      provider: "DYN",
-      username: "admin",
-      password: "admin",
-    },
-  ];
-  // let data = getDDnsConfigs()
+  // let data = [
+  //   {
+  //     ddns_enabled: "1",
+  //     domain: "localhost",
+  //     provider: "DYN",
+  //     username: "admin",
+  //     password: "admin",
+  //   },
+  // ];
+  let data = getDDnsConfigs()
 
   res.json(data);
 });
 
-router.post("/ddns", (req, res) => {
-  console.log(req.body);
+router.post("/ddns", async (req, res) => {
+  // console.log(req.body);
 
+  await editDDnsConfigs(req.body)
+  
   if (0) {
   } else {
     res.json({
@@ -71,35 +73,34 @@ router.post("/ddns", (req, res) => {
     });
   } //if error is occured
 
-  // editDDnsConfigs(req.body)
 });
 
-router.get("/dns", (req, res) => {
-  var dnsServers = [
-    {
-      id: 1,
-      ip: "55.167.74.54",
-    },
-    {
-      id: 2,
-      ip: "233.23.23.11",
-    },
-    {
-      id: 3,
-      ip: "250.15.178.134",
-    },
-  ];
-  // let dnsServers = getDnsServers()
+router.get("/dns", async (req, res) => {
+  // var dnsServers = [
+  //   {
+  //     id: 1,
+  //     ip: "55.167.74.54",
+  //   },
+  //   {
+  //     id: 2,
+  //     ip: "233.23.23.11",
+  //   },
+  //   {
+  //     id: 3,
+  //     ip: "250.15.178.134",
+  //   },
+  // ];
+  let dnsServers = await getDnsServers()
 
   res.json(dnsServers);
 });
 
-router.post("/dns", validateDataDNS, (req, res) => {
+router.post("/dns", validateDataDNS, async (req, res) => {
   //Add new dns entries
   data = req.body;
-  console.log('post dns')
-  console.log(data);
-  // editDnsServers('POST', req.body)
+  // console.log('post dns')
+  // console.log(data);
+  await editDnsServers('POST', req.body)
   
   if (1) {
     res.json({

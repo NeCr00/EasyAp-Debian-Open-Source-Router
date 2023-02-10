@@ -62,25 +62,15 @@ router.get('/', (req, res) => {
   
   })
 
-  router.get('/config',function (req, res) {
+  router.get('/config', async function (req, res) {
 
-    var config ={
-      "dhcp_enable": true,
-      "start_ip": '192.1.1.1',
-      "end_ip": '192.1.1.1',
-      "mask": '255.255.255.0',
-      "time": '24h',
-      "lease_isEnabled": true
-    }
-    res.json(config)
-
-    // res.json(getDHCPRangeInfo())
-
+    let data = await getDHCPRangeInfo() 
+    res.json(data)
 
   })
 
-  router.post('/submit', validateSettingsData, function(req, res) {
-    editDnsmasqDHCPRange(req.body)
+  router.post('/submit', validateSettingsData, async function(req, res) {
+    await editDnsmasqDHCPRange(req.body)
     
     if (1){
       res.json({"message":"Changes Applied"})
@@ -93,21 +83,22 @@ router.get('/', (req, res) => {
 
 
 
-router.get('/static-ips', function(req, res){
-  let data = [{
-    "ip": "192.111.111.111",
-    "mac": "98-1D-20-04-09-B9"
-  }]
-  res.json(data)
-  // res.json(getStaticIPs());
+router.get('/static-ips', async function(req, res){
+  // let data = [{
+  //   "ip": "192.111.111.111",
+  //   "mac": "98-1D-20-04-09-B9"
+  // }]
+  // res.json(data)
+  let data = await getStaticIPs() 
+  res.json(data);
 
 })
 
 
-router.post('/static-ips', validateStaticIP, function(req, res){
-  console.log(req.body)
+router.post('/static-ips', validateStaticIP, async function(req, res){
+  // console.log(req.body)
   
-  // editDnsmasqStaticIPs('POST', req.body)
+  await editDnsmasqStaticIPs('POST', req.body)
 
   if (1){
     res.json({"message":"Changes Applied"})
@@ -118,10 +109,10 @@ router.post('/static-ips', validateStaticIP, function(req, res){
 })
 
 
-router.delete('/static-ips', function(req, res){
-  console.log(req.body)
+router.delete('/static-ips', async function(req, res){
+  // console.log(req.body)
   
-  // editDnsmasqStaticIPs('DELETE', req.body)
+  await editDnsmasqStaticIPs('DELETE', req.body)
     
   if (1){
     res.json({"message":"Changes Applied"})

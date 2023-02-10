@@ -86,8 +86,8 @@ async function saveTrafficData() {
     //data to the next hour ex. 9:00 to 10:00
 
     //save the monitor data to 0:00 
-    data[0].packetsSent = traffic_now[1].tx_packets
-    data[0].packetsReceived = traffic_now[0].rx_packets
+    data[0].packetsSent = Math.abs(data[0].packetsSent - traffic_now[1].tx_packets)
+    data[0].packetsReceived = Math.abs(data[0].packetsReceived - traffic_now[0].rx_packets)
 
     await dataUsage.deleteMany({}) //deletes all the previous data
     insert = await dataUsage.insertMany(data)

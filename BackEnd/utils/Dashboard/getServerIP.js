@@ -24,7 +24,7 @@ function insertServerData(item) {
 		else {
 			sum_of_requests = doc.requestCounter + item.num_of_requests
 			update = await Geolocation.findOneAndUpdate({ countryNameShort: item.country }, { requestCounter: sum_of_requests }, { new: true })
-			console.log(update)
+			//console.log(update)
 		}
 	})
 }
