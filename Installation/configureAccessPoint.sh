@@ -197,18 +197,6 @@ sudo cp -f $HOSTAPD_CONF_FILE $HOSTAPD_CONF_FILE.default || { echo "Error: defau
 #------------------------------------------------------------------------------------------------
 #Enable Custom path for ipatables Logs
 
-RSYSLOG_IPTABLES_CONF_FILE=/etc/rsyslog.d/90-my_iptables.conf
-EASYAP_IPTABLES_LOG_FILE=/var/log/easyap/iptables.log
-
-sudo iptables -A INPUT -j LOG  --log-level 7 --log-prefix='[netfilter] '
-
-sudo touch $RSYSLOG_IPTABLES_CONF_FILE
-
-sudo echo ":msg,contains,"[netfilter] " -$EASYAP_IPTABLES_LOG_FILE" > $RSYSLOG_IPTABLES_CONF_FILE
-
-sudo echo  "& ~" >> $RSYSLOG_IPTABLES_CONF_FILE
-
-sudo systemctl restart rsyslog
 
 echo "Adding iptables logging rules"
 sudo iptables -A INPUT -j LOG  --log-level 7 --log-prefix='[netfilter] ' || { echo "Error: iptables rule addition failed"; exit 1; }
