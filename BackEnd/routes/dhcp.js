@@ -29,7 +29,7 @@ function validateSettingsData(req, res, next) {
 function validateStaticIP(req, res, next) { 
   let data = req.body
   let response = {"error": false, "message": ''}
-  
+
   data.forEach(item => {
     let staticIp = validator.validateIP(item.ip)
     let mac = validator.validateMac(item.mac)
@@ -50,53 +50,43 @@ function validateStaticIP(req, res, next) {
 router.get('/', (req, res) => {
    
     res.sendFile(path.join(__dirname,'../../FrontEnd/dhcp.html'));
-
-    
   })
 
-  router.get('/connected_devices', (req, res) => {
-   
-    getDevices().then(function (devices) {
-      res.json(devices);
-    }) 
+router.get('/connected_devices', (req, res) => {
   
-  })
+  getDevices().then(function (devices) {
+    res.json(devices);
+  }) 
 
-  router.get('/config', async function (req, res) {
+})
 
-    let data = await getDHCPRangeInfo() 
-    res.json(data)
+router.get('/config', function (req, res) {
 
-  })
+  let data = getDHCPRangeInfo() 
+  res.json(data)
+})
 
-  router.post('/submit', validateSettingsData, async function(req, res) {
-    await editDnsmasqDHCPRange(req.body)
-    
-    if (1){
-      res.json({"message":"Changes Applied"})
-    }
-    else{
-      res.json({"error":true,"status":'Something happen, try again !'})
-    }
-
-  })
-
+router.post('/submit', validateSettingsData, async function(req, res) {
+  await editDnsmasqDHCPRange(req.body)
+  
+  if (1){
+    res.json({"message":"Changes Applied"})
+  }
+  else{
+    res.json({"error":true,"status":'Something happen, try again !'})
+  }
+})
 
 
-router.get('/static-ips', async function(req, res){
-  // let data = [{
-  //   "ip": "192.111.111.111",
-  //   "mac": "98-1D-20-04-09-B9"
-  // }]
-  // res.json(data)
-  let data = await getStaticIPs() 
+
+router.get('/static-ips', function(req, res){
+  
+  let data = getStaticIPs() 
   res.json(data);
-
 })
 
 
 router.post('/static-ips', validateStaticIP, async function(req, res){
-  // console.log(req.body)
   
   await editDnsmasqStaticIPs('POST', req.body)
 
@@ -110,7 +100,6 @@ router.post('/static-ips', validateStaticIP, async function(req, res){
 
 
 router.delete('/static-ips', async function(req, res){
-  // console.log(req.body)
   
   await editDnsmasqStaticIPs('DELETE', req.body)
     

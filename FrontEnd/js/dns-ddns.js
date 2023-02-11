@@ -94,13 +94,13 @@ $(document).ready(function () {
 
   //set Already submited values to DDNS settings
   async function getDDNSConfig() {
-    data = await getData("dns_ddns/ddns");
-    data = data[0];
+    let data = await getData("dns_ddns/ddns");
+    // console.log(`ddns config data: ${data['provider']}`)
 
     $("#provider").html(data.provider);
-    $("#username").val(data.username);
+    $("#username").val(data.login);
     $("#password").val(data.password);
-    $("#domain-name").val("1");
+    $("#domain-name").val(data.domain);
     if (data.ddns_enabled == "1") {
       $("#ddns-status-enable").prop("checked", true);
       $("#ddns-status-disable").prop("checked", false);
@@ -207,13 +207,15 @@ $(document).ready(function () {
   async function SubmitDns() {
     var dns_table = {
       new_dns: [],
-      deleted_dns: deletedDns.deletedDns,
+      deleted_dns: deletedDns,
     };
 
     $("#dns-table-body tr").each(function (item) {
       var item = $(this).find(".new-item").html();
       if (item) dns_table.new_dns.push(item);
     });
+
+    console.log(dns_table)
 
     if (dns_table.new_dns.length > 0) {
       let response = await postData("dns_ddns/dns", dns_table.new_dns);
@@ -225,7 +227,7 @@ $(document).ready(function () {
         successModal(response_data.message);
       }
     }
-
+    
     if (dns_table.deleted_dns.length > 0) {
       let res = await deleteData("dns_ddns/dns", dns_table.deleted_dns);
       let res_data = await res.json();
@@ -241,13 +243,11 @@ $(document).ready(function () {
 
   $("#submit-dns-entry").click(function () {
     SubmitDns(); //Add new row to dns table
-    deletedDns.deletedDns = []
+    deletedDns= []
   });
 
   //------------------------------------------------------------------------------------------
-  var deletedDns = {
-    deletedDns: [],
-  };
+  var deletedDns = []
 
   function updateRowNumDns() {
     console.log(1);
@@ -263,7 +263,7 @@ $(document).ready(function () {
 
     //get value
     deletedIP = item.find(".item").text();
-    deletedDns.deletedDns.push(deletedIP);
+    deletedDns.push(deletedIP);
     console.log(deletedDns);
     updateRowNumDns();
   });
@@ -297,11 +297,11 @@ $(document).ready(function () {
 
       cols += '<th class="text-center fs-5" scope="row">' + item.id + "</th>";
       cols +=
-        '<td class=" item fs-6 fw-bold" contenteditable="false">' +
+        '<td class=" item-domain fs-6 fw-bold" contenteditable="false">' +
         item.domain +
         "</td>";
       cols +=
-        '<td class=" item fs-6 fw-bold" contenteditable="false">' +
+        '<td class=" item-ip fs-6 fw-bold" contenteditable="false">' +
         item.ip +
         "</td>";
       cols +=
@@ -338,7 +338,7 @@ $(document).ready(function () {
 
   async function submitAuthoritativeDns() {
     var auth_dns = []
-    let deleted = deletedAuthoritativeDns 
+    let deleted = deletedAuthoritativeDns.deletedAuthoritativeDns
   
     $("#authoritative-dns-table-body tr .new-item-auth-domain").each(function (item) {
       ip = $(this).parent().find(".new-item-auth-ip").html();
@@ -360,7 +360,7 @@ $(document).ready(function () {
       }
     }
     console.log(deleted)
-    if (deleted.deletedAuthoritativeDns.length > 0) {
+    if (deleted.length > 0) {
       let res = await deleteData("dns_ddns/nameserver", deleted);
       let res_data = await res.json();
       if (res_data.error) {
@@ -398,13 +398,13 @@ $(document).ready(function () {
     item.remove(); //remove item
 
     //get value
-    deletedDomain = item.find(".item").text();
+    // console.log(item.find(".item-ip").text(), item.find(".item-domain").text())
     deletedDomain = {
-      domain: deletedDomain.replace(/\d+\.\d+\.\d+\.\d+$/, '').trim(),
-      ip:     deletedDomain.replace(/^[^\d]+/, '').trim(),
+      domain: item.find(".item-domain").text(),
+      ip:     item.find(".item-ip").text(),
     }
     deletedAuthoritativeDns.deletedAuthoritativeDns.push(deletedDomain);
-    console.log(deletedAuthoritativeDns);
+    // console.log(deletedAuthoritativeDns);
     updateRowNumAuthoritativeDns();
   });
 });

@@ -1,19 +1,20 @@
 const { getDHCPRangeInfo } = require('./getDHCPConfigs.js')
 const { executeCommand } = require('../../Helpers/executeCommand')
 const {DNSMASQ_CONF_FILE, DNSMASQ_STATIC_LEASES_FILE} = require('../../Helpers/constants')
+const { readFileSync, writeFileSync, appendFileSync } = require('fs');
 
 function changeDnsmasqConfLine(line, configValueIndex, configsToChange){
     [linePrefix, editedLine] = line.split('=')
     editedLine = editedLine.split(',')
     editedLine[configValueIndex] = configsToChange[key]
     line = linePrefix + '=' + editedLine.join(',')
-
+    console.log(line)
     return line
 }
 
 async function editDnsmasqDHCPRange(requestData){
     let filePath = DNSMASQ_CONF_FILE
-    let currentConfigs = await getDHCPRangeInfo()
+    let currentConfigs = getDHCPRangeInfo()
     configsToChange = {}
     
     for (let key in currentConfigs) {
@@ -21,20 +22,21 @@ async function editDnsmasqDHCPRange(requestData){
             configsToChange[key] = requestData[key]
         }
     }
+    console.log(configsToChange)
 
-    let command = `sudo cat ${filePath}`
-    let stdout = ''
-    if( await executeCommand(command) ) {
-        let lines = stdout.split('\n')
-        let getDHCPRangeLineRegex = new RegExp('.*dhcp-range((.*?)\n)', 'g')
+    let fileContent = readFileSync(filePath, 'utf-8')
+    if( fileContent ) {
+        let lines = fileContent.split('\n')
+        let getDHCPRangeLineRegex = new RegExp('.*dhcp-range.*', 'g')
 
-        lines.forEach( (item, index, arr) => {
-            if (arr[index].match(getDHCPRangeLineRegex)) {
+        lines.forEach( (item, index) => {
+            if (lines[index].match(getDHCPRangeLineRegex)) {
                 
-                for (key in configsToChange){    
+                for (key in configsToChange){
+                    console.log(key)
                     switch (key) {
 
-                        case 'dhcp_enable':
+                        case 'dhcp_enabled':
                             if (configsToChange[key] === '1'){
                                 lines[index] = lines[index].replace('#', '')
                             } else if (configsToChange[key] === '0'){
@@ -57,6 +59,7 @@ async function editDnsmasqDHCPRange(requestData){
                         case 'time':
                             lines[index] = changeDnsmasqConfLine(lines[index], 3, configsToChange)
                             break;
+                        
                         default:
                             break;
                                 
@@ -69,8 +72,7 @@ async function editDnsmasqDHCPRange(requestData){
         const newFileContent = lines.join('\n');
 
         // Write the new file back to disk
-        command = `sudo echo "${newFileContent}" > ${filePath}`
-        await executeCommand(command)
+        writeFileSync(filePath, newFileContent, 'utf-8')
         
         // Restart dnsmasq service
         command = `sudo systemctl restart dnsmasq`
@@ -80,31 +82,27 @@ async function editDnsmasqDHCPRange(requestData){
 }
 
 async function editDnsmasqStaticIPs(requestAction, requestData){
-    let filePath = DNSMASQ_STATIC_LEASES_FILE
-    let readFileCommand = `sudo cat ${filePath}`
-    let restartDnsmasqCommand = 'sudo systemctl restart dnsmasq'
-    let stdout = ''
     
-    if ( stdout = await executeCommand(readFileCommand) ) {
+    let filePath = DNSMASQ_STATIC_LEASES_FILE
+    let fileContent = readFileSync(filePath, 'utf-8')
+    let restartDnsmasqCommand = 'sudo systemctl restart dnsmasq'
+    
+    if ( fileContent ) {
         switch (requestAction){
             case "POST":
-                requestData.forEach(async (item) => {
-                    let addHostCommand = `sudo dnsmasq --dhcp-host ${item.mac},${item.ip}`
-                    await executeCommand(addHostCommand)
+                requestData.forEach( (item) => {
+                    let lineToAdd = `dhcp-host=${item.mac},${item.ip}`
+                    appendFileSync(filePath, lineToAdd, 'utf-8')
                 });
-                
-                // Restart dnsmasq service
-                await executeCommand(restartDnsmasqCommand)
                 break;
             
             
             case "DELETE":
-                let lines = stdout.split('\n')
+                let lines = fileContent.split('\n')
 
-                lines.forEach((lineItem, index, arr) => {
+                lines.forEach( (lineItem, index) => {
                     requestData.forEach(dataItem => {
                         if (lines[index].includes(dataItem.mac)){
-                            // lines[index] = ''
                             lines.splice(index, 1)
                         }
                     });
@@ -112,17 +110,16 @@ async function editDnsmasqStaticIPs(requestAction, requestData){
                 const newFileContent = lines.join('\n');
 
                 // Write the new file back to disk
-                let removeHostCommand = `sudo echo "${newFileContent}" > ${filePath}`
-                await executeCommand(removeHostCommand)
-                
-                // Restart dnsmasq service
-                await executeCommand(restartDnsmasqCommand)
+                writeFileSync(filePath, newFileContent, 'utf-8')
                 break;
 
             default:
                 break;
         }
     }
+
+    // Restart dnsmasq service
+    await executeCommand(restartDnsmasqCommand)
 }
 
 

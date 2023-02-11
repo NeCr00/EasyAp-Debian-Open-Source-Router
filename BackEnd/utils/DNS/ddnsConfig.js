@@ -1,5 +1,7 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
 const { DDCLIENT_CONF_FILE } = require('../../Helpers/constants')
+const { readFileSync, writeFileSync } = require('fs');
+
 // Example ddclient config file:
 //
 // #ddns_enabled=true OR false
@@ -14,22 +16,22 @@ const { DDCLIENT_CONF_FILE } = require('../../Helpers/constants')
 
 function extractDDnsConfigs(configs) {
     let ddnsConfigs = {}
-    let skipKeys = ['use', 'ssl']
+    let skipKeys = ['use', 'ssl', '']
     let lines = configs.split('\n')
     
     lines.forEach((item, index) => {
         let [configKey, configValue] = item.split('=')
-        configKey = configKey.replace('#', '')
-        
+        configKey = configKey.replace('#', '').trim()
+
         if (configValue === undefined) { // parsing domain
-            ddnsConfigs['domain'] = configValue
+            ddnsConfigs['domain'] = lines[lines.length - 1].trim()
         } else if (skipKeys.includes(configKey)){
             return; // skips this iteration
         } else {
             ddnsConfigs[configKey] = configValue
         }
     })
-    
+
     return ddnsConfigs
 }
 
@@ -53,18 +55,20 @@ function generateFrontendKeys(ddnsConfigs) {
             ddnsConfigs['provider'] = 'DNSEXIT'
         
         default:
+            ddnsConfigs['provider'] = 'Select Provider'
             break;
     }
-    
+
     return ddnsConfigs
 }
 
 function getProviderConfigs(requestData) {
-    let protocol = '', 
-        server   = '',
-        ssl      = '',
-        web      = '',
-        web_skip = ''
+    console.log('hello from getProviderConfigs')
+    let protocol = '' 
+    let server   = ''
+    let ssl      = ''
+    let web      = ''
+    let web_skip = ''
     
     switch(requestData['provider']){
         case "NO-IP":
@@ -103,15 +107,24 @@ function getProviderConfigs(requestData) {
             break;
     }
 
-    return [protocol, server, ssl, web, web_skip]
+    requestData['protocol'] = protocol
+    requestData['server']   = server
+    requestData['ssl']      = ssl
+    requestData['web']      = web
+    requestData['web_skip'] = web_skip
+    
+    return requestData
 }
 
-async function getDDnsConfigs(){
-    let command = `sudo cat ${DDCLIENT_CONF_FILE}`
-    let stdout = ''
-    if ( stdout = await executeCommand(command) ) {
-        configs = extractDDnsConfigs(stdout)
-        return generateFrontendKeys(configs)
+function getDDnsConfigs(){
+    let filePath = DDCLIENT_CONF_FILE
+    let fileContent = readFileSync(filePath, 'utf-8')
+    if ( fileContent ) {
+        configs = extractDDnsConfigs(fileContent)
+        configs = generateFrontendKeys(configs)
+        configs['ddns_enabled'] = configs['ddns_enabled'] === 'true' ? '1' : '0'
+
+        return configs
     }
     else {
         return
@@ -132,11 +145,10 @@ async function handleDdnsService(requestData){
 }
 
 async function editDDnsConfigs(requestData){
+    let filePath = '/home/jason/workdir/thesis/Raspberry-Pi-Wireless-AP-Software/BackEnd/utils/DNS/ddclient.conf'
     
+    requestData = getProviderConfigs(requestData)
     requestData['ddns_enabled'] = requestData['ddns_enabled'] === '1' ? 'true' : 'false'
-    [requestData['protocol'], requestData['server'], 
-        requestData['web'], requestData['web-skip'], 
-        requestData['ssl']] = getProviderConfigs(requestData)
 
     let newFileContent = 
     `#ddns_enabled=${requestData['ddns_enabled']}
@@ -146,11 +158,9 @@ async function editDDnsConfigs(requestData){
     server=${requestData['server']}
     login=${requestData['username']}
     password=${requestData['password']}
-    ${requestData['domain']}
-    `;
+    ${requestData['domain']}`;
 
-    let command = `sudo echo "${newFileContent}" > ${DDCLIENT_CONF_FILE}`
-    await executeCommand(command)
+    writeFileSync(filePath, newFileContent, 'utf-8')
     
     await handleDdnsService(requestData)
 }

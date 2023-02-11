@@ -6,7 +6,7 @@ sudo apt update -y && sudo apt upgrade -y
 
 
 
-tools=(dnsmasq hostapd iptables openvpn fail2ban tcpdump)
+tools=(dnsmasq hostapd iptables openvpn fail2ban tcpdump net-tools)
 
 echo "Installing tools..."
 

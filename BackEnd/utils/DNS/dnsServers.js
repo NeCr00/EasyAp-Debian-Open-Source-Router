@@ -1,5 +1,6 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
 const { DNSMASQ_CONF_FILE } = require('../../Helpers/constants')
+const { readFileSync, writeFileSync } = require('fs');
 
 function extractDnsServers(serverConfigs) {
     let servers = []
@@ -7,9 +8,9 @@ function extractDnsServers(serverConfigs) {
     lines = serverConfigs.split('\n')
     let serverId = 0
 
-    lines.forEach(line => {
-        if (arr[index].match(getDnsServersLineRegex)) {
-            let values = line.split("=")
+    lines.forEach( (item, index) => {
+        if (lines[index].match(getDnsServersLineRegex)) {
+            let values = item.split("=")
             servers.push({
                 id: ++serverId,
                 ip: values[1]
@@ -19,11 +20,11 @@ function extractDnsServers(serverConfigs) {
     return servers
 }
 
-async function getDnsServers(){
-    let command = `sudo cat ${DNSMASQ_CONF_FILE}`
-    let stdout = ''
-    if ( stdout = await executeCommand(command) ) {
-        return extractDnsServers(stdout)
+function getDnsServers(){
+    let filePath = DNSMASQ_CONF_FILE
+    let fileContent = readFileSync(filePath, 'utf-8')
+    if ( fileContent ) {
+        return extractDnsServers(fileContent)
     }
     else {
         return
@@ -32,32 +33,30 @@ async function getDnsServers(){
 
 async function editDnsServers(requestMethod, requestData){
     let filePath = DNSMASQ_CONF_FILE
-    let currentDnsServers = await getDnsServers().map(item => item.ip)
-    let serversToEdit = {}
+    let currentDnsServers = getDnsServers().map(item => item.ip)
+    let serversToDelete = []
     
     requestData.forEach((item, index) => {
         if ( currentDnsServers.includes(requestData[index]) ){
-            serversToEdit.push(requestData[index])
+            serversToDelete.push(requestData[index])
         }
     })
 
-    let command = `sudo cat ${filePath}`
-    let stdout = ''
-    if( await executeCommand(command) ) {
-        let lines = stdout.split('\n')
+    let fileContent = readFileSync(filePath, 'utf-8')
+    if( fileContent ) {
+        let lines = fileContent.split('\n')
 
         switch (requestMethod) {
             case 'POST':
-                serversToEdit.forEach( (item, index) => {
-                    lines.push(`server=${serversToEdit[index]}`)
+                requestData.forEach( (item, index) => {
+                    lines.push(`server=${requestData[index]}`)
                 });
                 break;
             
             case 'DELETE':
-                lines.forEach( (item, linesIndex, arr) => {
-                    serversToEdit.forEach( (item, serversIndex) => {
-                        if (lines[linesIndex].match(`server=${serversToEdit[serversIndex]}`)) { 
-                            // lines[linesIndex] = ''
+                lines.forEach( (item, linesIndex) => {
+                    serversToDelete.forEach( (item, serversIndex) => {
+                        if (lines[linesIndex].match(`server=${serversToDelete[serversIndex]}`)) {
                             lines.splice(linesIndex, 1)
                         }
                     });
@@ -73,8 +72,7 @@ async function editDnsServers(requestMethod, requestData){
         const newFileContent = lines.join('\n');
 
         // Write the new file back to disk
-        command = `sudo echo "${newFileContent}" > ${filePath}`
-        await executeCommand(command)
+        writeFileSync(filePath, newFileContent, 'utf-8')
         
         // Restart dnsmasq service
         command = `sudo systemctl restart dnsmasq`

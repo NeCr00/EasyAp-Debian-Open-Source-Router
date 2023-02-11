@@ -1,5 +1,8 @@
 const { executeCommand } = require('../../Helpers/executeCommand')
-const { HOSTS_FILE } = require('../../Helpers/constants')
+const util = require('util');
+const exec = util.promisify(require('child_process').exec)
+const { HOSTS_FILE } = require('../../Helpers/constants');
+const { readFileSync, writeFileSync } = require('fs');
 
 function extractDnsDomains(configs) {
     let domains = []
@@ -7,60 +10,59 @@ function extractDnsDomains(configs) {
     let lines = configs.split('\n')
     let domainId = 0
 
-    lines.forEach(line => {
-        if (arr[index].match(getDnsDomainsLineRegex)) {
+    lines.forEach( (line, index) => {
+        if (lines[index].match(getDnsDomainsLineRegex)) {
             let values = line.split(/(\s+)/)
             domains.push({
                 id: ++domainId,
                 ip: values[0],
-                domain: values[1],
+                domain: values[2],
             })
         }  
     })
     return domains
 }
 
-async function getDnsDomains(){
-    let command = `sudo cat ${HOSTS_FILE}`
-    let stdout = ''
-    if ( stdout = await executeCommand(command) ) {
-        return extractDnsDomains(stdout)
+function getDnsDomains(){
+    let fileContent = readFileSync(HOSTS_FILE, 'utf-8')
+    if ( fileContent ) {
+        return extractDnsDomains(fileContent)
     }
     else {
         return
     }
 }
 
-async function editDnsDomains(requestAction, requestData){
+async function editDnsDomains(requestMethod, requestData){
     let filePath = HOSTS_FILE
-    let currentDnsDomains = await getDnsDomains()
-    let domainsToEdit = {}
+    let currentDnsDomains = getDnsDomains()
     let easyAPComment = '#EasyAP config'
+    let domainsToDelete = []
+    let lines = []
     
     requestData.forEach((item, index) => {
-        if ( currentDnsDomains.includes(requestData[index]) ){
-            domainsToEdit.push(requestData[index])
+        if ( currentDnsDomains.map(item => item.domain).includes(requestData[index]['domain']) ){
+            domainsToDelete.push(requestData[index])
         }
     })
 
-    let command = `sudo cat ${filePath}`
-    let stdout = ''
-    if( await executeCommand(command) ) {
-        let lines = stdout.split('\n')
+    let fileContent = readFileSync(filePath, 'utf-8')
+    if( fileContent ) {
+        lines = fileContent.split('\n')
 
         switch (requestMethod) {
             case 'POST':
-                domainsToEdit.forEach( (item, index) => {
-                    lines.push(`${domainsToEdit[index][ip]}\t\t${domainsToEdit[index][domain]} ${easyAPComment}`)
+                requestData.forEach( (item, index) => {
+                    let lineToAdd = `${requestData[index]['ip']}\t\t${requestData[index]['domain']} ${easyAPComment}`
+                    lines.push(lineToAdd)
                 });
                 break;
             
             case 'DELETE':
                 lines.forEach( (item, linesIndex, arr) => {
-                    domainsToEdit.forEach( (item, domainsIndex) => {
-                        let domainToDeleteRegex = new RegExp(`${domainsToEdit[domainsIndex][ip]}\s+${domainsToEdit[domainsIndex][domain]}`, 'i')
-                        if (lines[linesIndex].match(domainToDeleteRegex)) { 
-                            // lines[linesIndex] = ''
+                    domainsToDelete.forEach( (item, domainsIndex) => {
+                        let domainToDeleteRegex = new RegExp(`${domainsToDelete[domainsIndex]['ip']}\\s*${domainsToDelete[domainsIndex]['domain']}`, 'i')
+                        if (lines[linesIndex].match(domainToDeleteRegex)) {
                             lines.splice(linesIndex, 1)
                         }
                     });
@@ -75,15 +77,12 @@ async function editDnsDomains(requestAction, requestData){
         // Join the lines back together
         const newFileContent = lines.join('\n');
 
-        console.log(newFileContent)
-
         // Write the new file back to disk
-        command = `sudo echo "${newFileContent}" > ${filePath}`
-        await executeCommand(command)
+        writeFileSync(filePath, newFileContent, 'utf-8')
         
         // Restart dnsmasq service
         command = `sudo systemctl restart dnsmasq`
-        await executeCommand(command)
+        await exec(command)
     }
 }
 

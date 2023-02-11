@@ -110,20 +110,17 @@ $(document).ready(function () {
       $("#start-ip").val(data.start_ip);
       $("#end-ip").val(data.end_ip);
       $("#mask").val(data.mask);
-      $("#lan-ip").val(data.lan_ip);
-
       $("#time").val(data.time);
 
       if (data.lease_isEnabled)
         $("#lease-time").prop("checked", true);
 
-
-      if (data.ddns_enabled === '1') {
-        $("#dhcp-status-enable").prop("checked", true);
-        $("#dhcp-status-disable").prop("checked", false);
+      if (data.dhcp_enabled === '1') {
+        $("#dhcp-status-enabled").prop("checked", true);
+        $("#dhcp-status-disabled").prop("checked", false);
       } else {
-        $("#dhcp-status-enable").prop("checked", false);
-        $("#dhcp-status-disable").prop("checked", true);
+        $("#dhcp-status-enabled").prop("checked", false);
+        $("#dhcp-status-disabled").prop("checked", true);
       }
     }
   }
@@ -158,7 +155,7 @@ $(document).ready(function () {
 
   async function SubmitDHCP() {
     //get which radio is checked
-    var dhcp_enable = document.querySelector(
+    var dhcp_enabled = document.querySelector(
       'input[name="dchp-status"]:checked'
     ).value;
     //get lease time toggle value
@@ -172,7 +169,7 @@ $(document).ready(function () {
 
     //Construct json object
     var data = {
-      dhcp_enable: dhcp_enable,
+      dhcp_enabled: dhcp_enabled,
       start_ip: start_ip,
       end_ip: end_ip,
       mask: mask,

@@ -46,23 +46,14 @@ router.get("/", (req, res) => {
 
 router.get("/ddns", (req, res) => {
   //get the already configured ddns from the database
-  // let data = [
-  //   {
-  //     ddns_enabled: "1",
-  //     domain: "localhost",
-  //     provider: "DYN",
-  //     username: "admin",
-  //     password: "admin",
-  //   },
-  // ];
+  
   let data = getDDnsConfigs()
-
   res.json(data);
 });
 
 router.post("/ddns", async (req, res) => {
-  // console.log(req.body);
-
+  console.log('posted ddns data:')
+  console.log(req.body)
   await editDDnsConfigs(req.body)
   
   if (0) {
@@ -75,31 +66,15 @@ router.post("/ddns", async (req, res) => {
 
 });
 
-router.get("/dns", async (req, res) => {
-  // var dnsServers = [
-  //   {
-  //     id: 1,
-  //     ip: "55.167.74.54",
-  //   },
-  //   {
-  //     id: 2,
-  //     ip: "233.23.23.11",
-  //   },
-  //   {
-  //     id: 3,
-  //     ip: "250.15.178.134",
-  //   },
-  // ];
-  let dnsServers = await getDnsServers()
-
+router.get("/dns", (req, res) => {
+  
+  let dnsServers = getDnsServers()
   res.json(dnsServers);
 });
 
 router.post("/dns", validateDataDNS, async (req, res) => {
   //Add new dns entries
   data = req.body;
-  // console.log('post dns')
-  // console.log(data);
   await editDnsServers('POST', req.body)
   
   if (1) {
@@ -115,10 +90,9 @@ router.post("/dns", validateDataDNS, async (req, res) => {
   }
 });
 
-router.delete("/dns", (req, res) => {
-  console.log('delete dns')
-  console.log(req.body);
-  // editDnsServers('POST', req.body)
+router.delete("/dns", async (req, res) => {
+
+  await editDnsServers('DELETE', req.body)
 
   if (1) {
     res.json({
@@ -134,31 +108,14 @@ router.delete("/dns", (req, res) => {
 });
 
 router.get("/nameserver", (req, res) => {
-  var authoritativeDnsData = [
-    {
-      id: 1,
-      domain: "www.example.com",
-      ip: "55.167.74.54",
-    },
-    {
-      id: 2,
-      domain: "mail.example.com",
-      ip: "233.23.23.11",
-    },
-    {
-      id: 3,
-      domain: "sftp.example.com",
-      ip: "250.15.178.134",
-    },
-  ];
-  // let authoritativeDnsData = getDnsDomains()
-
+  
+  let authoritativeDnsData = getDnsDomains()
   res.json(authoritativeDnsData);
 });
 
-router.post("/nameserver", validateDataNameserver, (req, res) => {
-  console.log(req.body);
-  // editDnsDomains('POST', req.body)
+router.post("/nameserver", validateDataNameserver, async (req, res) => {
+
+  await editDnsDomains('POST', req.body)
   if (1) {
     res.json({
       error: false,
@@ -172,9 +129,9 @@ router.post("/nameserver", validateDataNameserver, (req, res) => {
   }
 });
 
-router.delete("/nameserver", (req, res) => {
-  console.log(req.body);
-  // editDnsDomains('DELETE', req.body)
+router.delete("/nameserver", async (req, res) => {
+
+  await editDnsDomains('DELETE', req.body)
   if (1) {
     res.json({
       error: false,
