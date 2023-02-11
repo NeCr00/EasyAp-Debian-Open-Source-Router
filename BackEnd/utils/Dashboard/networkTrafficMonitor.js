@@ -1,17 +1,18 @@
 const util = require('util');
 const dataUsage = require('../../Database/Model/DataUsage');
 const exec = util.promisify(require('child_process').exec)
-
+var kill = require('tree-kill');
+const fs = require('fs');
 
 async function getTrafficStats() {
     const trafficStats = await dataUsage.find({})
     traffic_data = [
         {
-            "type":"Packets Sent",
-            "data":[]
-        },{
-            "type":"Packets Received",
-            "data":[]
+            "type": "Packets Sent",
+            "data": []
+        }, {
+            "type": "Packets Received",
+            "data": []
         }
     ]
     trafficStats.forEach(item => {
@@ -76,8 +77,8 @@ function transferDataBetweenHours(data) {
 async function saveTrafficData() {
 
     //get traffic data from collection
-   let  getTrafficData = await dataUsage.find({ hour: { $gte: 0, $lt: 12 } }).sort({ hour: 0 });
-   console.log(getTrafficData)
+    let getTrafficData = await dataUsage.find({ hour: { $gte: 0, $lt: 12 } }).sort({ hour: 0 });
+    console.log(getTrafficData)
 
     //get current time traffic amount
     traffic_now = await getCurrentTrafficData()
@@ -91,39 +92,50 @@ async function saveTrafficData() {
 
     await dataUsage.deleteMany({}) //deletes all the previous data
     insert = await dataUsage.insertMany(data)
-    
-     // inserts the new data
+
+    // inserts the new data
     console.log(data[0], data[1], data[2])
 }
 
 
+
+
+
+
 async function initializeTrafficMonitorData() {
-    
+
+    // Call the function to reset the statistics for wlan0
+    resetWlan0Stats();
     //This function should be called  once at the start of the software and adds the propriate entries for each hour
 
     //Checks if data are already inserted into the collection. If not, then creates 12 entries for each hour between 0-11
 
-   dataUsage.find({hour:0}, async function(err, data) {
-    if ( data.length === 0 ) {
-        console.log("initializeTrafficMonitorData")
-      //if is empty initialize the data usage entries
-      for (var hour = 0; hour < 12; hour++) {
-        creation = await dataUsage.create({
-          packetsSent: 0,
-          packetsReceived: 0,
-          hour: hour
-        });
-      }
-    } else {
-      console.log("Data Usage for traffic monitor has been already initialized");
-    }
-  });
+    dataUsage.find({ hour: 0 }, async function (err, data) {
+        if (data.length === 0) {
+            console.log("initializeTrafficMonitorData")
+            //if is empty initialize the data usage entries
+            for (var hour = 0; hour < 12; hour++) {
+                creation = await dataUsage.create({
+                    packetsSent: 0,
+                    packetsReceived: 0,
+                    hour: hour
+                });
+            }
+        } else {
+            console.log("Data Usage for traffic monitor has been already initialized");
+        }
+    });
 
 
 }
 
 
+
+
+
+
+
 module.exports = {
 
-    getCurrentTrafficData, saveTrafficData, initializeTrafficMonitorData,getTrafficStats
+    getCurrentTrafficData, saveTrafficData, initializeTrafficMonitorData, getTrafficStats
 }

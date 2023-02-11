@@ -1,9 +1,9 @@
-const { spawn } = require('node:child_process')
+const { spawn,exec } = require('node:child_process')
 const assert = require('assert')
 var geoip = require('geoip-lite');
 const fs = require('fs');
 const Geolocation = require('../../Database/Model/Geolocation');
-
+var kill = require('tree-kill');
 
 
 function insertServerData(item) {
@@ -11,7 +11,7 @@ function insertServerData(item) {
 	// Check if this country is already in the collection
 	isCountry = Geolocation.findOne({ countryNameShort: item.country }).exec()
 	assert.ok(isCountry instanceof Promise);
-	
+
 	isCountry.then(async function (doc) {
 		// If the country doesn't exist in the collection, creates a new instance with all the data
 		if (!doc) {
@@ -72,15 +72,11 @@ function FilterIP(data) {
 	// If IP addresses were found
 	if (Ips) {
 		// Regular expression to check if the IP is a private IP address
-		const isprivate = new RegExp('^192|10|172', 'g');
+
+		const isPrivate = new RegExp(/^(10|172\.1[6-9]|172\.2[0-9]|172\.3[0-1]|192\.168)\..*/, 'g');
 
 		// Filter out private IP addresses. Returns the new array with all the public IP addresses
-		Ips = Ips.filter(ip => {
-			!isprivate.test(ip)
-			if (!isprivate.test(ip)) {
-				return ip;
-			}
-		});
+		Ips = Ips.filter(ip => !isPrivate.test(ip));
 
 		// Count the number of requests for each IP address
 		let num_of_requests_per_ip = {};
@@ -118,33 +114,38 @@ function getNetworkMonitorResults() {
 
 }
 
+function killTcpDump() {
+	const processName = 'tcpdump';
+
+	exec(`sudo pkill ${processName}`, (error, stdout, stderr) => {
+		if (error) {
+			console.error(`Error killing process: ${error}`);
+			return;
+		}
+
+		console.log(`Successfully killed process: ${processName}`);
+	});
+}
+
+
 // Function to monitor network connections using tcpdump
-function monitorNetworkConnections() {
-	// // Define standard input/output for the child process
-	// const stdio = [
-	// 	// Send standard input to /dev/null
-	// 	0,
-	// 	// Write standard output to networkMonitor.txt file
-	// 	fs.openSync(__dirname + '/../../Logs/networkMonitor.txt', 'w'),
-	// 	// Write standard error to erros.txt file
-	// 	fs.openSync(__dirname + '/../../Logs/erros.txt', 'w')
-	// ];
+var childPid;
 
-	// Spawn a child process using sh and the tcpdump command
-	const child = spawn('sh', ["-c", " sudo  tcpdump -i wlan0  -nn -q ip --direction=in | tee Logs/somefile.txt "], { detached: true });
+async function monitorNetworkConnections() {
 
+	let child = spawn('sh', ["-c", "sudo tcpdump -i wlan0 -nn -q ip --direction=in"]);
+	console.log('2222')
 	// Set a timeout to kill the child process after 5 seconds
 	setTimeout(async function () {
-		// Kill the child process
-		// process.kill(child.pid)
-		child.kill()
+		child.kill();
+		killTcpDump()
+		console.log('tcpdump process killed');
 		// Get the results of the network monitor
-		getNetworkMonitorResults()
-
-		// Recursively call the monitorNetworkConnections function
-		monitorNetworkConnections()
-
+		await getNetworkMonitorResults();
 	}, 5000);
+
+
 }
+
 
 module.exports = { getServerIPsGeolocation, monitorNetworkConnections }

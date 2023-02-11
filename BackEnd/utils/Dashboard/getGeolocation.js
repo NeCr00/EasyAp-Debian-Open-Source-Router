@@ -17,27 +17,32 @@ function calculateTheData(data) {
     //Contais all the countries which the requests belong
     let calculatedRequests = []
 
-    
+
     totalRequests = 1
     data.forEach(item => { totalRequests += item.requestCounter })
 
     //Calculate the top 5 countries which the requests belong
     if (data.length > 4) {
-        for (let item = 0; item < 5; item++) {
+        for (let item = 0; item < 6; item++) {
             //Contains the 
-            percentage = ((data[item].requestCounter / totalRequests) * 100).toFixed(2)
-            topCalculatedRequests.push({
-                "country": data[item].countryNameShort,
-                "percentage": parseFloat(percentage)
-            })
+            if (data[item].countryNameShort !== '') {
+                percentage = ((data[item].requestCounter / totalRequests) * 100).toFixed(2)
+                topCalculatedRequests.push({
+                    "country": data[item].countryNameShort,
+                    "percentage": parseFloat(percentage)
+                })
+            }
+
         }
 
         data.forEach(item => {
-            percentage = ((item.requestCounter / totalRequests) * 100).toFixed(2)
-            calculatedRequests.push({
-                "country": item.countryNameShort,
-                "percentage": parseFloat(percentage)
-            })
+            if (item.countryNameShort !== '') {
+                percentage = ((item.requestCounter / totalRequests) * 100).toFixed(2)
+                calculatedRequests.push({
+                    "country": item.countryNameShort,
+                    "percentage": parseFloat(percentage)
+                })
+            }
         })
         console.log(calculatedRequests)
         return [{ "calculatedRequests": calculatedRequests }, { "topCalculatedRequests": topCalculatedRequests }]
