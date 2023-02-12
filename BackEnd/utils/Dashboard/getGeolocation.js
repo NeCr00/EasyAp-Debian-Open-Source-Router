@@ -23,26 +23,26 @@ function calculateTheData(data) {
 
     //Calculate the top 5 countries which the requests belong
     if (data.length > 4) {
-        for (let item = 0; item < 6; item++) {
+        for (let item = 0; item < 5; item++) {
             //Contains the 
-            if (data[item].countryNameShort !== '') {
-                percentage = ((data[item].requestCounter / totalRequests) * 100).toFixed(2)
-                topCalculatedRequests.push({
-                    "country": data[item].countryNameShort,
-                    "percentage": parseFloat(percentage)
-                })
-            }
+
+            percentage = ((data[item].requestCounter / totalRequests) * 100).toFixed(2)
+            topCalculatedRequests.push({
+                "country": data[item].countryNameShort,
+                "percentage": parseFloat(percentage)
+            })
+
 
         }
 
         data.forEach(item => {
-            if (item.countryNameShort !== '') {
-                percentage = ((item.requestCounter / totalRequests) * 100).toFixed(2)
-                calculatedRequests.push({
-                    "country": item.countryNameShort,
-                    "percentage": parseFloat(percentage)
-                })
-            }
+
+            percentage = ((item.requestCounter / totalRequests) * 100).toFixed(2)
+            calculatedRequests.push({
+                "country": item.countryNameShort,
+                "percentage": parseFloat(percentage)
+            })
+
         })
         console.log(calculatedRequests)
         return [{ "calculatedRequests": calculatedRequests }, { "topCalculatedRequests": topCalculatedRequests }]

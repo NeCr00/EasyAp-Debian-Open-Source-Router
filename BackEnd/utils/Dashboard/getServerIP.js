@@ -108,7 +108,7 @@ function getNetworkMonitorResults() {
 		}
 		//Extract IPs from the network monitor Logs
 		FilterIP(data)
-
+		console.log('1111')
 	});
 
 
@@ -133,12 +133,12 @@ var childPid;
 
 async function monitorNetworkConnections() {
 
-	let child = spawn('sh', ["-c", "sudo tcpdump -i wlan0 -nn -q ip --direction=in"]);
+	let child = spawn('sh', ["-c", "sudo tcpdump -i wlan0 -nn -q ip --direction=in | tee " + __dirname + "/../../Logs/somefile.txt"]);
 	console.log('2222')
 	// Set a timeout to kill the child process after 5 seconds
 	setTimeout(async function () {
 		child.kill();
-		killTcpDump()
+		await killTcpDump()
 		console.log('tcpdump process killed');
 		// Get the results of the network monitor
 		await getNetworkMonitorResults();

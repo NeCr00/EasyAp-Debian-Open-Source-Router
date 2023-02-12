@@ -249,8 +249,11 @@ $(document).ready(function () {
   //------------------------------------------------------------------------------------------
   var deletedDns = []
 
+  //------------------------------------------------------------------------------------------
+
+  //------------------------------------------------------------------------------------------
   function updateRowNumDns() {
-    console.log(1);
+    //console.log(1);
     $("#dns-table-body th").each(function (index, item) {
       console.log(item.innerText);
       item.innerText = index + 1;

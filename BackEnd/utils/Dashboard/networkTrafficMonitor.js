@@ -1,8 +1,6 @@
 const util = require('util');
 const dataUsage = require('../../Database/Model/DataUsage');
 const exec = util.promisify(require('child_process').exec)
-var kill = require('tree-kill');
-const fs = require('fs');
 
 async function getTrafficStats() {
     const trafficStats = await dataUsage.find({})
@@ -66,19 +64,29 @@ async function getCurrentTrafficData() {
     return network_stats
 }
 
+
 function transferDataBetweenHours(data) {
+
+     if (data[0].packetsSent !== 0 && data[1].packetsSent == 0 && data[2].packetsSent === 0) {
+         data[1].packetsSent = -1   
+         return data
+    }
+
     for (let i = 10; i > -1; i--) {
+
         data[i + 1].packetsSent = data[i].packetsSent
         data[i + 1].packetsReceived = data[i].packetsReceived
     }
     return data
 }
 
+var last_Traffic =  null
+
 async function saveTrafficData() {
 
     //get traffic data from collection
     let getTrafficData = await dataUsage.find({ hour: { $gte: 0, $lt: 12 } }).sort({ hour: 0 });
-    console.log(getTrafficData)
+    console.log('data:' + getTrafficData)
 
     //get current time traffic amount
     traffic_now = await getCurrentTrafficData()
@@ -87,14 +95,12 @@ async function saveTrafficData() {
     //data to the next hour ex. 9:00 to 10:00
 
     //save the monitor data to 0:00 
-    data[0].packetsSent = Math.abs(data[0].packetsSent - traffic_now[1].tx_packets)
-    data[0].packetsReceived = Math.abs(data[0].packetsReceived - traffic_now[0].rx_packets)
+    data[0].packetsSent = Math.abs(last_Traffic[1].tx_packets - traffic_now[1].tx_packets)
+    data[0].packetsReceived = Math.abs(last_Traffic[0].rx_packets - traffic_now[0].rx_packets)
 
     await dataUsage.deleteMany({}) //deletes all the previous data
     insert = await dataUsage.insertMany(data)
-
-    // inserts the new data
-    console.log(data[0], data[1], data[2])
+    last_Traffic = traffic_now
 }
 
 
@@ -104,27 +110,21 @@ async function saveTrafficData() {
 
 async function initializeTrafficMonitorData() {
 
-    // Call the function to reset the statistics for wlan0
-    resetWlan0Stats();
     //This function should be called  once at the start of the software and adds the propriate entries for each hour
+    stats_now = await getCurrentTrafficData()
+    await dataUsage.deleteMany({})
+     last_Traffic =  await getCurrentTrafficData()
 
-    //Checks if data are already inserted into the collection. If not, then creates 12 entries for each hour between 0-11
+    console.log("initializeTrafficMonitorData")
+    //if is empty initialize the data usage entries
+    for (var hour = 0; hour < 12; hour++) {
+        creation = await dataUsage.create({
+            packetsSent: hour === 0 ? stats_now[1].tx_packets : 0,
+            packetsReceived: hour === 0 ? stats_now[0].rx_packets : 0,
+            hour: hour
+        });
+    }
 
-    dataUsage.find({ hour: 0 }, async function (err, data) {
-        if (data.length === 0) {
-            console.log("initializeTrafficMonitorData")
-            //if is empty initialize the data usage entries
-            for (var hour = 0; hour < 12; hour++) {
-                creation = await dataUsage.create({
-                    packetsSent: 0,
-                    packetsReceived: 0,
-                    hour: hour
-                });
-            }
-        } else {
-            console.log("Data Usage for traffic monitor has been already initialized");
-        }
-    });
 
 
 }
