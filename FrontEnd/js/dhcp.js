@@ -204,6 +204,10 @@ $(document).ready(function () {
       // cols += '<th class="text-center fs-5" scope="row">' + (index + 1) + '</th>';
       cols += '<th class="text-center fs-5" scope="row"></th>';
       cols +=
+        '<td class=" item item-hostname fs-6 fw-bold" contenteditable="false">' +
+        item.hostname +
+        "</td>";
+      cols +=
         '<td class=" item item-ip fs-6 fw-bold" contenteditable="false">' +
         item.ip +
         "</td>";
@@ -230,6 +234,8 @@ $(document).ready(function () {
     // cols += '<th class="text-center fs-5" scope="row">' + (rows + 1) + "</th>";
     cols += '<th class="text-center fs-5" scope="row"></th>';
     cols +=
+      '<td class=" new-item-hostname  fs-6 fw-bold" contenteditable="true">Type Hostname</td>';
+    cols +=
       '<td class=" new-item-ip  fs-6 fw-bold" contenteditable="true">Type IP</td>';
     cols +=
       '<td class=" new-item-mac fs-6 fw-bold" contenteditable="true">Type Mac</td>';
@@ -249,11 +255,13 @@ $(document).ready(function () {
     let deleted = deletedStaticIPs
   
     $("#static-ip-table-body tr .new-item-ip").each(function (item) {
-      mac = $(this).parent().find(".new-item-mac").html();
-      ip = $(this).html()
+      ip = $(this).text()
+      mac = $(this).parent().find(".new-item-mac").text();
+      hostname = $(this).parent().find(".new-item-hostname").text();
       static_ip.push({
         mac: mac,
         ip: ip,
+        hostname: hostname
       });
     })
     if (static_ip.length > 0) {

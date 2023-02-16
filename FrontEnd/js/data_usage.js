@@ -149,17 +149,17 @@ async function createClientGraphs(){
     document.getElementsByClassName("bytes")[i].innerHTML= '<canvas id="bytes-chart'+i+'"></canvas>'
     
     //  2. Change the innerText of the Card depending on the data
-    macAddressElements = document.getElementsByClassName('mac-addr');
+    ipElements = document.getElementsByClassName('mac-addr');
     packetsSentElements =  document.getElementsByClassName('packets-sent');
     packetsReceivedElements =  document.getElementsByClassName('packets-received');
     bytesSentElements =  document.getElementsByClassName('bytes-sent');
     bytesReceivedElements =  document.getElementsByClassName('bytes-received');
 
-    macAddressElements[macAddressElements.length - 1].innerText = graphData[i]['mac-addr'];
-    packetsSentElements[packetsSentElements.length - 1].innerText = graphData[i]['packets-sent'][0]; // latest value
-    packetsReceivedElements[packetsReceivedElements.length - 1].innerText = graphData[i]['packets-received'][0];
-    bytesSentElements[bytesSentElements.length - 1].innerText = graphData[i]['bytes-sent'][0];
-    bytesReceivedElements[bytesReceivedElements.length - 1].innerText = graphData[i]['bytes-received'][0];
+    ipElements[ipElements.length - 1].innerText = graphData[i]['ip'];
+    packetsSentElements[packetsSentElements.length - 1].innerText = graphData[i]['total-packets-sent'][0]; // latest value
+    packetsReceivedElements[packetsReceivedElements.length - 1].innerText = graphData[i]['total-packets-received'][0];
+    bytesSentElements[bytesSentElements.length - 1].innerText = graphData[i]['total-bytes-sent'][0];
+    bytesReceivedElements[bytesReceivedElements.length - 1].innerText = graphData[i]['total-bytes-received'][0];
     //  3.Create the graphs
       // for (var j = 0; j < chartTypes.length; j++){
       //   //setupChartConfig(chartTypes[j], graphData[i], i);

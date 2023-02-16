@@ -109,51 +109,40 @@ $(document).ready(function () {
 
   async function SubmitVpnConf() {
 
-    //get which radio is checked
-    var cred_enable = document.querySelector('input[name="creds-status"]:checked').value;
     var username = $("#username").val();
     var password = $("#password").val();
-
-
     var file = $('#openVPNFileInput').prop('files')[0];
 
-    if (!file) {
-      errorModal('No file selected');
-      return;
+    let data = {
+      "file": '',
+      "username": username,
+      "password": password
     }
-  
+
     var reader = new FileReader();
     reader.onload = async function(e) {
       var contents = e.target.result;
-  
-      // Send contents to the backend
-      // ...
-      
-      console.log('File contents:', contents);
-
-      var data = {
-        "file": contents,
-        "username": username,
-        "password": password,
-        "cred_enable":cred_enable
-      }
+      data['file'] = contents
       response = await postData('vpn/config_file/upload', data);
       response_data = await response.json();
-  
-      if (response_data.error) {
-        errorModal(response_data.message);
-      } else {
-        successModal(response_data.message);
-      }
     };
-    reader.readAsText(file);
-   
+
+    if (file) {
+      reader.readAsText(file);
+    } else {
+      response = await postData('vpn/config_file/upload', data);
+      response_data = await response.json();
+    }
+
+    if (response_data.error) {
+      errorModal(response_data.message);
+    } else {
+      successModal(response_data.message);
+    }
 
   }
 
-
-
-  $("#submit-vpn").click(function () {
+  $("#apply-vpn-form").click(function () {
     SubmitVpnConf();
     $('#modal').modal('show');
   })
@@ -175,8 +164,14 @@ $(document).ready(function () {
   // Configuration File overview
   async function getConfigFile() {
     let data = await getData("vpn/config_file");
-    console.log(data);
+    
     $("#vpn-config").val(data.file);
+    
+    if (data.auth){
+      $("#username").val(data.auth.username);
+      $("#password").val(data.auth.password);
+    }
+    
   }
   getConfigFile()
 
@@ -189,7 +184,8 @@ $(document).ready(function () {
   getLogs()
 
   async function PostConfigFile() {
-    let data = $("#vpn-file").val();
+    let data = $("#vpn-config").val();
+    // console.log(data)
     await postData('/vpn/config_file', { data })
   }
   $("#apply-vpn-configs").click(function () {

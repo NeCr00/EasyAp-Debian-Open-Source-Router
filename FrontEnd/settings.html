@@ -221,7 +221,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
 
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4">
@@ -230,11 +229,51 @@
                                             <button id="reset-settings" class="btn  btn-pass btn-danger " type="button">
                                                 Reset</button>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
+                            <div class=" table-header py-1 rounded-top shadow-lg">
+                                <div class="ms-4">
+                                    <h4 class=" table-header fw-bold ">Port Forwading</h4>
+                                </div>
+                            </div>
+                            <div
+                                class="container-fluid table-responsive rounded-bottom  card-sizing shadow-sm position-relative">
+                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
+                                    <div class=" col-sm-10  col-md-11  mt-md-5">
+                                        <div class="container-fluid table-responsive table-size">
+                                            <table id="ip-forward-table" class="table table-borderless  text-center">
+                                                <thead class="thead-danger table-text">
+                                                    <tr class=" border-bottom border-2  fw-light table-text">
+                                                        <th class="  text-center" scope="col"><button id="add-ipforward"
+                                                                class="btn btn-add " type="button">
+                                                                <ion-icon name="add-circle-sharp"></ion-icon>
+                                                                </ion-icon>
+                                                            </button></th>
+                                                        <th class="fs-5" scope="col">Internal IP</th>
+                                                        <th class="fs-5" scope="col">Internal Port</th>
+                                                        <th class="fs-5" scope="col">External Port</th>
+                                                        <th> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-text">
+
+                                                </tbody>
+                                            </table>
+
+                                            <div class="position-absolute bottom-0 end-0 mb-4 me-4">
+                                                <div class="float-end"> <button id="submit-forward-rules" class="btn btn-pass btn-dark me-4"
+                                                        type="button">Apply</button>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
@@ -261,33 +300,26 @@
                                                 </thead>
                                                 <tbody class="table-text">
                                                    
-                                                 
                                                 </tbody>
                                             </table>
-
                                         </div>
                                     </div>
 
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4">
                                         <div class="float-end"> <button id="submitConnectedDevices" class="btn btn-pass btn-dark me-4"
-                                                type="button">Apply</button>
+                                                type="button">Ban</button>
                                             <button class="btn  btn-pass btn-danger " type="button">
                                                 Reset</button>
                                         </div>
-
                                     </div>
-
-
                                 </div>
-
                             </div>
-
                         </div>
 
                         <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
-                                    <h4 class=" table-header fw-bold ">MAC Filter</h4>
+                                    <h4 class=" table-header fw-bold ">MAC Filter - Banned MAC Addresses</h4>
                                 </div>
                             </div>
                             <div
@@ -303,14 +335,11 @@
                                                                 <ion-icon name="add-circle-sharp"></ion-icon>
                                                                 </ion-icon>
                                                             </button></th>
-                                                        <th class="fs-4" scope="col">MAC ADDRESS</th>
+                                                        <th class="fs-4" scope="col">MAC Address</th>
                                                         <th> </th>
-
                                                     </tr>
                                                 </thead>
                                                 <tbody id="mac-filter-table-body" class="table-text">
-
-                                           
 
                                                 </tbody>
                                             </table>
@@ -320,87 +349,13 @@
                                                         type="button">Apply</button>
                                                     
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
-
-
-
-
-
                                 </div>
-
-
-
-
-
-
-
                             </div>
-
-
                         </div>
 
-                        <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
-                            <div class=" table-header py-1 rounded-top shadow-lg">
-                                <div class="ms-4">
-                                    <h4 class=" table-header fw-bold ">IP Forwading</h4>
-                                </div>
-                            </div>
-                            <div
-                                class="container-fluid table-responsive rounded-bottom  card-sizing shadow-sm position-relative">
-                                <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
-                                    <div class=" col-sm-10  col-md-11  mt-md-5">
-                                        <div class="container-fluid table-responsive table-size">
-                                            <table id="ip-forward-table" class="table table-borderless  text-center">
-                                                <thead class="thead-danger table-text">
-                                                    <tr class=" border-bottom border-2  fw-light table-text">
-                                                        <th class="  text-center" scope="col"><button id="add-ipforward"
-                                                                class="btn btn-add " type="button">
-                                                                <ion-icon name="add-circle-sharp"></ion-icon>
-                                                                </ion-icon>
-                                                            </button></th>
-                                                        <th class="fs-5" scope="col">Internal IP</th>
-                                                        <th class="fs-5" scope="col">Internal Port</th>
-                                                        <th class="fs-5" scope="col">External Port</th>
-                                                        <th> </th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="table-text">
-
-               
-
-                                                </tbody>
-                                            </table>
-
-                                            <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                <div class="float-end"> <button id="submit-forward-rules" class="btn btn-pass btn-dark me-4"
-                                                        type="button">Apply</button>
-                                                   
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-
-
-                                </div>
-
-
-
-
-
-
-
-                            </div>
-
-
-                        </div>
 
                         <script type="module"
                             src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

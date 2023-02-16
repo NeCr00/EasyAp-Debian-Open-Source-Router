@@ -13,9 +13,9 @@ router.get('/', (req, res) => {
 
 })
 
-router.get('/graphs_data', (req, res) => {
+router.get('/graphs_data', async (req, res) => {
   
-  let clientsDataUsage = getClientsDataUsage()
+  let clientsDataUsage = await getClientsDataUsage()
   
   res.send(clientsDataUsage)
 
@@ -26,3 +26,18 @@ router.get('/graphs_data', (req, res) => {
 // device in network
 
 module.exports = router;
+
+// obj1 = {
+//   "mac-addr": "abcde",
+//   "packets-received": [
+//     1.49, 1.34, 1.41, 1.16, 1.81, 1706.82, 2057.85, 0, 0,
+//     0, 0, 0,
+//   ],
+//   "packets-sent": [669, 770, 555, 254, 181, 240, 0, 0, 0, 0, 0, 0],
+//   "bytes-received": [
+//     1112.49, 1112.34, 2.41, 1112.16, 2.81, 1706.82, 2057.85, 0, 0,
+//     0, 0, 0,
+//   ],
+//   "bytes-sent": [669, 770, 555, 254, 181, 240, 0, 0, 0, 0, 0, 0]
+// }
+

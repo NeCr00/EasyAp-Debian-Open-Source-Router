@@ -3,7 +3,7 @@ const app = express()
 const router = express.Router()
 const path = require('path')
 const bodyParser = require('body-parser');
-const { startVPN, stopVPN, readVPNConfig, writeVPNConfig, getVpnStatus,writeVPNConfigGUI,readVpnLogs } = require('../utils/VPN/configVPN');
+const { startVPN, stopVPN, readVPNConfig, readVPNAuth, writeVPNConfig, getVpnStatus, writeVPNConfigGUI, readVpnLogs } = require('../utils/VPN/configVPN');
 
 
 router.get('/', (req, res) => {
@@ -50,9 +50,8 @@ router.post('/config_file/upload', (req, res) => {
   let config = req.body.file
   let username = req.body.username
   let password = req.body.password
-  let credentials = req.body.cred_enable
 
-  applied = writeVPNConfigGUI(config, username, password, credentials)
+  applied = writeVPNConfigGUI(config, username, password)
   
   if(applied.error){
     res.json({error:true, message:applied.error})
@@ -65,14 +64,20 @@ router.post('/config_file/upload', (req, res) => {
 
 router.get('/config_file', (req, res) => {
   
-  let config = readVPNConfig()
-  console.log(config)
-  if(config.error)
+  let configFile = readVPNConfig()
+  let authData = readVPNAuth()
+  let data = {}
+
+  if(configFile.error)
   {
     res.json({"file":"No Data to Preview"})
   }
   else{
-    res.json({"file": config.config})
+    data['file'] = configFile.config
+    if (authData.username !== '' && authData.password !== '')
+      data['auth'] = authData.auth
+    
+    res.json(data)
   }
   
 })
@@ -80,7 +85,15 @@ router.get('/config_file', (req, res) => {
 router.post('/config_file', (req, res) => {
   
   let config = req.body.data
-  res.json(writeVPNConfig(config))
+
+  let applied = writeVPNConfig(config)
+  
+  if(applied.error){
+    res.json({error:true, message:applied.error})
+  }
+  else{
+    res.json({error:false, message:'VPN file uploaded successfully'})
+  }
   
 })
 

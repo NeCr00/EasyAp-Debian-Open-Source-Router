@@ -1,4 +1,4 @@
-const { spawn,exec } = require('node:child_process')
+const { spawn, exec } = require('node:child_process')
 const assert = require('assert')
 var geoip = require('geoip-lite');
 const fs = require('fs');
@@ -65,19 +65,20 @@ function getServerIPsGeolocation(ips, num_of_requests_per_ip) {
 function FilterIP(data) {
 	// Regular expression to get IP addresses from the tcpdump results
 	const getIpRegex = new RegExp('(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}', 'g');
-
 	// Get the IP addresses from the tcpdump results
 	let Ips = data.match(getIpRegex);
 
+
 	// If IP addresses were found
 	if (Ips) {
-		// Regular expression to check if the IP is a private IP address
 
-		const isPrivate = new RegExp(/^(10|172\.1[6-9]|172\.2[0-9]|172\.3[0-1]|192\.168)\..*/, 'g');
+		// Regular expression to get only public IP addresses
+		const getPublicIpRegex = /^(?!(10|172\.(1[6-9]|2[0-9]|3[0-1])|192\.168)).*$/;
+		
+		// Filter the IP addresses to keep only the public IP addresses
+		Ips = Ips.filter(ip => getPublicIpRegex.test(ip));
 
-		// Filter out private IP addresses. Returns the new array with all the public IP addresses
-		Ips = Ips.filter(ip => !isPrivate.test(ip));
-
+		//console.log('after:', Ips)
 		// Count the number of requests for each IP address
 		let num_of_requests_per_ip = {};
 		// Iterate through the array of IP addresses
@@ -90,7 +91,7 @@ function FilterIP(data) {
 		Ips = [...new Set(Ips)];
 
 		// Log the number of requests for each IP address
-		console.log(num_of_requests_per_ip);
+
 
 		// Get the server IP if the extracted IPs are 
 		getServerIPsGeolocation(Ips, num_of_requests_per_ip);
@@ -108,7 +109,7 @@ function getNetworkMonitorResults() {
 		}
 		//Extract IPs from the network monitor Logs
 		FilterIP(data)
-		console.log('1111')
+		//console.log('1111')
 	});
 
 
@@ -123,7 +124,7 @@ function killTcpDump() {
 			return;
 		}
 
-		console.log(`Successfully killed process: ${processName}`);
+		//console.log(`Successfully killed process: ${processName}`);
 	});
 }
 
@@ -134,12 +135,11 @@ var childPid;
 async function monitorNetworkConnections() {
 
 	let child = spawn('sh', ["-c", "sudo tcpdump -i wlan0 -nn -q ip --direction=in | tee " + __dirname + "/../../Logs/somefile.txt"]);
-	console.log('2222')
 	// Set a timeout to kill the child process after 5 seconds
 	setTimeout(async function () {
 		child.kill();
 		await killTcpDump()
-		console.log('tcpdump process killed');
+		//console.log('tcpdump process killed');
 		// Get the results of the network monitor
 		await getNetworkMonitorResults();
 	}, 5000);

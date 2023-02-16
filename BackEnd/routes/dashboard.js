@@ -17,13 +17,14 @@ router.get('/', (req, res) => {
 })
 
 
-router.get('/getDevices', (req, res) => {
+router.get('/getDevices', async (req, res) => {
 
+  let devices = await getDevices();
 
-  getDevices().then(function (devices) {
-    res.json(devices);
+  console.log('eeee',JSON.stringify(devices, null, 2));
 
-  })
+  console.log(devices)
+  res.json(devices)
 
 })
 

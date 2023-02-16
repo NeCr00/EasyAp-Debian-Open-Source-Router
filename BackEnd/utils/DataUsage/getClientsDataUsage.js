@@ -1,10 +1,11 @@
 const dataUsageUser = require('../../Database/Model/DataUsageUser')
 const { DNSMASQ_LEASES_FILE } = require('../../Helpers/constants')
+
 const fs = require('fs')
 
 async function getClientsDataUsage() {
 
-   let  clientsDataUsage = []
+    let clientsDataUsage = []
     // Read the dnsmasq lease file
     let leases = fs.readFileSync(DNSMASQ_LEASES_FILE, 'utf8');
 
@@ -20,28 +21,48 @@ async function getClientsDataUsage() {
         // Extract the IP address
         let ip_address = leaseData[2];
 
-        dataUsage = {
+        dataUsageIP = {
             'ip': ip_address,
             'packets-received': [],
             'packets-sent': [],
             'bytes-received': [],
-            'bytes-sent': []
+            'bytes-sent': [],
+            'total-bytes-sent': [],
+            'total-packets-sent': [],
+            'total-bytes-received': [],
+            'total-packets-received': []
         }
 
         dataUsage = await dataUsageUser.find({ ip: ip_address }).sort({ timestamp: 0 });
+        let isActive = false;
 
         if (dataUsage) {
-            dataUsage.forEach(item => {
+            dataUsage.forEach((item, index) => {
 
                 //add for every hour the amount of data usage in the arrays
 
-                dataUsage.packets - received.push(item.packetsReceived)
-                dataUsage.packets - sent.push(item.packetsSent)
-                dataUsage.bytes - received.push(item.bytesReceived)
-                dataUsage.bytes - sent.push(item.bytesSent)
+                if (item.packetsSent > 0) {
+                    isActive = true;
+                }
+
+                dataUsageIP['packets-received'].push(item.packetsReceived)
+                dataUsageIP['packets-sent'].push(item.packetsSent)
+                dataUsageIP['bytes-received'].push(item.bytesReceived)
+                dataUsageIP['bytes-sent'].push(item.bytesSent)
+
+                if (index === 0) {
+                    mbSent = Number(item.bytesSent/(1024^2)).toFixed(0)
+                    mbReceived = Number(item.bytesReceived/(1024^2)).toFixed(0)
+                    dataUsageIP['total-bytes-sent'].push(mbSent)
+                    dataUsageIP['total-packets-sent'].push(item.lastMetric.packetsSent)
+                    dataUsageIP['total-bytes-received'].push(mbReceived)
+                    dataUsageIP['total-packets-received'].push(item.lastMetric.packetsReceived)
+                }
+
             })
 
-            clientsDataUsage.push(dataUsage)
+            if (isActive)
+                clientsDataUsage.push(dataUsageIP)
         }
         else {
             console.log('This IP has no data yet')

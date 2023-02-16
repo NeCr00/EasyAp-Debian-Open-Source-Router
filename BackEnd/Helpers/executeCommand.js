@@ -8,16 +8,16 @@ function executeCommand(command) {
         exec(command, (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
-                resolve(false);
+                resolve({stdout: stdout, error: true});
             }
             if (stderr) {
                 console.log(`stderr: ${stderr}`);
                 //command produced error
-                resolve(false);
+                resolve({stdout: stdout, error: true});
             }
             // console.log(`stdout: ${stdout}`);
             //command executed successfully
-            resolve(stdout);
+            resolve({stdout: stdout, error: false});
             // return stdout;
         });
     })

@@ -1,4 +1,3 @@
-const { executeCommand } = require('../../Helpers/executeCommand')
 const util = require('util');
 const exec = util.promisify(require('child_process').exec)
 const { HOSTS_FILE } = require('../../Helpers/constants');
@@ -53,7 +52,7 @@ async function editDnsDomains(requestMethod, requestData){
         switch (requestMethod) {
             case 'POST':
                 requestData.forEach( (item, index) => {
-                    let lineToAdd = `${requestData[index]['ip']}\t\t${requestData[index]['domain']} ${easyAPComment}`
+                    let lineToAdd = `${requestData[index]['ip']}\t\t${requestData[index]['domain']} ${easyAPComment}\n`
                     lines.push(lineToAdd)
                 });
                 break;

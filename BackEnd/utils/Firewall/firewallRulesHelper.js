@@ -216,7 +216,8 @@ async function deleteFirewallRules(rules) {
             // Retrieve the iptables command for the rule
             const command = rule.ruleCommand;
             // Modify the command to delete the rule
-            const deleteCommand = command.replace(/-A\s*/, "-D ");
+            let deleteCommand = command.replace(/-A\s*/, "-D ");
+             deleteCommand = command.replace(/-I\s*/, "-D ");
             // Execute the command using the exec function
             exec('sudo ' + deleteCommand, async (error, stdout, stderr) => {
                 if (error) {
@@ -249,8 +250,8 @@ async function getFirewallRules() {
 
 async function getFirewallLogs() {
 
-    let stdout = await executeCommand(`sudo tail -n 10 ${IPTABLES_LOG_FILE}`) 
-    return stdout
+    let output = await executeCommand(`sudo tail -n 10 ${IPTABLES_LOG_FILE}`) 
+    return output.stdout
 }
 
 

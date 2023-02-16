@@ -28,7 +28,7 @@ function calculateTheData(data) {
 
             percentage = ((data[item].requestCounter / totalRequests) * 100).toFixed(2)
             topCalculatedRequests.push({
-                "country": data[item].countryNameShort,
+                "country": data[item].countryNameShort ===''? 'Other':data[item].countryNameShort,
                 "percentage": parseFloat(percentage)
             })
 
@@ -44,7 +44,7 @@ function calculateTheData(data) {
             })
 
         })
-        console.log(calculatedRequests)
+        //console.log(calculatedRequests)
         return [{ "calculatedRequests": calculatedRequests }, { "topCalculatedRequests": topCalculatedRequests }]
     }
     else {

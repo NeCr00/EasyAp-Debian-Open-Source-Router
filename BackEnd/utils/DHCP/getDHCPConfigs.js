@@ -1,4 +1,3 @@
-const { executeCommand } = require('../../Helpers/executeCommand')
 const {DNSMASQ_CONF_FILE, DNSMASQ_STATIC_LEASES_FILE} = require('../../Helpers/constants')
 const { readFileSync } = require('fs');
 
@@ -7,7 +6,7 @@ function extractDHCPRangeInfo(dhcpRangeConfigs) {
     let configLine = dhcpRangeConfigs.match(getDHCPRangeLineRegex)
     let dhcpRangeValues = configLine[0].split("=")[1]
     dhcpRangeValues = dhcpRangeValues.split(",")
-    console.log(configLine[0][0])
+
     let dhcpRangeInfo = {
         "dhcp_enabled": configLine[0][0] === '#' ? '0' : '1',
         "start_ip": dhcpRangeValues[0],
@@ -47,6 +46,7 @@ function extractDHCPStaticInfo(staticAddrConfigs) {
         dhcpStaticAddrPairs.push({
             mac: values[0],
             ip: values[1],
+            hostname: values[2],
         })
     })
 

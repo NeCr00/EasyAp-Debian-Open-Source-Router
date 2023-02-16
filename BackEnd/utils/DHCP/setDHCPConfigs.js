@@ -87,35 +87,33 @@ async function editDnsmasqStaticIPs(requestAction, requestData){
     let fileContent = readFileSync(filePath, 'utf-8')
     let restartDnsmasqCommand = 'sudo systemctl restart dnsmasq'
     
-    if ( fileContent ) {
-        switch (requestAction){
-            case "POST":
-                requestData.forEach( (item) => {
-                    let lineToAdd = `dhcp-host=${item.mac},${item.ip}`
-                    appendFileSync(filePath, lineToAdd, 'utf-8')
+    switch (requestAction){
+        case "POST":
+            requestData.forEach( (item) => {
+                let lineToAdd = `dhcp-host=${item.mac},${item.ip},${item.hostname}\n`
+                appendFileSync(filePath, lineToAdd, 'utf-8')
+            });
+            break;
+        
+        
+        case "DELETE":
+            let lines = fileContent.split('\n')
+
+            lines.forEach( (lineItem, index) => {
+                requestData.forEach(dataItem => {
+                    if (lines[index].includes(dataItem.mac)){
+                        lines.splice(index, 1)
+                    }
                 });
-                break;
-            
-            
-            case "DELETE":
-                let lines = fileContent.split('\n')
+            });
+            const newFileContent = lines.join('\n');
 
-                lines.forEach( (lineItem, index) => {
-                    requestData.forEach(dataItem => {
-                        if (lines[index].includes(dataItem.mac)){
-                            lines.splice(index, 1)
-                        }
-                    });
-                });
-                const newFileContent = lines.join('\n');
+            // Write the new file back to disk
+            writeFileSync(filePath, newFileContent, 'utf-8')
+            break;
 
-                // Write the new file back to disk
-                writeFileSync(filePath, newFileContent, 'utf-8')
-                break;
-
-            default:
-                break;
-        }
+        default:
+            break;
     }
 
     // Restart dnsmasq service

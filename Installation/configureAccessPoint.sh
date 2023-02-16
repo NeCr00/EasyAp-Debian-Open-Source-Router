@@ -19,6 +19,12 @@ interface=$interface
 EOF"
 
 #------------------------------------------------------------------------------------------------
+#Create credentials file for OpenVPN
+OVPN_CLIENT_AUTH_FILE=/etc/openvpn/client/auth
+
+sudo touch $OVPN_CLIENT_AUTH_FILE
+
+#------------------------------------------------------------------------------------------------
 # Unmask hostapd
 echo "Unmasking hostapd..."
 sudo systemctl unmask hostapd
@@ -197,6 +203,8 @@ sudo cp -f $HOSTAPD_CONF_FILE $HOSTAPD_CONF_FILE.default || { echo "Error: defau
 #------------------------------------------------------------------------------------------------
 #Enable Custom path for ipatables Logs
 
+RSYSLOG_IPTABLES_CONF_FILE=/etc/rsyslog.d/90-my_iptables.conf
+EASYAP_IPTABLES_LOG_FILE=/var/log/easyap/iptables.log
 
 echo "Adding iptables logging rules"
 sudo iptables -A INPUT -j LOG  --log-level 7 --log-prefix='[netfilter] ' || { echo "Error: iptables rule addition failed"; exit 1; }
@@ -263,7 +271,7 @@ fi
 echo "MongoDB installation complete."
 
 #------------------------------------------------------------------------------------------------
-#Install 18.14 LTS version of Nodejs
+#Install latest stable version of NodeJS
 
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 sudo apt install nodejs

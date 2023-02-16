@@ -10,6 +10,10 @@ const DDCLIENT_CONF_DEFAULT_FILE = '/etc/ddclient.conf.default'
 
 const IPTABLES_LOG_FILE = '/var/log/iptables.log'
 
+const OVPN_CLIENT_CONFIG_FILE = '/etc/openvpn/client.conf'
+const OVPN_CLIENT_AUTH_FILE   = '/etc/openvpn/client/auth'
+const OVPN_LOG_FILE           = '/var/log/easyap/openvpn.log'
+
 const DNSMASQ_CONF_FILE = '/etc/dnsmasq.conf'
 const DNSMASQ_CONF_DEFAULT_FILE = '/etc/dnsmasq.conf.default'
 const DNSMASQ_LEASES_FILE = '/var/lib/misc/dnsmasq.leases'
@@ -27,6 +31,10 @@ module.exports = {
     DDCLIENT_CONF_DEFAULT_FILE,
 
     IPTABLES_LOG_FILE,
+
+    OVPN_CLIENT_CONFIG_FILE,
+    OVPN_CLIENT_AUTH_FILE,
+    OVPN_LOG_FILE,
 
     DNSMASQ_CONF_FILE,
     DNSMASQ_CONF_DEFAULT_FILE,

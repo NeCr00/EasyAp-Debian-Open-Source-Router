@@ -2,9 +2,7 @@ const fs = require('fs')
 const util = require('util');
 const exec = util.promisify(require('child_process').exec)
 const { executeCommand } = require('../../Helpers/executeCommand')
-
-const OVPN_CLIENT_CONFIG_FILE = '/etc/openvpn/client.conf'
-const OVPN_LOG_FILE           = '/var/log/easyap/openvpn.log'
+const { OVPN_CLIENT_CONFIG_FILE, OVPN_CLIENT_AUTH_FILE, OVPN_LOG_FILE } = require('../../Helpers/constants')
 
 async function configureVpnRule() {
     try {
@@ -36,7 +34,7 @@ async function deleteVpnRule() {
 function writeVPNConfig(config) {
     try {
         // Write the OpenVPN configuration file to disk
-        let filePath = '/etc/openvpn/client.conf'
+        let filePath = OVPN_CLIENT_CONFIG_FILE
         fs.writeFileSync(filePath, config, 'utf8');
         return { error: false, message: 'OpenVPN configuration written to disk successfully' };
     } catch (error) {
@@ -44,30 +42,59 @@ function writeVPNConfig(config) {
     }
 }
 
-function writeVPNConfigGUI(config,username,password,credentials) {
+
+
+function writeVPNConfigGUI(config, username, password) {
     try {
+        let vpnConfFile = OVPN_CLIENT_CONFIG_FILE
+        let vpnAuthenticationFile = OVPN_CLIENT_AUTH_FILE
+        let vpnLogFile = OVPN_LOG_FILE
+
+        console.log('WRITE VPN CONFIG FUNCTION')
+        console.log(username, password)
+        console.log(config)
+        
         // Write the OpenVPN configuration if authentication is enabled
-        if(username && password && credentials==='1'){
-            config+= '\nauth-user-pass\n'
-            config+= username+'\n'
-            config+= 'auth-password\n'
+        if(username && password){ // when Enabled is selected from GUI
+            config = config.replace(/^auth-user-pass\b.*/m, `auth-user-pass ${vpnAuthenticationFile}`);
+            fs.writeFileSync(vpnAuthenticationFile, `${username}\n${password}`, 'utf-8')
         }
-        config += '\nlog /var/log/easyap/openvpn.log'
         
         // Write the OpenVPN configuration file to disk
-        let filePath = '/etc/openvpn/client.conf'
-        fs.writeFileSync(filePath, config, 'utf8');
+        if (config !== ''){
+            config += `\nlog ${vpnLogFile}\n`
+            fs.writeFileSync(vpnConfFile, config, 'utf8');
+        }
+        
         return { error: false, message: 'OpenVPN configuration written to disk successfully' };
     } catch (error) {
         return { error: true, message: `Error writing OpenVPN configuration to disk: ${error}` }
     }
 }
 
+function readVPNAuth(){
+    try {
+        // Read the OpenVPN configuration file
+        let filePath = OVPN_CLIENT_AUTH_FILE
+        let fileContent = fs.readFileSync(filePath, 'utf-8');
+        fileContent = fileContent.split('\n')
+
+        let authData = {
+            username: fileContent[0].trim(),
+            password: fileContent[1].trim()
+        }
+
+        return {error:false, auth: authData}
+    } catch (error) {
+        return { error: true, message: 'File not found' }
+    }
+}
 
 function readVPNConfig() {
     try {
         // Read the OpenVPN configuration file
-        const config = fs.readFileSync('/etc/openvpn/client.conf', 'utf-8');
+        let filePath = OVPN_CLIENT_CONFIG_FILE
+        const config = fs.readFileSync(filePath, 'utf-8');
         return {error:false, config:config}
     } catch (error) {
         return { error: true, message: 'File not found' }
@@ -97,10 +124,10 @@ async function stopVPN() {
         return { error: true, message: `Error writing OpenVPN configuration to disk: ${error}` }
     }
 }
-// Active: activating (auto-restart) (Result: exit-code) since Sat 2023-02-04 22:54:26 EET; 826ms ago
+
 async function getVpnStatus() {
-    let stdout = await executeCommand('sudo systemctl status openvpn@client | head -n 3')
-    let statusLine = stdout.split('\n')[2].split(': ')[1]
+    let output = await executeCommand('sudo systemctl status openvpn@client | head -n 3')
+    let statusLine = output.stdout.split('\n')[2].split(': ')[1]
     if (statusLine.includes('inactive') || statusLine.includes('activating')){
         return {vpn_status : 'disconnected'}
     } else {
@@ -110,8 +137,9 @@ async function getVpnStatus() {
 
 async function readVpnLogs() {
     try {
-        let stdout = await executeCommand(`sudo tail -n 1000 /var/log/easyap/openvpn.log`)
-        return {error:false, logs: stdout}
+        let vpnLogFile = OVPN_LOG_FILE
+        let output = await executeCommand(`sudo tail -n 1000 ${vpnLogFile} | tac`)
+        return {error:false, logs: output.stdout}
     } catch (error) {
         return { error: true, message: 'File not found' }
     }
@@ -122,6 +150,7 @@ module.exports = {
     startVPN,
     stopVPN,
     readVPNConfig,
+    readVPNAuth,
     writeVPNConfig,
     getVpnStatus,
     writeVPNConfigGUI,

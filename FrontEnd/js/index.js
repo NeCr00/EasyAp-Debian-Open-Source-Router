@@ -164,7 +164,7 @@ $(document).ready(function () {
 
    async function CreateDeviceTable() {
     var data = await getData("/dashboard/getDevices")
-
+    console.log(data)
     data.forEach((item) => {
       var newRow = $('<tr class="border-bottom border-1">');
       var cols = "";

@@ -19,28 +19,102 @@ const exec = require('child_process').exec;
 const dataUsageUser = require('../../Database/Model/DataUsageUser')
 const { DNSMASQ_LEASES_FILE } = require('../../Helpers/constants')
 
-function initializeDataUsageForIP(ipv4) {
+
+async function deleteDataUsageClient(ip) {
+
+    try {
+
+        return new Promise(resolve => {
+            var cmd1 = `sudo iptables -D FORWARD  -d ${ip} -j ACCEPT`
+            var cmd2 = `sudo iptables -D FORWARD  -s ${ip} -j ACCEPT`
+            // Use exec to run the command
+            exec(cmd1, (error, stdout, stderr) => {
+                if (error) {
+                    console.error(`error: ${error.message}`);
+                    resolve(false);
+                }
+                if (stderr) {
+                    console.error(`stderr: ${stderr}`);
+                    resolve(false);
+
+                }
+
+                exec(cmd2, (error, stdout, stderr) => {
+                    if (error) {
+                        console.error(`error: ${error.message}`);
+                        resolve(false);
+
+                    }
+                    if (stderr) {
+                        console.error(`stderr: ${stderr}`);
+                        resolve(false);
+                    }
+
+                    console.log('Data Usage for inactive IP has been disabled');
+                    resolve(true)
+                });
+            });
+        })
+    } catch (error) {
+        resolve(false);
+    }
+
+
+}
+
+async function initializeDataUsageForIP(ipv4) {
     //find if the functionality has been enabled already for the specific ip
-    findIP = dataUsageUser.findOne({ ip: ipv4 })
-    if (findIP) {
-        console.log("Ip already initialized")
-        
+
+    findIP = await dataUsageUser.find({ ip: ipv4 })
+    console.log(findIP)
+    if (findIP.length > 0) {
+        console.log("IP already initialized");
+
+        let hasData = false;
+        for (let i = 0; i < findIP.length; i++) {
+            let item = findIP[i];
+            if (item.packetsSent > 0) {
+                hasData = true;
+                break;
+            }
+            hasData = false;
+        }
+
+        if (hasData) {
+            await dataUsageUser.updateMany({ ip: ipv4 }, { new: false }, { new: true });
+            console.log('Change Data Usage new value for IP')
+
+        } else if (!hasData && !findIP[0].new) {
+
+            await dataUsageUser.deleteMany({ ip: ipv4 });
+            deleteDataUsageClient(ipv4)
+            console.log('Delete Data Usage for IP')
+        }
     }
 
     else {
+        console.log(2222222222)
+        console.log("Insert Ip ")
         // for a specific ip create 12 entries , configuring each hour for a specific ip
         for (var i = 0; i < 12; i++) {
-            createInstanceOfIpPerHour = dataUsageUser.create({
+            createInstanceOfIpPerHour = await dataUsageUser.create({
                 ip: ipv4,
                 packets_sent: 0,
                 packets_received: 0,
                 bytes_sent: 0,
                 bytes_received: 0,
-                timestamp: i
+                metric: {
+                    packets_sent: 0,
+                    packets_received: 0,
+                    bytes_sent: 0,
+                    bytes_received: 0
+                },
+                timestamp: i,
+                new: true
             })
         }
     }
-    return
+
 }
 
 
@@ -63,7 +137,7 @@ function enableDataUsageForIP() {
                 ips.push(parts[2]); //get the ip from each line
             }
         }
-        let generalStatus={}
+        let generalStatus = {}
 
         // Apply iptables rules for each device
         for (var i = 0; i < ips.length; i++) {
@@ -90,7 +164,7 @@ function enableDataUsageForIP() {
                     status.message = 'Cannot enable data usage for the ip'
                     return;
                 }
-                console.log(`stdout: ${stdout}`);
+                //console.log(`stdout: ${stdout}`);
             });
 
             if (!status.error) {
@@ -108,17 +182,14 @@ function enableDataUsageForIP() {
                         status.message = 'Cannot enable data usage for the ip'
                         return;
                     }
-                    console.log(`stdout: ${stdout}`);
+                    //console.log(`stdout: ${stdout}`);
+
+
                 });
             }
-            if (status.error){
-                generalStatus = status
-                break;
-            }
-            else{
-                initializeDataUsageForIP(ip)
-            }
-                 
+            initializeDataUsageForIP(ip)
+
+
         }
         return generalStatus
 
@@ -126,5 +197,5 @@ function enableDataUsageForIP() {
 }
 
 module.exports = {
-
+    enableDataUsageForIP
 }

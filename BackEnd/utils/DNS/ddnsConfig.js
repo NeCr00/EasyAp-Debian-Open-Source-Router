@@ -145,7 +145,7 @@ async function handleDdnsService(requestData){
 }
 
 async function editDDnsConfigs(requestData){
-    let filePath = '/home/jason/workdir/thesis/Raspberry-Pi-Wireless-AP-Software/BackEnd/utils/DNS/ddclient.conf'
+    let filePath = DDCLIENT_CONF_FILE
     
     requestData = getProviderConfigs(requestData)
     requestData['ddns_enabled'] = requestData['ddns_enabled'] === '1' ? 'true' : 'false'

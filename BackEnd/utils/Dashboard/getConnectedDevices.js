@@ -1,12 +1,11 @@
 const util = require('util');
-const { executeCommand } = require('../../Helpers/executeCommand');
 const exec = util.promisify(require('child_process').exec)
 const { DNSMASQ_LEASES_FILE } = require('../../Helpers/constants')
+const { readFileSync } = require('fs');
 
 function extractDeviceInfo(string_devices) {
-
+    let currentTimeSeconds = new Date() / 1000
     let devices = []
-
     //get the content of the file line by line into a new array called "lines"
     lines = string_devices.split('\n')
     //Do for each line
@@ -14,13 +13,19 @@ function extractDeviceInfo(string_devices) {
         //split every content of the line with space
         line = item.split(" ")
         //Due the structure of the line, we extract the information for every device
-        lease_time = line[0]
+        leaseTime = line[0]
         mac = line[1]
         ip = line[2]
         host = line[3] === '*' ? 'Unknown' : line[3]
+
+        //calucate the hour remaining for lease time
+        totalRemainingLeaseSeconds = leaseTime - currentTimeSeconds
+        leaseTimeHour = Math.floor((totalRemainingLeaseSeconds) / 3600)
+        leasTimeMinutes = Math.floor((totalRemainingLeaseSeconds % 3600) / 60);
+        
         //append the information for the device to json array
         devices.push({
-            lease_time: lease_time,
+            lease_time: `${leaseTimeHour}h ${leasTimeMinutes}m`,
             mac: mac,
             ip: ip,
             host: host
@@ -31,33 +36,46 @@ function extractDeviceInfo(string_devices) {
     return devices
 }
 
-async function isHostUp(ip) {
-    // Define the command to check if the given IP is reachable
-    let command = `ping -c 1 -W 1 ${ip}`;
-  
-    // Execute the command and capture its output
-    let { stdout, stderr } = await exec(command);
-  
-    // If there is an error, return false
-    if (stderr) {
-      return false;
-    }
-  
-    // Otherwise, the host is reachable and return true
-    return true;
-  }
 
+async function isHostUp(ipAddress) {
+    return new Promise((resolve, reject) => {
+        exec('sudo arp -a -i wlan0', (error, stdout) => {
+            if (error) {
+                reject(error);
+            }
+
+
+            let lines = stdout.split('\n');
+            let found = false;
+            let active = false;
+
+            for (let line of lines) {
+                if (line.includes(ipAddress) && !line.includes('<incomplete>')) {
+
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                resolve(true);
+            }
+            else {
+                resolve(false);
+            }
+        });
+    });
+}
 
 async function getDevices() {
     let activeDevices = [];
-    let command = `sudo cat ${DNSMASQ_LEASES_FILE}`;
+    let filePath = DNSMASQ_LEASES_FILE
 
-    // Execute the command and store the result in 'stdout'
-    let stdout = await executeCommand(command);
+    let fileContent = readFileSync(filePath, 'utf-8')
 
-    if (stdout) {
+    if (fileContent) {
         // Extract device information from the 'stdout' result
-        let devices = extractDeviceInfo(stdout);
+        let devices = extractDeviceInfo(fileContent);
 
         // Create a promise that will resolve with the active devices array
         let finishGettingDevices = new Promise((resolve, reject) => {
@@ -85,6 +103,8 @@ async function getDevices() {
         return finishGettingDevices;
     }
 }
+
+
 
 module.exports = {
     isHostUp,

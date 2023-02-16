@@ -14,8 +14,8 @@ async function getTrafficStats() {
         }
     ]
     trafficStats.forEach(item => {
-        traffic_data[0].data.push(item.packetsSent)
-        traffic_data[1].data.push(item.packetsReceived)
+        traffic_data[0].data.push(item.packetsReceived)
+        traffic_data[1].data.push(item.packetsSent)
     })
     return traffic_data
     //console.log(traffic_data)
@@ -33,7 +33,7 @@ async function getCurrentTrafficData() {
         return false;
     }
     else {
-        console.log('stdout:', stdout);
+        // console.log('stdout:', stdout);
         getEachLineRegex = new RegExp('((.*?)\n)', 'g')
         getNumFromLine = new RegExp('[0-9]+', 'g')
         get_lines = stdout.match(getEachLineRegex)
@@ -58,7 +58,7 @@ async function getCurrentTrafficData() {
             } //get send packets
 
         })
-        console.log(network_stats)
+        // console.log(network_stats)
     }
 
     return network_stats
@@ -67,45 +67,53 @@ async function getCurrentTrafficData() {
 
 function transferDataBetweenHours(data) {
 
-     if (data[0].packetsSent !== 0 && data[1].packetsSent == 0 && data[2].packetsSent === 0) {
-         data[1].packetsSent = -1   
-         return data
+    try {
+        if (data[0].packetsSent !== 0 && data[1].packetsSent == 0 && data[2].packetsSent === 0) {
+            data[1].packetsSent = -1
+            return data
+        }
+
+        for (let i = 10; i > -1; i--) {
+
+            data[i + 1].packetsSent = data[i].packetsSent
+            data[i + 1].packetsReceived = data[i].packetsReceived
+        }
+        return data
+    } catch (error) {
+        console.log(error)
+        return data
     }
 
-    for (let i = 10; i > -1; i--) {
 
-        data[i + 1].packetsSent = data[i].packetsSent
-        data[i + 1].packetsReceived = data[i].packetsReceived
-    }
-    return data
 }
 
-var last_Traffic =  null
+var last_Traffic = null
 
 async function saveTrafficData() {
+    try {
+        //get traffic data from collection
+        let getTrafficData = await dataUsage.find({ hour: { $gte: 0, $lt: 12 } }).sort({ hour: 0 });
+        //console.log('data:' + getTrafficData)
 
-    //get traffic data from collection
-    let getTrafficData = await dataUsage.find({ hour: { $gte: 0, $lt: 12 } }).sort({ hour: 0 });
-    console.log('data:' + getTrafficData)
+        //get current time traffic amount
+        traffic_now = await getCurrentTrafficData()
 
-    //get current time traffic amount
-    traffic_now = await getCurrentTrafficData()
+        data = await transferDataBetweenHours(getTrafficData) // transfers the data of i to i +1, passing the
+        //data to the next hour ex. 9:00 to 10:00
 
-    data = await transferDataBetweenHours(getTrafficData) // transfers the data of i to i +1, passing the
-    //data to the next hour ex. 9:00 to 10:00
+        //save the monitor data to 0:00 
+        data[0].packetsSent = Math.abs(last_Traffic[1].tx_packets - traffic_now[1].tx_packets)
+        data[0].packetsReceived = Math.abs(last_Traffic[0].rx_packets - traffic_now[0].rx_packets)
 
-    //save the monitor data to 0:00 
-    data[0].packetsSent = Math.abs(last_Traffic[1].tx_packets - traffic_now[1].tx_packets)
-    data[0].packetsReceived = Math.abs(last_Traffic[0].rx_packets - traffic_now[0].rx_packets)
-
-    await dataUsage.deleteMany({}) //deletes all the previous data
-    insert = await dataUsage.insertMany(data)
-    last_Traffic = traffic_now
+        for (let i = 0; i < data.length; i++) {
+            let hour = data[i].hour;
+            await dataUsage.updateMany({ hour: hour }, { $set: data[i] });
+        }
+        last_Traffic = traffic_now
+    } catch (error) {
+        console.log(error)
+    }
 }
-
-
-
-
 
 
 async function initializeTrafficMonitorData() {
@@ -113,7 +121,7 @@ async function initializeTrafficMonitorData() {
     //This function should be called  once at the start of the software and adds the propriate entries for each hour
     stats_now = await getCurrentTrafficData()
     await dataUsage.deleteMany({})
-     last_Traffic =  await getCurrentTrafficData()
+    last_Traffic = await getCurrentTrafficData()
 
     console.log("initializeTrafficMonitorData")
     //if is empty initialize the data usage entries
@@ -124,9 +132,6 @@ async function initializeTrafficMonitorData() {
             hour: hour
         });
     }
-
-
-
 }
 
 

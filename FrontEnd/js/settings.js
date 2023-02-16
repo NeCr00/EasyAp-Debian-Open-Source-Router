@@ -108,18 +108,18 @@ $(document).ready(function () {
 
   //----------------------------------------------------------------
 
-// Get wireless settings
+  // Get wireless settings
 
-async function getWirelessSettings(){
-  data = await getData('/settings/settings');
+  async function getWirelessSettings() {
+    data = await getData('/settings/settings');
 
-   $("#ssid").val(data.ssid);
-   $("#password").val(data.password);
-   console.log(data)
-}
-getWirelessSettings()
+    $("#ssid").val(data.ssid);
+    $("#password").val(data.password);
+    console.log(data)
+  }
+  getWirelessSettings()
 
-//---------------------------------------------------------------
+  //---------------------------------------------------------------
 
 
   // Updating the Wireless Settings
@@ -211,7 +211,8 @@ getWirelessSettings()
         filter_mac.push(mac);
       }
     });
-    response = await postData("settings/devices/ban",filter_mac);
+    console.log(filter_mac)
+    response = await postData("settings/devices/ban", filter_mac);
     response_data = await response.json();
 
     if (response_data.error) {
@@ -237,7 +238,7 @@ getWirelessSettings()
       );
       var cols = "";
 
-      cols += '<th class="text-center fs-5" scope="row">' + item.id + "</th>";
+      cols += '<th class="text-center fs-5" scope="row">' + (index + 1) + "</th>";
       cols +=
         '<td class=" item fs-6 fw-bold" contenteditable="false">' +
         item.mac +
@@ -274,37 +275,38 @@ getWirelessSettings()
 
   //---------------------------------------------------------------------
 
-var deletedMac = []
-  
+  var deletedMac = []
+
   async function submitBannedMac() {
     var mac_table = []
 
     $("#mac-filter-table tr").each(function (index) {
       if (index) {
         var item = $(this).find(".new-item").html();
-        if(item)
-        mac_table.push(item);
+        if (item)
+          mac_table.push(item);
       }
     });
     console.log(mac_table, deletedMac);
 
-    response_post = await postData("settings/devices/ban", mac_table);
-    response_data = await response_post.json();
-    if (response_data.error) {
-      errorModal(response_data.message);
-      return;
+    if (mac_table.length > 0) {
+      response_post = await postData("settings/devices/ban", mac_table);
+      response_data = await response_post.json();
+      if (response_data.error) {
+        errorModal(response_data.message);
+        return;
+      }
     }
-
-    if(deletedMac.length > 0){
+    if (deletedMac.length > 0) {
       response_delete = await deleteData("settings/devices/ban", deletedMac);
       response_delete_data = await response_delete.json();
       if (response_delete_data.error) {
         errorModal(response_delete_data.message);
         return;
       }
-      deletedMac=[]
+      deletedMac = []
     }
-   
+
 
     successModal("Changes Applied Successfully");
 
@@ -327,15 +329,15 @@ var deletedMac = []
     //get value
     mac = item.find(".item").text();
     deletedMac.push(mac);
-    
-    
+    console.log(deletedMac);
+
   });
 
   //---------------------------------------------------------------------------
 
 
 
- async function CreateIpForwardTable() {
+  async function CreateIpForwardTable() {
     $("#ip-forward-table > tbody").html("");
 
     data = await getData('settings/ip-forwarding')
@@ -397,6 +399,7 @@ var deletedMac = []
       newRow.append(cols);
       $("#ip-forward-table").append(newRow);
     });
+    console.log('fixed table')
   }
   CreateIpForwardTable();
 
@@ -465,8 +468,9 @@ var deletedMac = []
   // Change Status for a firewall rule
   var ipForwardData = [];
   var ipForwardChangeStatus = [];
+
   async function UpdateFirewallRuleStatus() {
-    
+
 
     $("#ip-forward-table  tbody > .new-item").each(function () {
       let status = $(this).find(".status");
@@ -484,11 +488,13 @@ var deletedMac = []
       //alert($(this).find('td').eq(0).text() );
     });
 
-    $("#ip-forward-table  tbody > .old-item").each(function () {
+    $("#ip-forward-table  tbody > .old-item").each(async function () {
       let status = $(this).find(".status");
       let internal_ip = $(this).find("td").eq(0).text();
       let internal_port = $(this).find("td").eq(1).text();
       let external_port = $(this).find("td").eq(2).text();
+
+      ipForwardOldStatus = await getData('settings/ip-forwarding')
 
 
       ipForwardChangeStatus.push({
@@ -499,43 +505,54 @@ var deletedMac = []
       });
       //alert($(this).find('td').eq(0).text() );
     });
-    
+
     //data = [ipForwardData,deletedRule]
+
+    let error = false;
+
+    if (!ipForwardChangeStatus && !ipForwardChangeStatus) [
+      errorModal("No changes to apply")
+    ]
+
+    if (ipForwardData.length > 0) {
+      response_post = await postData('settings/ip-forwarding/add', ipForwardData);
+      response_post_data = await response_post.json()
+      if (response_post_data.error) {
+        error = true
+      }
+    }
+
+    if (deletedRule.length > 0) {
+      response_post = await deleteData('settings/ip-forwarding', deletedRule);
+      response_post_data = await response_post.json()
+      if (response_post_data.error) {
+        error = true
+      }
+    }
+    if (ipForwardChangeStatus.length > 0) {
+      response_post = await postData('settings/ip-forwarding/status', ipForwardChangeStatus);
+      response_post_data = await response_post.json()
+      if (response_post_data.error) {
+        error = true
+      }
+    }
+
+    setTimeout(function (){
+      if (error) {
+        errorModal("Something went wrong")
+        CreateIpForwardTable();
+      }
+      else {
+        successModal("Changes applied successfully")
+        CreateIpForwardTable();
+      }
+    },1000)
+
     
 
-
-    if(ipForwardData.length > 0) {
-      response_post = await postData('settings/ip-forwarding/add',ipForwardData);
-      response_post_data = response_post.json()
-      if (response_post_data.error){
-        errorModal(response_post_data.message)
-        return
-      }
-
-    }
-
-    if (deletedRule.length>0){
-      response_post = await deleteData('settings/ip-forwarding',deletedRule);
-      response_post_data = response_post.json()
-      if (response_post_data.error){
-        errorModal(response_post_data.message)
-        return
-      }
-    }
-    if(ipForwardChangeStatus.length > 0) {
-      response_post = await postData('settings/ip-forwarding/status',ipForwardChangeStatus);
-      response_post_data = response_post.json()
-      if (response_post_data.error){
-        errorModal(response_post_data.message)
-        return
-      }
-
-    }
-
-    successModal("Changes applied successfully")
     ipForwardData = [];
-    deletedRule=[]
-    CreateIpForwardTable()
+    deletedRule = []
+
   }
 
   //------------------------------------------------
@@ -557,7 +574,7 @@ var deletedMac = []
       external_port: external_port,
       internal_port: internal_port,
     })
-    
+
   });
 
   //-------------------------------------------
