@@ -67,9 +67,9 @@ app.use(session({
 
 //Initialization Functions that needs to run at the beginning
  initializeTrafficMonitorData()
- enableDataUsageForIP()
+
 //This section contains functions that must run periodically
-//setInterval(enableDataUsageForIP,4000)
+setInterval(enableDataUsageForIP,4000)
 setInterval(collectTrafficDataIPs, 7000);
 
 // enables the network monitor for the dashboard

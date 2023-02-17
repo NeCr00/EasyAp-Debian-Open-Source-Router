@@ -1,36 +1,27 @@
 const fs = require('fs');
 const mongoose = require('mongoose');
 const dataUsageUser = require('../../Database/Model/DataUsageUser')
-const { DNSMASQ_LEASES_FILE } = require('../../Helpers/constants')
+const { getDevices } = require('../Dashboard/getConnectedDevices')
 const exec = require('child_process').exec;
 
 
 // Function to collect and store device traffic usage data
 async function collectTrafficDataIPs() {
-  let trafficData = null;
-  // Read the dnsmasq lease file
-  let leases = fs.readFileSync(DNSMASQ_LEASES_FILE, 'utf8');
 
-  // Split the leases by newline
-  leases = leases.split('\n');
+  let connectedDevices = await getDevices();
+
 
   // Iterate through the leases
-  for (let lease of leases) {
-    // Split the lease by space
-    let leaseData = lease.split(' ');
+  for (let device of connectedDevices) {
 
-    // Extract the IP address, hostname, and timestamp
-    let ip_address = leaseData[2];
-    let hostname = leaseData[3];
-    //let timestamp = new Date(leaseData[0] * 1000);
-    console.log(leaseData)
-    // Get the device's traffic usage data from iptables
-    if (leaseData.length > 1) {
-      trafficData = await getTrafficData(ip_address);
-    }
+    let ip_address = device.ip
 
 
-    if (trafficData && leaseData.length > 1) {
+    let trafficData = await getTrafficData(ip_address);
+
+
+
+    if (trafficData) {
       console.log(ip_address, trafficData);
       await saveTrafficData(ip_address, trafficData)
 
@@ -90,38 +81,42 @@ async function getTrafficData(ip) {
 
   enabledIP = await dataUsageUser.find({ ip: ip });
 
-  if (enabledIP) {
-    return new Promise((resolve, reject) => {
-      exec(`sudo iptables -L -v -n -x | grep ${ip}`, (err, stdout, stderr) => {
-        if (err) {
-          reject(err);
-        } else {
+  try {
+    if (enabledIP) {
+      return new Promise((resolve, reject) => {
 
-          const lines = stdout.trim().split('\n');
-          const data = { packetsSent: 0, bytesSent: 0, packetsReceived: 0, bytesReceived: 0 };
+        exec(`sudo iptables -L -v -n -x | grep ${ip}`, (err, stdout, stderr) => {
+          if (stdout) {
+            const lines = stdout.trim().split('\n');
+            const data = { packetsSent: 0, bytesSent: 0, packetsReceived: 0, bytesReceived: 0 };
 
-          for (let i = 0; i < lines.length; i++) {
-            let line = lines[i].trim().split(/\s+/);
-            if (i == 0) {
-              data.packetsSent = line[0]
-              data.bytesSent = line[1]
+            for (let i = 0; i < lines.length; i++) {
+              let line = lines[i].trim().split(/\s+/);
+              if (i == 0) {
+                data.packetsSent = line[0]
+                data.bytesSent = line[1]
+              }
+              else if (i == 1) {
+                data.packetsReceived = line[0]
+                data.bytesReceived = line[1]
+              }
             }
-            else if (i == 1) {
-              data.packetsReceived = line[0]
-              data.bytesReceived = line[1]
-            }
+            console.log(data)
+            resolve(data);
           }
-          console.log(data)
-          resolve(data);
 
-        }
+        });
       });
-    });
+    }
+    else {
+      console.log('There is no an ip address')
+      return false;
+    }
   }
-  else {
-    console.log('There is no an ip address')
-    return false;
+  catch (err) {
+
   }
+
 }
 
 module.exports = {

@@ -194,6 +194,7 @@ async function createClientGraphs(){
   let graphData= await createClientGraphs();
   for (var i = 0; i < graphData.length; i++){
   for (var j = 0; j < chartTypes.length; j++){
+    if(graphData.length>0)
     setupChartConfig(chartTypes[j], graphData[i], i);
     
     

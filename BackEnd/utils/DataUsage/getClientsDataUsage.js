@@ -1,25 +1,16 @@
 const dataUsageUser = require('../../Database/Model/DataUsageUser')
 const { DNSMASQ_LEASES_FILE } = require('../../Helpers/constants')
+const { getDevices } = require('../Dashboard/getConnectedDevices')
 
-const fs = require('fs')
 
 async function getClientsDataUsage() {
-
     let clientsDataUsage = []
-    // Read the dnsmasq lease file
-    let leases = fs.readFileSync(DNSMASQ_LEASES_FILE, 'utf8');
+    let connectedDevices = await getDevices();
 
-
-    // Split the leases by newline
-    leases = leases.split('\n');
-
-    // Iterate through the leases
-    for (let lease of leases) {
+    // Iterate through the ips
+    for (let device of connectedDevices) {
         // Split the lease by space
-        let leaseData = lease.split(' ');
-
-        // Extract the IP address
-        let ip_address = leaseData[2];
+        ip_address = device.ip
 
         dataUsageIP = {
             'ip': ip_address,
@@ -51,8 +42,8 @@ async function getClientsDataUsage() {
                 dataUsageIP['bytes-sent'].push(item.bytesSent)
 
                 if (index === 0) {
-                    mbSent = Number(item.bytesSent/(1024^2)).toFixed(0)
-                    mbReceived = Number(item.bytesReceived/(1024^2)).toFixed(0)
+                    mbSent = (parseInt(item.lastMetric.bytesSent)/(1024^2)).toFixed(0)
+                    mbReceived = (parseInt(item.lastMetric.bytesReceived)/(1024^2)).toFixed(0)
                     dataUsageIP['total-bytes-sent'].push(mbSent)
                     dataUsageIP['total-packets-sent'].push(item.lastMetric.packetsSent)
                     dataUsageIP['total-bytes-received'].push(mbReceived)
@@ -61,7 +52,7 @@ async function getClientsDataUsage() {
 
             })
 
-            if (isActive)
+            //if (isActive)
                 clientsDataUsage.push(dataUsageIP)
         }
         else {
@@ -77,7 +68,7 @@ async function getClientsDataUsage() {
     else {
 
         console.log('Error: No data available for Data Usage')
-        return null
+        return []
     }
 }
 
