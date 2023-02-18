@@ -17,16 +17,18 @@ the iptables -I command is used to insert the rule in the FORWARD chain
 const fs = require('fs');
 const exec = require('child_process').exec;
 const dataUsageUser = require('../../Database/Model/DataUsageUser')
+const getTrafficData = require('./collectClientsUsage')
 
 const { getDevices } = require('../Dashboard/getConnectedDevices')
 
-async function deleteDataUsageClient(ip) {
+async function deleteDataUsageClient(ipv4) {
 
     try {
 
         return new Promise(async resolve => {
-            var cmd1 = `sudo iptables -D FORWARD  -d ${ip} -j ACCEPT`
-            var cmd2 = `sudo iptables -D FORWARD  -s ${ip} -j ACCEPT`
+
+            var cmd1 = `sudo iptables -D FORWARD  -d ${ipv4} -j ACCEPT`
+            var cmd2 = `sudo iptables -D FORWARD  -s ${ipv4} -j ACCEPT`
             // Use exec to run the command
             exec(cmd1, (error, stdout, stderr) => {
                 if (error) {
@@ -68,7 +70,7 @@ async function initializeDataUsageForIP(ipv4) {
     //find if the functionality has been enabled already for the specific ip
 
     findIP = await dataUsageUser.find({ ip: ipv4 })
-    console.log(findIP)
+    // console.log(findIP)
     if (findIP.length > 0) {
         console.log("IP already initialized");
 
@@ -97,6 +99,7 @@ async function initializeDataUsageForIP(ipv4) {
         
         console.log("Insert Ip ")
         // for a specific ip create 12 entries , configuring each hour for a specific ip
+
         for (var i = 0; i < 12; i++) {
             createInstanceOfIpPerHour = await dataUsageUser.create({
                 ip: ipv4,
@@ -122,7 +125,7 @@ async function initializeDataUsageForIP(ipv4) {
 
 // Define the function to apply iptables rules
 async function enableDataUsageForIP() {
-
+    
     let connectedDevices = await getDevices();
     // Parse the IP addresses of connected devices
     
@@ -142,8 +145,8 @@ async function enableDataUsageForIP() {
         //if the rule for network monitor is not applied for the ip, it appends it to the iptable 
         // if the first command fails, it executes the second, in other words, if the rule doesnt exists then
         // is added from the  API
-        var cmd1 = `iptables -C FORWARD  -d ${ip} -j ACCEPT || iptables -I FORWARD  -d ${ip} -j ACCEPT`
-        var cmd2 = `iptables -C FORWARD  -s ${ip} -j ACCEPT || iptables -I FORWARD  -s ${ip} -j ACCEPT`
+        var cmd1 = `sudo iptables -C FORWARD  -d ${ip} -j ACCEPT || sudo iptables -I FORWARD  -d ${ip} -j ACCEPT`
+        var cmd2 = `sudo iptables -C FORWARD  -s ${ip} -j ACCEPT || sudo iptables -I FORWARD  -s ${ip} -j ACCEPT`
         // Use exec to run the command
         exec(cmd1, (error, stdout, stderr) => {
             if (error) {
@@ -192,6 +195,22 @@ async function enableDataUsageForIP() {
 
 }
 
+async function  resetDataUsageDevicesStats(){
+    try{
+        ipDataUsage = await dataUsageUser.find({timestamp:0})
+        //console.log(ipDataUsage)
+        for (ipEntry of ipDataUsage){
+            await deleteDataUsageClient(ipEntry.ip)
+        }
+
+    console.log('Data Usage for Devices has been reset')
+    }catch(error){
+        console.log("Something went wrong. Unable to delete Device's Data Usage")
+    }
+    
+}
+
 module.exports = {
-    enableDataUsageForIP
+    enableDataUsageForIP,
+    resetDataUsageDevicesStats
 }

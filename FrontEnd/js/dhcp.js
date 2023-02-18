@@ -105,15 +105,13 @@ $(document).ready(function () {
   //get already configured dhcp values
   async function getDHCP() {
     let data = await getData("/dhcp/config");
-    
+
     if (data) {
       $("#start-ip").val(data.start_ip);
       $("#end-ip").val(data.end_ip);
       $("#mask").val(data.mask);
       $("#time").val(data.time);
-
-      if (data.lease_isEnabled)
-        $("#lease-time").prop("checked", true);
+      $("#lan-ip").val(data.gateway);
 
       if (data.dhcp_enabled === '1') {
         $("#dhcp-status-enabled").prop("checked", true);
@@ -135,7 +133,7 @@ $(document).ready(function () {
       var newRow = $('<tr class="border-bottom border-1 ">');
       var cols = "";
 
-      cols += '<th class="text-center" scope="row">' + item.id + "</th>";
+
       cols += '<td class="  fw-bold" >' + item.host + "</td>";
       cols += '<td class="  fw-bold" >' + item.ip + "</td>";
       cols += '<td class="  fw-bold" >' + item.mac + "</td>";
@@ -159,14 +157,15 @@ $(document).ready(function () {
       'input[name="dchp-status"]:checked'
     ).value;
     //get lease time toggle value
-    var lease_isEnabled = $("#lease-time")[0].checked;
+
 
     //Get Fields parameters
-    var start_ip = $("#start-ip").val();
-    var end_ip = $("#end-ip").val();
-    var mask = $("#mask").val();
-    var time = $("#time").val();
 
+    let start_ip = $("#start-ip").val();
+    let end_ip = $("#end-ip").val();
+    let mask = $("#mask").val();
+    let time = $("#time").val();
+    let gateway = $("#lan-ip").val();
     //Construct json object
     var data = {
       dhcp_enabled: dhcp_enabled,
@@ -174,9 +173,9 @@ $(document).ready(function () {
       end_ip: end_ip,
       mask: mask,
       time: time,
-      lease_isEnabled: lease_isEnabled,
+      gateway: gateway
     };
-    
+
     //post data to server
     let res_status = await postData("dhcp/submit", data);
     let res_data = await res_status.json();
@@ -194,13 +193,13 @@ $(document).ready(function () {
   async function CreateStaticIpTable(data) {
     $("#static-ip-table > tbody").html("");
     let static_ip = await getData("dhcp/static-ips");
-  
+
     static_ip.forEach((item, index) => {
       var newRow = $(
         "<tr id=item" + (index + 1) + ' class="border-bottom border-1 ">'
       );
       var cols = "";
-  
+
       // cols += '<th class="text-center fs-5" scope="row">' + (index + 1) + '</th>';
       cols += '<th class="text-center fs-5" scope="row"></th>';
       cols +=
@@ -217,20 +216,20 @@ $(document).ready(function () {
         "</td>";
       cols +=
         ' <td  class=" table-authoritative-remove text-center "> <ion-icon name="trash-sharp"> </ion-icon> </td>';
-  
+
       newRow.append(cols);
       $("#static-ip-table").append(newRow);
     });
   }
-  
+
   CreateStaticIpTable();
-  
+
   function AddStaticIP() {
     var newRow = $('<tr class="border-bottom border-1 ">');
     var cols = "";
     var rows = document.getElementById("static-ip-table-body").rows
       .length;
-  
+
     // cols += '<th class="text-center fs-5" scope="row">' + (rows + 1) + "</th>";
     cols += '<th class="text-center fs-5" scope="row"></th>';
     cols +=
@@ -241,19 +240,19 @@ $(document).ready(function () {
       '<td class=" new-item-mac fs-6 fw-bold" contenteditable="true">Type Mac</td>';
     cols +=
       '<td class=" text-center  table-authoritative-remove"> <ion-icon name="trash-sharp"> </ion-icon> </td>';
-  
+
     newRow.append(cols);
     $("#static-ip-table-body").append(newRow);
   }
-  
+
   $("#add-static-ip-entry").on("click", function () {
     AddStaticIP(); //Add new row to dns table
   });
-  
+
   async function submitStaticIPChanges() {
     var static_ip = []
     let deleted = deletedStaticIPs
-  
+
     $("#static-ip-table-body tr .new-item-ip").each(function (item) {
       ip = $(this).text()
       mac = $(this).parent().find(".new-item-mac").text();
@@ -271,7 +270,7 @@ $(document).ready(function () {
       if (response_data.error) {
         errorModal(response_data.message);
         $(".new-item-mac").parent().remove();
-  
+
       } else {
         successModal(response_data.message);
       }
@@ -286,44 +285,44 @@ $(document).ready(function () {
         successModal(res_data.message);
       }
     }
-    
-  
+
+
     deletedStaticIPs = []
     CreateStaticIpTable();
   }
-  
-  
-  $("#submit-static").on("click", function(){
+
+
+  $("#submit-static").on("click", function () {
     submitStaticIPChanges()
   })
-  
-  
-  
-  
+
+
+
+
   var deletedStaticIPs = []
-  
-  
-  
+
+
+
   function updateStaticIPRowNum() {
     $("#authoritative-dns-table-body th").each(function (index, item) {
       console.log(item.innerText);
       item.innerText = index + 1;
     });
   }
-  
+
   $(document).on("click", ".table-authoritative-remove", function () {
     var item = $(this).closest("tr");
     item.remove(); //remove item
-  
+
     //get value
     deletedIP = item.find(".item-ip").text();
     deletedMac = item.find(".item-mac").text();
-  
+
     deletedStaticIPs.push({
       ip: deletedIP,
       mac: deletedMac,
     });
-  
+
     updateStaticIPRowNum();
   });
 

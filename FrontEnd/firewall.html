@@ -173,7 +173,7 @@
 
 
 
-                        <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
+                        <div class="col-sm-12 col-md-10  py-4 mt-5 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
                                     <h4 class=" table-header fw-bold ">Import Firewall Rule</h4>
@@ -182,7 +182,8 @@
                             <div
                                 class="container-fluid table-responsive rounded-bottom  position-relative card-sizing shadow-sm ">
                                 <div class="row row-cols-1  g-sm-2 g-md-4  justify-content-center ">
-                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-5">
+
+                                    <div class=" col-sm-10 ms-md-3 mt-md-5">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1">
                                                 <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
@@ -190,34 +191,39 @@
                                                 </div>
                                                 <div class="col-md-8 col-sm-12 d-flex flex-row">
                                                     <div class="form-check">
-                                                        <input class="  form-check-input" type="radio"
-                                                            name="chain" id="chain-aceept" value="Input"
-                                                            checked>
-                                                        <label class=" radio form-check-label"
-                                                            for="chain-accept">
+                                                        <input class="form-check-input" type="radio" name="chain"
+                                                            id="input-chain" value="Input" checked>
+                                                        <label class="radio form-check-label" for="input-chain">
                                                             Input
                                                         </label>
                                                     </div>
                                                     <div class="form-check ms-lg-5 ms-3">
-                                                        <input class=" form-check-input" type="radio" name="chain"
-                                                            id="chain-deny" value="Output">
-                                                        <label class="radio form-check-label"
-                                                            for="chain-deny">
+                                                        <input class="form-check-input" type="radio" name="chain"
+                                                            id="forward-chain" value="Forward">
+                                                        <label class="radio form-check-label" for="forward-chain">
+                                                            Forward
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check ms-lg-5 ms-3">
+                                                        <input class="form-check-input" type="radio" name="chain"
+                                                            id="output-chain" value="Output">
+                                                        <label class="radio form-check-label" for="output-chain">
                                                             Output
                                                         </label>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-3">
+
+                                    <div class=" col-sm-10 ms-md-3 mt-md-3">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                <div class="col-md-2 col-sm-2 mt-2 input-size fw-semibold">
                                                     Rule Name
                                                 </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                <div class="col-md-4 col-sm-12 d-flex flex-row">
                                                     <div class="icon-in-input ">
                                                         <ion-icon name="finger-print-sharp"></ion-icon>
                                                     </div>
@@ -228,67 +234,68 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-2">
+                                    <div class=" col-sm-10 ms-md-3 mt-md-3">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    IP Address 
+                                                <div class="col-md-2 col-sm-2 mt-2 input-size fw-semibold">
+                                                    IP Address
                                                 </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                <div class="col-md-4 col-sm-12 d-flex flex-row">
+
                                                     <div class="icon-in-input ">
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input id="ip" type="text" class="form-control"
-                                                        placeholder="IP or IP Range" aria-label="First name">
+                                                    <input id="ip-source" type="text" class="form-control"
+                                                        placeholder="Source IP " aria-label="">
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-2">
-                                        <div class="container-fluid">
-                                            <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    MAC Address
-                                                </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                <div class="col-md-4 col-sm-12 d-flex flex-row">
                                                     <div class="icon-in-input ">
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input id="mac" type="text" class="form-control"
-                                                        placeholder="00-B0-D0-63-C2-26" aria-label="First name">
+                                                    <input id="ip-dest" type="text" class="form-control"
+                                                        placeholder="Destination IP " aria-label="First name">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-2">
+
+                                    <div class=" col-sm-10 ms-md-3 mt-md-3">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                <div class="col-md-2 col-sm-2 mt-2 input-size fw-semibold">
                                                     Port Service
                                                 </div>
-                                                <div class="col-md-8 col-sm-12 d-flex flex-row">
+                                                <div class="col-md-4 col-sm-12 d-flex flex-row">
                                                     <div class="icon-in-input ">
                                                         <ion-icon name="lock-closed-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input id="port" type="text" class="form-control"
-                                                        placeholder="80 or 80-90" aria-label="First name">
+                                                    <input id="port-source" type="text" class="form-control"
+                                                        placeholder="Source Port" aria-label="First name">
+                                                </div>
+                                                <div class="col-md-4 col-sm-12 d-flex flex-row">
+                                                    <div class="icon-in-input ">
+                                                        <ion-icon name="lock-closed-sharp"></ion-icon>
+                                                    </div>
+
+                                                    <input id="port-dest" type="text" class="form-control"
+                                                        placeholder="Destination Port" aria-label="First name">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-2">
+                                    <div class=" col-sm-10 ms-md-3 mt-md-3">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
-                                                    Action
+                                                <div class="col-md-2 col-sm-2 mt-2 input-size fw-semibold">
+                                                    Protocol
                                                 </div>
-                                                <div class="col-md-6 col-sm-12 d-flex flex-row">
+                                                <div class="col-md-4 col-sm-12 d-flex flex-row">
                                                     <div class="dropdown">
-                                                        <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="protocol" data-bs-toggle="dropdown"
+                                                        <button class="selection btn btn-danger dropdown-toggle"
+                                                            type="button" id="protocol" data-bs-toggle="dropdown"
                                                             aria-expanded="false">
                                                             Select a Protocol
                                                         </button>
@@ -296,30 +303,31 @@
                                                             aria-labelledby="dropdownMenuButton1">
                                                             <li><a class="dropdown-item" href="#">TCP</a></li>
                                                             <li><a class="dropdown-item" href="#">UDP</a></li>
-                                                            
+
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" col-sm-10  col-md-8 ms-md-3 mt-md-2">
+                                    <div class=" col-sm-10   ms-md-3 mt-md-3">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
-                                                <div class="col-md-4 col-sm-2 mt-2 input-size fw-semibold">
+                                                <div class="col-md-2 col-sm-2 mt-2 input-size fw-semibold">
                                                     Action
                                                 </div>
-                                                <div class="col-md-6 col-sm-12 d-flex flex-row">
+                                                <div class="col-sm-12 col-md-4  d-flex flex-row">
                                                     <div class="dropdown">
-                                                        <button class="btn btn-danger dropdown-toggle" type="button"
-                                                            id="action" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <button class="selection btn btn-danger dropdown-toggle"
+                                                            type="button" id="action" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
                                                             Select an Action
                                                         </button>
                                                         <ul id="action-list" class="dropdown-menu"
                                                             aria-labelledby="dropdownMenuButton1">
                                                             <li><a class="dropdown-item" href="#">Allow</a></li>
                                                             <li><a class="dropdown-item" href="#">Deny</a></li>
-                                                            
+
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -344,7 +352,7 @@
 
                         </div>
 
-                        <div class="col-sm-12 col-md-5  py-4 mt-5 table-responsive">
+                        <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
                                     <h4 class=" table-header fw-bold ">Import Custom Firewall Rule</h4>
@@ -385,6 +393,7 @@
                                                 <thead class="thead-danger table-text">
                                                     <tr class=" border-bottom border-2  fw-light table-text">
                                                         <th class=" fs-5" scope="col">Status</th>
+                                                        <th class="fs-5" scope="col">Firewall Name</th>
                                                         <th class="fs-5" scope="col">Firewall Rule</th>
                                                         <th> </th>
 
@@ -427,7 +436,7 @@
 
 
                         </div>
-                        <div class="col-sm-12 col-md-5  py-4 mt-3 table-responsive">
+                        <div class="col-sm-12 col-md-10  py-4 mt-3 table-responsive">
                             <div class=" table-header py-1 rounded-top shadow-lg">
                                 <div class="ms-4">
                                     <h4 class=" table-header fw-bold ">Firewall Logs</h4>

@@ -14,7 +14,7 @@ const {authorization} = require('./middlewares/authorization')
 const {monitorNetworkConnections} = require('./utils/Dashboard/getServerIP')
 const {saveTrafficData} = require('./utils/Dashboard/networkTrafficMonitor')
 const {initializeTrafficMonitorData} = require('./utils/Dashboard/networkTrafficMonitor')
-const {enableDataUsageForIP} = require('./utils/DataUsage/enableDataUsage')
+const {enableDataUsageForIP,resetDataUsageDevicesStats} = require('./utils/DataUsage/enableDataUsage')
 const {collectTrafficDataIPs} = require('./utils/DataUsage/collectClientsUsage')
 
 //-----------------------------------------------------------------------------------------
@@ -67,6 +67,7 @@ app.use(session({
 
 //Initialization Functions that needs to run at the beginning
  initializeTrafficMonitorData()
+ resetDataUsageDevicesStats()
 
 //This section contains functions that must run periodically
 setInterval(enableDataUsageForIP,4000)

@@ -1,5 +1,5 @@
-const {DNSMASQ_CONF_FILE, DNSMASQ_STATIC_LEASES_FILE} = require('../../Helpers/constants')
-const { readFileSync } = require('fs');
+const {DNSMASQ_CONF_FILE, DNSMASQ_STATIC_LEASES_FILE } = require('../../Helpers/constants')
+const { readFileSync } = require('fs')
 
 function extractDHCPRangeInfo(dhcpRangeConfigs) {
     let getDHCPRangeLineRegex = new RegExp('.*dhcp-range((.*?)\n)', 'g')
@@ -13,7 +13,7 @@ function extractDHCPRangeInfo(dhcpRangeConfigs) {
         "end_ip":  dhcpRangeValues[1],
         "mask": dhcpRangeValues[2],
         "time": dhcpRangeValues[3],
-        "lease_isEnabled": dhcpRangeValues[3] === '24h' ? false : true,
+        "gateway": getGatewayAddress()
     }
     
     return dhcpRangeInfo
@@ -24,8 +24,7 @@ function getDHCPRangeInfo(){
     let fileContent = readFileSync(filePath, 'utf-8')
     if ( fileContent ) {
         return extractDHCPRangeInfo(fileContent)
-    }
-    else {
+    }    else {
         return
     }
 }
@@ -58,8 +57,38 @@ function getStaticIPs(){
     let fileContent = readFileSync(filePath, 'utf-8')
     if ( fileContent ) {
         return extractDHCPStaticInfo(fileContent)
+    } else {
+        return
     }
-    else {
+}
+
+function extractGatewayAddress(dnsmasqConfig) {
+    let lines = dnsmasqConfig.split('\n');
+  
+    let addressLine = null;
+    for (const line of lines) {
+      if (line.startsWith('address=')) {
+        addressLine = line;
+        break;
+      }
+    }
+  
+    if (!addressLine) {
+      throw new Error('No address field found in dhcpcd.conf');
+    }
+  
+    let addressParts = addressLine.split('/');
+    let ipAddress = addressParts[2];
+
+    return ipAddress
+  }  
+
+function getGatewayAddress(){
+    let filePath = DNSMASQ_CONF_FILE
+    let fileContent = readFileSync(filePath, 'utf-8')
+    if (fileContent){
+         return extractGatewayAddress(fileContent)
+    } else {
         return
     }
 }
@@ -67,4 +96,5 @@ function getStaticIPs(){
 module.exports = {
     getDHCPRangeInfo,
     getStaticIPs,
+    getGatewayAddress,
 }

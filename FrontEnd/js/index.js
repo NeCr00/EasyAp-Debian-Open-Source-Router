@@ -169,7 +169,7 @@ $(document).ready(function () {
       var newRow = $('<tr class="border-bottom border-1">');
       var cols = "";
 
-      cols += '<th class="text-center pe-4" scope="row">' + item.id + "</th>";
+      
       cols +=
         '  <td> <ion-icon class="desktop-icon" name="desktop-sharp"></ion-icon>' +
         item.host +

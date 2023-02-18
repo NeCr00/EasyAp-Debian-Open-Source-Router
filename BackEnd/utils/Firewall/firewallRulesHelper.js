@@ -19,59 +19,64 @@ async function ruleOrNameAlreadyExists(rule, name) {
 
 async function applyFirewallRule(options) {
 
-    options.chain = options.chain === 'Input' ? 'INPUT' : 'OUTPUT';
+    let chain = options.chain.toUpperCase();
+    console.log('ttttttt',chain)
+    if (!["INPUT", "FORWARD", "OUTPUT"].includes(chain)) {
+        console.log("Invalid chain");
+        return { error: true, message: 'Invalid Chain' };
+    }
 
-    let command = ` iptables  -A ${options.chain}`;
+    let command = `iptables -I ${chain}`;
 
-
-    // Check if IP is a range or a single IP
-    if (options.ip.includes("-")) {
-        ipRange = options.ip.split("-");
-        ipRange[0] = ipRange[0].replace(/\s+/g, ''); //remove spaces
-        ipRange[1] = ipRange[1].replace(/\s+/g, '');
-        if (options.chain === "OUTPUT") {
-            command += ` -m iprange --dst-range '+ ${ipRange[0]}-${ipRange[1]}`;
+    // Check if IP source is a range or a single IP
+    if (options.ip_source) {
+        if (options.ip_source.includes("-")) {
+            ipRange = options.ip_source.split("-");
+            ipRange[0] = ipRange[0].replace(/\s+/g, ''); //remove spaces
+            ipRange[1] = ipRange[1].replace(/\s+/g, '');
+            command += ` -s ${ipRange[0]}-${ipRange[1]}`;
         } else {
-            command += ` -m iprange --src-range ${ipRange[0]}-${ipRange[1]}`;
-        }
-    } else {
-        options.ip = options.ip.replace(/\s+/g, '');
-        if (options.chain === "OUTPUT") {
-            command += ` -m iprange --dst-range ${options.ip}-${options.ip}`;
-        } else {
-            command += ` -m iprange --src-range ${options.ip}-${options.ip}`;
+            options.ip_source = options.ip_source.replace(/\s+/g, '');
+            command += ` -s ${options.ip_source}`;
         }
     }
 
-    if (options.mac && options.chain === "INPUT") {
-        command += ` -m mac --mac-source ${options.mac}`;
-    }
-    else if (options.mac) {
-        command += ` -m mac --mac-destination ${options.mac}`;
+    // Check if IP dest is a range or a single IP
+    if (options.ip_dest) {
+        if (options.ip_dest.includes("-")) {
+            ipRange = options.ip_dest.split("-");
+            ipRange[0] = ipRange[0].replace(/\s+/g, ''); //remove spaces
+            ipRange[1] = ipRange[1].replace(/\s+/g, '');
+            command += ` -d ${ipRange[0]}-${ipRange[1]}`;
+        } else {
+            options.ip_dest = options.ip_dest.replace(/\s+/g, '');
+            command += ` -d ${options.ip_dest}`;
+        }
     }
 
     if (options.protocol && options.protocol !== "TCP/UDP") {
-
         command += ` -p ${options.protocol}`;
     }
-
-
-    // Check if port is a range or a single port
-    if (options.port.includes("-")) {
-        portRange = options.port.split("-");
-        portRange[0] = portRange[0].replace(/\s+/g, ''); //remove spaces
-        portRange[1] = portRange[1].replace(/\s+/g, '');
-        if (options.chain === "INPUT") {
-            command += ` --sport ${portRange[0]}:${portRange[1]}`;
-        }
-        else {
-            command += ` --dport ${options.port}`;
-        }
-
-    } else {
-
-        command += ` --dport ${options.port}`;
+    else {
+        return { error: true, message: 'Please specify a protocol' };
     }
+
+    // Check if port source is a range or a single port
+    if (options.port_source) {
+        const portRange = options.port_source.split("-").map(p => p.trim());
+        const sportOption = portRange.length === 2 ? `--sport ${portRange[0]}:${portRange[1]}` : `--sport ${portRange[0]}`;
+        command += ` ${sportOption}`;
+    }
+
+    // Check if port dest is a range or a single port
+    if (options.port_dest) {
+        const portRange = options.port_dest.split("-").map(p => p.trim());
+        const dportOption = portRange.length === 2 ? `--dport ${portRange[0]}:${portRange[1]}` : `--dport ${portRange[0]}`;
+        command += ` ${dportOption}`;
+    }
+
+   
+
 
 
     if (options.action === "Allow") {
@@ -80,8 +85,10 @@ async function applyFirewallRule(options) {
         command += " -j DROP";
     } else {
         console.log("Invalid action");
-        return false;
+        return { error: true, message: 'Invalid Action' };
     }
+
+
     // Checks if the rule already exists
     let exists = await ruleOrNameAlreadyExists(command, options.rule_name)
 
@@ -91,8 +98,8 @@ async function applyFirewallRule(options) {
             exec('sudo ' + command, async (err, stdout, stderr) => {
                 if (err) {
                     console.error(err);
-                    resolve(true)
-                    return true;
+                    resolve({ error: true, message: 'Something went wrong with Iptables' })
+
                 }
                 else {
                     //if the iptables command applied, the command is placed on the collection
@@ -104,14 +111,14 @@ async function applyFirewallRule(options) {
                         status: true
                     });
                     console.log("Rule has been applied");
-                    resolve(false)
+                    resolve({ error: false, message: 'Firewall Rule has been applied' })
                     return false;
                 }
             })
         }
         else {
             console.log("Rule or Name already exists")
-            resolve(true)
+            resolve({ error: true, message: 'Rule Name Already Exists !' })
             return true
         }
     })
@@ -216,8 +223,8 @@ async function deleteFirewallRules(rules) {
             // Retrieve the iptables command for the rule
             const command = rule.ruleCommand;
             // Modify the command to delete the rule
-            let deleteCommand = command.replace(/-A\s*/, "-D ");
-             deleteCommand = command.replace(/-I\s*/, "-D ");
+            let deleteCommand = command.replace(/(-A|-I)\s*/, "-D ");
+            //deleteCommand = command.replace(/-I\s*/, "-D ");
             // Execute the command using the exec function
             exec('sudo ' + deleteCommand, async (error, stdout, stderr) => {
                 if (error) {
@@ -242,6 +249,7 @@ async function getFirewallRules() {
     firewallRules.forEach((rule, index) => rules.push({
         "id": index,
         "rule_name": rule.ruleName,
+        "command": rule.ruleCommand,
         "status": rule.status ? "1" : "0"
     }))
 
@@ -250,7 +258,7 @@ async function getFirewallRules() {
 
 async function getFirewallLogs() {
 
-    let output = await executeCommand(`sudo tail -n 10 ${IPTABLES_LOG_FILE}`) 
+    let output = await executeCommand(`sudo tail -n 10 ${IPTABLES_LOG_FILE}`)
     return output.stdout
 }
 

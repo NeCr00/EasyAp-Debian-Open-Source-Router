@@ -66,50 +66,68 @@ async function isHostUp(ipAddress, mac) {
 //get Static Ips
 
 async function getStaticDevices(activeDevices) {
+
     return new Promise((resolve, reject) => {
-      // Get a list of MAC addresses from hostapd_cli
-      exec("sudo hostapd_cli -i wlan0 all_sta | grep -oE '([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}' | sort -u", (error, stdout) => {
-        let macList = stdout.trim().split('\n');
-        let devices = [];
-  
-        // Get the ARP table for the wlan0 interface
-        exec("sudo arp -a -i wlan0", (error, stdout) => {
-          const arpTable = stdout.trim().split('\n');
-          for (let arpEntry of arpTable) {
-            
-            let fields = arpEntry.trim().split(/\s+/);
 
-            const ipAddressRegex = /\b(?:\d{1,3}\.){3}\d{1,3}\b/g;
-            let match = arpEntry.match(ipAddressRegex);
+        // Get a list of MAC addresses from hostapd_cli
+        exec("sudo hostapd_cli -i wlan0 all_sta | grep -oE '([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}' | sort -u", (error, stdout) => {
+            try {
+                let macList = stdout.trim().split('\n');
+                let devices = [];
+                console.log('mac list: ' + macList)
+                if (macList.length > 0) {
+                    // Get the ARP table for the wlan0 interface
+                    exec("sudo arp -a -i wlan0", (error, stdout) => {
 
-            let ip = match[0]
-            let mac = fields[3]; // Use the fourth field for MAC address (the format of the arp output may differ)
-            
-            // Check if the MAC address is in the macList
-            if (macList.includes(mac)) {
-              let existingDevice = activeDevices.find(device => device.mac === mac);
-              if (existingDevice) {
-                // If an existing device is found with the same MAC address, update its IP address
-                console.log("Found existing device");
-                existingDevice.ip = ip;
-              } else {
-                // If an existing device is not found with the same MAC address, add a new device to the activeDevices array
-                console.log("Adding new device");
-                activeDevices.push({
-                  lease_time: `Infinity`,
-                  mac: mac,
-                  ip: ip,
-                  host: 'Unknown'
-                });
-              }
+                        const arpTable = stdout.trim().split('\n');
+                        for (let arpEntry of arpTable) {
+
+                            let fields = arpEntry.trim().split(/\s+/);
+
+                            const ipAddressRegex = /\b(?:\d{1,3}\.){3}\d{1,3}\b/g;
+
+                            let match = arpEntry.match(ipAddressRegex);
+
+                            if (match !== null) {
+                                let ip = match[0]
+                                let mac = fields[3]; // Use the fourth field for MAC address (the format of the arp output may differ)
+
+                                // Check if the MAC address is in the macList
+                                if (macList.includes(mac)) {
+                                    let existingDevice = activeDevices.find(device => device.mac === mac);
+                                    if (existingDevice) {
+                                        // If an existing device is found with the same MAC address, update its IP address
+                                        console.log("Found existing device");
+                                        existingDevice.ip = ip;
+                                    } else {
+                                        // If an existing device is not found with the same MAC address, add a new device to the activeDevices array
+                                        console.log("Adding new device");
+                                        activeDevices.push({
+                                            lease_time: `Infinity`,
+                                            mac: mac,
+                                            ip: ip,
+                                            host: 'Unknown'
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                        resolve(activeDevices);
+                    });
+                }
+                else {
+                    console.log("No active devices")
+                    resolve([]);
+                }
+            } catch (err) {
+                console.log('Cannot find connected devices or something went wrong')
             }
-          }
-          resolve(activeDevices);
         });
-      });
+
     });
-  }
-  
+}
+
+
 
 
 async function getDevices() {

@@ -2,6 +2,8 @@ const EASYAP_CONF_FILE = '/etc/easyap.d/easyap.conf'
 
 const HOSTS_FILE = '/etc/hosts'
 
+const DHCPCD_CONF_FILE = '/etc/dhcpcd.conf'
+
 const HOSTAPD_CONFIG_FILE = '/etc/hostapd/hostapd.conf'
 const HOSTAPD_CONFIG_DEFAULT_FILE = '/etc/hostapd/hostapd.conf.default'
 
@@ -23,6 +25,8 @@ module.exports = {
     EASYAP_CONF_FILE,
 
     HOSTS_FILE,
+
+    DHCPCD_CONF_FILE,
 
     HOSTAPD_CONFIG_FILE,
     HOSTAPD_CONFIG_DEFAULT_FILE,

@@ -2,8 +2,11 @@
 
 echo "Enter the interface which the Access Point will use: "
 read interface
-echo "Configuring the Access Point using the $interface interface ..."
 
+echo "Enter the interface which the Access Point will use to connect to the router: "
+read router_interface
+
+echo "Configuring the Access Point using the $interface and $router_interface ..."
 # TODO: wpa_supplicant configuration
 
 #------------------------------------------------------------------------------------------------
@@ -16,6 +19,7 @@ sudo touch $EASYAP_CONF_FILE
 
 sudo bash -c "cat > $EASYAP_CONF_FILE <<EOF
 interface=$interface
+router_interface=$router_interface
 EOF"
 
 #------------------------------------------------------------------------------------------------
@@ -189,6 +193,12 @@ wpa_passphrase=$wpa_passphrase
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
+
+#enabling hostapd client:
+
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+
 EOF"
 
 if [ $? -eq 0 ]; then

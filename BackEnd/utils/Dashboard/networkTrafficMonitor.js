@@ -68,10 +68,6 @@ async function getCurrentTrafficData() {
 function transferDataBetweenHours(data) {
 
     try {
-        if (data[0].packetsSent !== 0 && data[1].packetsSent == 0 && data[2].packetsSent === 0) {
-            data[1].packetsSent = -1
-            return data
-        }
 
         for (let i = 10; i > -1; i--) {
 
@@ -87,7 +83,7 @@ function transferDataBetweenHours(data) {
 
 }
 
-var last_Traffic = null
+
 
 async function saveTrafficData() {
     try {
@@ -102,14 +98,17 @@ async function saveTrafficData() {
         //data to the next hour ex. 9:00 to 10:00
 
         //save the monitor data to 0:00 
-        data[0].packetsSent = Math.abs(last_Traffic[1].tx_packets - traffic_now[1].tx_packets)
-        data[0].packetsReceived = Math.abs(last_Traffic[0].rx_packets - traffic_now[0].rx_packets)
+        data[0].packetsSent = Math.abs( traffic_now[1].tx_packets - data[0].lastMetric.packetsSent)
+        data[0].packetsReceived = Math.abs(traffic_now[0].rx_packets - data[0].lastMetric.packetsReceived)
+
+        data[0].lastMetric.packetsSent = traffic_now[1].tx_packets
+        data[0].lastMetric.packetsReceived = traffic_now[0].rx_packets
 
         for (let i = 0; i < data.length; i++) {
             let hour = data[i].hour;
             await dataUsage.updateMany({ hour: hour }, { $set: data[i] });
         }
-        last_Traffic = traffic_now
+        
     } catch (error) {
         console.log(error)
     }
@@ -121,16 +120,19 @@ async function initializeTrafficMonitorData() {
     //This function should be called  once at the start of the software and adds the propriate entries for each hour
     stats_now = await getCurrentTrafficData()
     await dataUsage.deleteMany({})
-    last_Traffic = await getCurrentTrafficData()
-
     console.log("initializeTrafficMonitorData")
     //if is empty initialize the data usage entries
     for (var hour = 0; hour < 12; hour++) {
         creation = await dataUsage.create({
-            packetsSent: hour === 0 ? stats_now[1].tx_packets : 0,
-            packetsReceived: hour === 0 ? stats_now[0].rx_packets : 0,
+            packetsSent: 0,
+            packetsReceived: 0,
+            lastMetric: {
+                packetsSent: stats_now[1].tx_packets,
+                packetsReceived: stats_now[0].rx_packets,
+            },
             hour: hour
         });
+        //console.log(creation)
     }
 }
 

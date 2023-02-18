@@ -20,12 +20,21 @@ body{
     body{
         overflow-x: hidden;
     }
- 
-   
+    
+
   }
   @media only screen and (max-width: 600px) {
     body{
         overflow: auto !important;
+    }
+
+    .selection{
+      width: 170px !important;
+      font-size: 12px !important;
+    }
+
+    label{
+      font-size: 10px !important;
     }
 
     .input-size{
@@ -72,6 +81,10 @@ body{
     
     .logout-icon {
       font-size: 45px;
+    }
+
+    .dropdown{
+      width: 300px !important;
     }
    
     

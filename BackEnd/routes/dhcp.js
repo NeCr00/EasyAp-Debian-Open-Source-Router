@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 const validator = require('../middlewares/dataValidator');
 const { getDevices } = require('../utils/Dashboard/getConnectedDevices')
 const { getDHCPRangeInfo, getStaticIPs } = require('../utils/DHCP/getDHCPConfigs')
-const { editDnsmasqDHCPRange, editDnsmasqStaticIPs } = require('../utils/DHCP/setDHCPConfigs')
+const { editDnsmasqDHCPRange, editDnsmasqStaticIPs, setDhcpcdGatewayAddress } = require('../utils/DHCP/setDHCPConfigs')
+const { executeCommand } = require('../Helpers/executeCommand')
 
 function validateSettingsData(req, res, next) {
   let data = req.body
@@ -67,7 +68,9 @@ router.get('/config', function (req, res) {
 })
 
 router.post('/submit', validateSettingsData, async function(req, res) {
+  await setDhcpcdGatewayAddress(req.body.gateway, req.body.mask)
   await editDnsmasqDHCPRange(req.body)
+  await executeCommand('sudo systemctl restart hostapd')
   
   if (1){
     res.json({"message":"Changes Applied"})

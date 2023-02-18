@@ -22,7 +22,7 @@ async function collectTrafficDataIPs() {
 
 
     if (trafficData) {
-      console.log(ip_address, trafficData);
+     // console.log(ip_address, trafficData);
       await saveTrafficData(ip_address, trafficData)
 
     }
@@ -35,11 +35,6 @@ async function collectTrafficDataIPs() {
 }
 
 
-
-// schedule the function to run every hour
-setInterval(collectTrafficDataIPs, 1000 * 60 * 60);
-
-
 async function saveTrafficData(ip, data) {
 
   // Find all data for the specific IP
@@ -48,7 +43,7 @@ async function saveTrafficData(ip, data) {
   if (records.length == 0) {
     return
   }
-  console.log(records);
+ // console.log(records);
 
   // Shift all existing data by one hour and update in the database
   for (let i = records.length - 1; i >= 1; i--) {
@@ -70,8 +65,8 @@ async function saveTrafficData(ip, data) {
   records[0].lastMetric.bytesSent = Math.abs(Number(data.bytesSent));
   records[0].lastMetric.bytesReceived = Math.abs(Number(data.bytesReceived));
 
-  console.log('records', records)
-  console.log('data', data)
+  //console.log('records', records)
+  //console.log('data', data)
   await records[0].save();
 }
 
@@ -101,7 +96,7 @@ async function getTrafficData(ip) {
                 data.bytesReceived = line[1]
               }
             }
-            console.log(data)
+            //console.log(data)
             resolve(data);
           }
 

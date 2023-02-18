@@ -94,26 +94,29 @@ $(document).ready(function () {
   // submit firewall rule --------------------------
   async function submitFirewallRules() {
 
-    var chain = document.querySelector(
-      'input[name="chain"]:checked'
-    ).value;
-
+    var chain = document.querySelector('input[name="chain"]:checked').value;
+    
     var rule_name = $("#rule_name").val();
-    var ip = $("#ip").val();
+    var ip_source = $("#ip-source").val();
+    var ip_dest = $("#ip-dest").val();
     var mac = $("#mac").val();
-    var port = $("#port").val();
+    var port_source = $("#port-source").val();
+    var port_dest = $("#port-dest").val();
     var protocol = $("#protocol").html();
     var action = $("#action").html();
 
     var rules_data = {
       chain:chain,
       rule_name: rule_name,
-      ip: ip,
+      ip_source: ip_source,
+      ip_dest: ip_dest,
       mac: mac,
-      port: port,
+      port_source: port_source,
+      port_dest:port_dest,
       protocol: protocol,
       action: action,
     };
+
     let response = await postData("firewall/rules",rules_data);
     let response_data = await response.json();
 
@@ -169,11 +172,19 @@ $(document).ready(function () {
         "</div>" +
         "" +
         " </th>";
-      cols +=
+        
+        cols +=
         '<td class=" item fs-6 fw-bold" contenteditable="true" value=' +
         item.id +
         ">" +
         item.rule_name +
+        "</td>";
+
+      cols +=
+        '<td class=" item fs-6 fw-bold" contenteditable="true" value=' +
+        item.id +
+        ">" +
+        item.command +
         "</td>";
       cols +=
         ' <td  class="  text-center table-remove"> <ion-icon name="trash-sharp"> </ion-icon> </td>';
