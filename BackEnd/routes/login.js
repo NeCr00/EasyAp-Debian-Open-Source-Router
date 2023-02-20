@@ -6,7 +6,6 @@ const {authentication} = require('./../middlewares/authentication')
 
 
 
-
 router.get('/', (req, res) => {
     if(req.session.userID){
         res.redirect('/dashboard')
@@ -18,7 +17,7 @@ router.get('/', (req, res) => {
   })
 
 router.post('/submit', authentication, function(req, res) {
-    
-    res.redirect(301, 'http://localhost:3000/dashboard');
+    // let gatewagetGatewayAddress()
+    res.redirect(301, '/dashboard');
 })
 module.exports = router;

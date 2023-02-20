@@ -123,8 +123,9 @@ $(document).ready(function () {
     if (response_data.error) {
       errorModal(response_data.message);
     } else {
+      await CreateFirewallRulesTable()
       successModal(response_data.message);
-      CreateFirewallRulesTable()
+      
     }
   }
 
@@ -174,14 +175,14 @@ $(document).ready(function () {
         " </th>";
         
         cols +=
-        '<td class=" item fs-6 fw-bold" contenteditable="true" value=' +
+        '<td class=" item fs-6 fw-bold" contenteditable="false" value=' +
         item.id +
         ">" +
         item.rule_name +
         "</td>";
 
       cols +=
-        '<td class=" item fs-6 fw-bold" contenteditable="true" value=' +
+        '<td class=" fs-6 fw-bold" contenteditable="false" value=' +
         item.id +
         ">" +
         item.command +
@@ -221,8 +222,9 @@ $(document).ready(function () {
       return;
     }
 
+    await CreateFirewallRulesTable()
     successModal("Firewall rules updated successfully");
-    CreateFirewallRulesTable()
+    
   }
 
   //------------------------------------------------

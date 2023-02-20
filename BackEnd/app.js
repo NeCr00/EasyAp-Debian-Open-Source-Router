@@ -70,13 +70,13 @@ app.use(session({
  resetDataUsageDevicesStats()
 
 //This section contains functions that must run periodically
-setInterval(enableDataUsageForIP,4000)
-setInterval(collectTrafficDataIPs, 7000);
+// setInterval(enableDataUsageForIP,4000)
+// setInterval(collectTrafficDataIPs, 7000);
 
-// enables the network monitor for the dashboard
+// // enables the network monitor for the dashboard
   
-setInterval(saveTrafficData,10000)
-setInterval(monitorNetworkConnections,5000)
+// setInterval(saveTrafficData,10000)
+// setInterval(monitorNetworkConnections,5000)
 
 //enableFirwallLogs()
 
@@ -88,15 +88,15 @@ app.use('/logout',logout)
 //Protected API Calls and routes.
 // The following routes are using the authorization middleware to perform authorization checks
 //If user is not authenticated and by extension is not authorizaed, api returns a statuc code 401
-app.use('/dashboard', dashboard) // Dashboard page and rest api calls
-app.use('/dhcp',dhcp) //
-app.use('/dns_ddns',dns_ddns)
-app.use('/firewall',firewall)
-app.use('/settings',settings)
-app.use('/system',system)
-app.use('/vpn',vpn)
-app.use('/data_usage',data_usage)
-app.use('/about',about)
+app.use('/dashboard',authorization, dashboard) // Dashboard page and rest api calls
+app.use('/dhcp',authorization,dhcp) //
+app.use('/dns_ddns',authorization,dns_ddns)
+app.use('/firewall',authorization,firewall)
+app.use('/settings',authorization,settings)
+app.use('/system',authorization,system)
+app.use('/vpn',authorization,vpn)
+app.use('/data_usage',authorization,data_usage)
+app.use('/about',authorization,about)
 
 
 

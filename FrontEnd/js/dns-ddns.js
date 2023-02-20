@@ -344,8 +344,8 @@ $(document).ready(function () {
     let deleted = deletedAuthoritativeDns.deletedAuthoritativeDns
   
     $("#authoritative-dns-table-body tr .new-item-auth-domain").each(function (item) {
-      ip = $(this).parent().find(".new-item-auth-ip").html();
-      domain = $(this).html()
+      ip = $(this).parent().find(".new-item-auth-ip").text();
+      domain = $(this).text()
       auth_dns.push({
         domain: domain,
         ip: ip,

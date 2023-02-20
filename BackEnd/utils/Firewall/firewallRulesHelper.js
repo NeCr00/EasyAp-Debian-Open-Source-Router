@@ -4,10 +4,14 @@ const exec = util.promisify(require('child_process').exec)
 const { executeCommand } = require('../../Helpers/executeCommand');
 const { IPTABLES_LOG_FILE } = require('../../Helpers/constants');
 
+
+
 async function ruleOrNameAlreadyExists(rule, name) {
+
+    //Validate the user input:
     //Checks if the rule name already exists
     let nameAlreadyExists = await Firewall.findOne({ $or: [{ ruleName: name }, { ruleCommand: rule }] })
-    console.log(nameAlreadyExists)
+
     if (nameAlreadyExists) {
         console.log('Rule or Name already exists')
         return true
@@ -20,7 +24,7 @@ async function ruleOrNameAlreadyExists(rule, name) {
 async function applyFirewallRule(options) {
 
     let chain = options.chain.toUpperCase();
-    console.log('ttttttt',chain)
+    console.log('ttttttt', chain)
     if (!["INPUT", "FORWARD", "OUTPUT"].includes(chain)) {
         console.log("Invalid chain");
         return { error: true, message: 'Invalid Chain' };
@@ -75,7 +79,7 @@ async function applyFirewallRule(options) {
         command += ` ${dportOption}`;
     }
 
-   
+
 
 
 
@@ -161,85 +165,124 @@ async function setCustomFirewallRule(rule, name) {
 }
 
 async function updateRulesStatus(rules) {
-
-    rules.forEach(async function (rule) {
-
-        let updateRulesStatus = []
-        let ruleExists = await Firewall.exists({ ruleName: rule.rule_name, status: rule.status })
+    try {
+      // Create an empty array to store the rules that need to be updated
+      let updateRulesStatus = [];
+  
+      // Loop through each rule in the input array
+      for (let i = 0; i < rules.length; i++) {
+        let rule = rules[i];
+  
+        // Check if the rule exists in the database with the same status
+        let ruleExists = await Firewall.exists({
+          ruleName: rule.rule_name,
+          status: rule.status,
+        });
+  
+        // If the rule does not exist or the status has changed, add it to the updateRulesStatus array
         if (!ruleExists) {
-            //This means that the rule exists but the status had been changed
-            let get_rule = await Firewall.findOne({ ruleName: rule.rule_name })
-            updateRulesStatus.push({ ruleName: rule.rule_name, status: rule.status, command: get_rule.ruleCommand })
+          let get_rule = await Firewall.findOne({ ruleName: rule.rule_name });
+          updateRulesStatus.push({
+            ruleName: rule.rule_name,
+            status: rule.status,
+            command: get_rule.ruleCommand,
+          });
         }
-
-        if (updateRulesStatus) {
-            updateRulesStatus.forEach(async rule => {
-                console.log(1, rule)
-
-                if (rule.status) {
-                    exec(rule.command, (error, stdout, stderr) => {
-                        if (error) {
-                            console.log(`error: ${error.message}`);
-                            return;
-                        }
-                        if (stderr) {
-                            console.log(`stderr: ${stderr}`);
-                            return;
-                        }
-                        console.log(`stdout: ${stdout}`);
-                    });
-                }
-                else {
-                    command = rule.command;
-                    const deleteCommand = command.replace(/-A\s*/, "-D ");
-                    // Execute the command using the exec function
-                    exec('sudo ' + deleteCommand, async (error, stdout, stderr) => {
-                        if (error) {
-                            console.log(`Error deleting rule: ${error}`);
-                            return false
-                        }
-                    });
-                }
-
-
-
-                let updateStatus = await Firewall.findOneAndUpdate({ ruleName: rule.ruleName }, { status: rule.status }, { new: true })
-                console.log(updateStatus)
-            })
+      }
+  
+      // Loop through the rules that need to be updated
+      for (let i = 0; i < updateRulesStatus.length; i++) {
+        let rule = updateRulesStatus[i];
+  
+        // If the status is true, execute the rule command
+        if (rule.status) {
+          exec(rule.command, (error, stdout, stderr) => {
+            if (error) {
+              console.log(`error: ${error.message}`);
+              return;
+            }
+            if (stderr) {
+              console.log(`stderr: ${stderr}`);
+              return;
+            }
+            console.log(`stdout: ${stdout}`);
+          });
         }
-    })
-
-}
+        // If the status is false, delete the rule
+        else {
+          command = rule.command;
+          const deleteCommand = command.replace(/(-A|-I)\s*/, "-D ");
+          exec("sudo " + deleteCommand, async (error, stdout, stderr) => {
+            if (error) {
+              console.log(`Error deleting rule: ${error}`);
+              return false;
+            }
+          });
+        }
+  
+        // Update the status of the rule in the database
+        let updateStatus = await Firewall.findOneAndUpdate(
+          { ruleName: rule.ruleName },
+          { status: rule.status },
+          { new: true }
+        );
+        console.log(updateStatus);
+      }
+  
+      // Return success message if all rules were updated successfully
+      return {
+        error: false,
+        message: "Rules updated successfully.",
+      };
+    } catch (error) {
+      // Return error message if any error occurred
+      return {
+        error: true,
+        message: error.message,
+      };
+    }
+  }
 
 async function deleteFirewallRules(rules) {
-    rules.forEach(async item => {
-        item = item.deletedRule
-        try {
-            // Search the database for the specified rule name
-            const rule = await Firewall.findOne({ name: item });
+    try {
+        for (let item of rules) {
+            console.log('rrrrrrrrrrrrrrrrrrrrrrr',item)
+            item = item.deletedRule;
+
+            // Find the rule in the database
+            let rule = await Firewall.findOne({ ruleName: item });
             if (!rule) {
                 throw new Error(`No rule found with name ${item}`);
             }
-            // Retrieve the iptables command for the rule
-            const command = rule.ruleCommand;
+
+            let command = rule.ruleCommand;
             // Modify the command to delete the rule
             let deleteCommand = command.replace(/(-A|-I)\s*/, "-D ");
-            //deleteCommand = command.replace(/-I\s*/, "-D ");
-            // Execute the command using the exec function
-            exec('sudo ' + deleteCommand, async (error, stdout, stderr) => {
-                if (error) {
-                    console.log(`Error deleting rule: ${error}`);
-                    return false
+
+            if (rule.status) {
+                try {
+                    // Execute the command to delete the rule
+                    await exec(`sudo ${deleteCommand}`);
+                    // Delete the rule from the database
+                    let deleteRule = await Firewall.deleteMany({ ruleName: item });
+                    console.log(`Rule ${item} deleted successfully`);
+                    console.log(deleteRule);
+                } catch (error) {
+                    // Throw a new error with the message
+                    throw new Error(`Error deleting rule: ${error.message}`);
                 }
-                console.log(item)
-                deleteRule = await Firewall.deleteMany({ ruleName: item })
+            } else {
+                // If the rule is already disabled, delete it from the database
+                let deleteRule = await Firewall.deleteMany({ ruleName: item });
                 console.log(`Rule ${item} deleted successfully`);
-                console.log(deleteRule)
-            });
-        } catch (error) {
-            console.error(error);
+                console.log(deleteRule);
+            }
         }
-    })
+    } catch (error) {
+        // Catch any other errors that might occur and return the error message
+        console.error(error.message);
+        return error.message;
+    }
 }
 
 async function getFirewallRules() {
@@ -258,7 +301,7 @@ async function getFirewallRules() {
 
 async function getFirewallLogs() {
 
-    let output = await executeCommand(`sudo tail -n 10 ${IPTABLES_LOG_FILE}`)
+    let output = await executeCommand(`sudo tail -n 1000 ${IPTABLES_LOG_FILE}`)
     return output.stdout
 }
 

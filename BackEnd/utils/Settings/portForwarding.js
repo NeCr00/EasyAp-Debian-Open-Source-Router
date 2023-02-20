@@ -1,6 +1,7 @@
 
 const { exec } = require('child_process');
 const PortForwarding = require('../../Database/Model/PortForwarding')
+const {getGatewayAddress} = require('../DHCP/getDHCPConfigs')
 
 async function ruleExists(internalIP, internalPort, externalPort) {
     return await PortForwarding.findOne({
@@ -42,7 +43,7 @@ async function forwardPort(internalPort, machineIP, externalPort, addEntry) {
             // Define the first iptables command
             let command1 = `sudo iptables -t nat -A PREROUTING -i eth0 -p tcp  --dport ${internalPort} -j DNAT --to-destination ${machineIP}:${externalPort}`;
             // Define the second iptables command
-            let command2 = `sudo iptables -t nat -A POSTROUTING -o wlan0 -p tcp --dport ${internalPort} -d ${machineIP} -j SNAT --to-source 192.168.4.1`;
+            let command2 = `sudo iptables -t nat -A POSTROUTING -o wlan0 -p tcp --dport ${internalPort} -d ${machineIP} -j SNAT --to-source ${getGatewayAddress}`;
 
 
 

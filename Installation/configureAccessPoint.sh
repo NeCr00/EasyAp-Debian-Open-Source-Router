@@ -139,7 +139,9 @@ dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h
 domain=wlan     # Local wireless DNS domain
 address=/gw.wlan/192.168.4.1
                 # Alias for this router
-dhcp-hostsfile=$DNSMASQ_STATIC_LEASES_FILE" | sudo tee $DNSMASQ_CONF_FILE
+server=127.0.0.1#53
+dhcp-hostsfile=$DNSMASQ_STATIC_LEASES_FILE
+" | sudo tee $DNSMASQ_CONF_FILE
 
 if [ $? -eq 0 ]; then
   echo "Dnsmasq configuration file added successfully."
@@ -213,11 +215,11 @@ sudo cp -f $HOSTAPD_CONF_FILE $HOSTAPD_CONF_FILE.default || { echo "Error: defau
 #------------------------------------------------------------------------------------------------
 #Enable Custom path for ipatables Logs
 
-RSYSLOG_IPTABLES_CONF_FILE=/etc/rsyslog.d/90-my_iptables.conf
+RSYSLOG_IPTABLES_CONF_FILE=/etc/rsyslog.d/00-my_iptables.conf
 EASYAP_IPTABLES_LOG_FILE=/var/log/easyap/iptables.log
 
 echo "Adding iptables logging rules"
-sudo iptables -A INPUT -j LOG  --log-level 7 --log-prefix='[netfilter] ' || { echo "Error: iptables rule addition failed"; exit 1; }
+sudo iptables -A FORWARD  -i $interface -j LOG  --log-level 1 --log-prefix='[netfilter] ' || { echo "Error: iptables rule addition failed"; exit 1; }
 echo "iptables rule added successfully"
 
 echo "Creating $RSYSLOG_IPTABLES_CONF_FILE file"
@@ -226,8 +228,50 @@ echo "File created successfully"
 
 echo "Adding contents to $RSYSLOG_IPTABLES_CONF_FILE file"
 sudo echo ":msg,contains,'[netfilter] ' -$EASYAP_IPTABLES_LOG_FILE" > $RSYSLOG_IPTABLES_CONF_FILE || { echo "Error: Failed to add contents to the file"; exit 1; }
-sudo echo  "& ~" >> $RSYSLOG_IPTABLES_CONF_FILE || { echo "Error: Failed to add contents to the file"; exit 1; }
+sudo echo  "& stop" >> $RSYSLOG_IPTABLES_CONF_FILE || { echo "Error: Failed to add contents to the file"; exit 1; }
 echo "Contents added successfully"
+
+#------------------------------------------------------------------------------------------------
+#Enable logrotate for EasyAP related logs
+EASYAP_OVPN_LOG_FILE=/var/log/easyap/openvpn.log
+EASYAP_LOGROTATE_CONF_FILE=/etc/logrotate.d/easyap
+
+touch $EASYAP_LOGROTATE_CONF_FILE
+sudo bash -c "cat > $EASYAP_LOGROTATE_CONF_FILE <<EOF
+$EASYAP_IPTABLES_LOG_FILE {
+  rotate 10
+  size 75M
+  copytruncate
+  compress
+  missingok
+}
+
+$EASYAP_OVPN_LOG_FILE {
+  rotate 5
+  size 5M
+  copytruncate
+  compress
+  missingok
+}
+
+EOF"
+
+#------------------------------------------------------------------------------------------------
+# Set up bind9 named.conf.options file to make it a DNS recursive resolver
+BIND9_NAMED_CONF_OPTIONS_FILE=/etc/bind/named.conf.options
+sudo bash -c "cat > $BIND9_NAMED_CONF_OPTIONS_FILE <<EOF
+options {
+        directory "/var/cache/bind";
+
+        recursion yes;
+        allow-recursion { any; };
+        dnssec-validation auto;
+        auth-nxdomain no;
+        listen-on-v6 { any; };
+        allow-query-cache { none; };
+        max-cache-size 0;
+};
+EOF"
 
 #------------------------------------------------------------------------------------------------
 #Create a blank configuration file for ddclient
@@ -278,6 +322,8 @@ if ! sudo systemctl start mongod && sudo systemctl enable mongod; then
   exit 1
 fi
 
+echo 'db.users.insert({ "username": "admin", "password": "admin" })' | mongo easyap
+
 echo "MongoDB installation complete."
 
 #------------------------------------------------------------------------------------------------
@@ -320,8 +366,6 @@ chmod 644 $EASYAP_SERVICE_FILE
 sudo systemctl daemon-reload
 sudo systemctl enable easyap
 sudo systemctl start easyap
-
-
 
 #------------------------------------------------------------------------------------------------
 #Restarting all the services to start the Access Point and apply all the changes to the services

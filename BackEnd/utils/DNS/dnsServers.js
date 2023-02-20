@@ -13,7 +13,7 @@ function extractDnsServers(serverConfigs) {
             let values = item.split("=")
             servers.push({
                 id: ++serverId,
-                ip: values[1]
+                ip: values[1].split("#")[0]
             })
         }  
     })

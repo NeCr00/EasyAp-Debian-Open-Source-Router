@@ -4,9 +4,7 @@
 echo "Updating package list and upgrading existing packages..."
 sudo apt update -y && sudo apt upgrade -y
 
-
-
-tools=(dnsmasq hostapd iptables openvpn fail2ban tcpdump net-tools)
+tools=(dnsmasq hostapd iptables openvpn fail2ban tcpdump net-tools bind9)
 
 echo "Installing tools..."
 

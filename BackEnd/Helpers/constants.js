@@ -10,7 +10,7 @@ const HOSTAPD_CONFIG_DEFAULT_FILE = '/etc/hostapd/hostapd.conf.default'
 const DDCLIENT_CONF_FILE = '/etc/ddclient.conf'
 const DDCLIENT_CONF_DEFAULT_FILE = '/etc/ddclient.conf.default'
 
-const IPTABLES_LOG_FILE = '/var/log/iptables.log'
+const IPTABLES_LOG_FILE = '/var/log/easyap/iptables.log'
 
 const OVPN_CLIENT_CONFIG_FILE = '/etc/openvpn/client.conf'
 const OVPN_CLIENT_AUTH_FILE   = '/etc/openvpn/client/auth'
