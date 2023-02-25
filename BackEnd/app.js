@@ -10,7 +10,7 @@ const {authorization} = require('./middlewares/authorization')
 //-----------------------------------------------------------------------------------------
 
 // Functions that should be executed to configure and  initialize some functionalities
-
+const {insertDefaultUser} = require('./Helpers/defaultUser')
 const {monitorNetworkConnections} = require('./utils/Dashboard/getServerIP')
 const {saveTrafficData} = require('./utils/Dashboard/networkTrafficMonitor')
 const {initializeTrafficMonitorData} = require('./utils/Dashboard/networkTrafficMonitor')
@@ -66,6 +66,7 @@ app.use(session({
 
 
 //Initialization Functions that needs to run at the beginning
+insertDefaultUser()
  initializeTrafficMonitorData()
  resetDataUsageDevicesStats()
 
