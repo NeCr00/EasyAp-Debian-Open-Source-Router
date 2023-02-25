@@ -19,7 +19,7 @@ sudo mkdir /etc/easyap.d/
 sudo touch $EASYAP_CONF_FILE
 
 sudo bash -c "cat > $EASYAP_CONF_FILE <<EOF
-interface=$interface
+interface=$interfac
 router_interface=$router_interface
 EOF"
 
@@ -307,29 +307,20 @@ sudo cp -f $DDCLIENT_CONF_FILE $DDCLIENT_CONF_FILE.default || { echo "Error: def
 #------------------------------------------------------------------------------------------------
 # Installing and Configuring the MongoDB
 echo "Adding MongoDB repository to sources list..."
-if ! sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install gnupg -y; then
-  echo "Error: Failed to install required packages."
-  exit 1
-fi
+sudo apt-get install gnupg -y;
 
-if ! wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -; then
-  echo "Error: Failed to add MongoDB key to apt."
-  exit 1
-fi
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
+sudo apt update
+
 echo "Installing MongoDB..."
-if ! sudo apt update && sudo apt install mongodb-org -y; then
-  echo "Error: Failed to install MongoDB."
-  exit 1
-fi
+sudo apt install mongodb-org -y
 
 echo "Starting MongoDB service..."
-if ! sudo systemctl start mongod && sudo systemctl enable mongod; then
-  echo "Error: Failed to start MongoDB service."
-  exit 1
-fi
+sudo systemctl enable mongod
+sudo systemctl start mongod
 
 echo 'db.users.insert({ "username": "admin", "password": "admin" })' | mongo easyap
 
