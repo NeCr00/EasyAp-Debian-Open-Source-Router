@@ -316,7 +316,7 @@ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb
 sudo apt update
 
 echo "Installing MongoDB..."
-sudo apt install mongodb-org -y
+sudo apt install mongodb-org=4.4.18 mongodb-org-tools=4.4.18 mongodb-org-database-tools-extra=4.4.18 mongodb-org-mongos=4.4.18 mongodb-org-server=4.4.18 mongodb-org-shell=4.4.18 -y
 
 echo "Starting MongoDB service..."
 sudo systemctl enable mongod
