@@ -6,7 +6,7 @@ const {log} = require("mercedlogger") // import merced logger
 const {DATABASE_URL} = process.env 
 
 // CONNECT TO MONGO
-mongoose.connect = mongoose.connect('mongodb://127.0.0.1:27017/easyap', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect = mongoose.connect('', {useNewUrlParser: true, useUnifiedTopology: true})
 // CONNECTION EVENTS
 mongoose.connection
 .on("open", () => log.green("DATABASE STATE", "Connection Open"))
