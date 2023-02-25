@@ -8,6 +8,7 @@ read router_interface
 
 echo "Configuring the Access Point using the $interface and $router_interface ..."
 # TODO: wpa_supplicant configuration
+# TODO: try strict bash instead of checks after each command (set -euo pipefail)
 
 #------------------------------------------------------------------------------------------------
 #Setting up EasyAP config file based on user input
@@ -235,6 +236,7 @@ echo "Contents added successfully"
 #Enable logrotate for EasyAP related logs
 EASYAP_OVPN_LOG_FILE=/var/log/easyap/openvpn.log
 EASYAP_LOGROTATE_CONF_FILE=/etc/logrotate.d/easyap
+EASYAP_CRON_CONF=/etc/cron.d/easyap
 
 touch $EASYAP_LOGROTATE_CONF_FILE
 sudo bash -c "cat > $EASYAP_LOGROTATE_CONF_FILE <<EOF
@@ -253,23 +255,30 @@ $EASYAP_OVPN_LOG_FILE {
   compress
   missingok
 }
-
 EOF"
+
+#Configure logrotate to check log file sizes every 10 minutes 
+touch $EASYAP_CRON_CONF
+sudo bash -c "cat > $EASYAP_CRON_CONF <<EOF
+*/10 * * * * root /usr/sbin/logrotate /etc/logrotate.d/easyap
+EOF
+"
+
+#------------------------------------------------------------------------------------------------
+# Set bind9 service to start after dnsmasq to prevent conflicts
+
+sudo sed -i '/\[Unit\]/a After=dnsmasq.service' "/etc/systemd/system/bind9.service"
+sudo systemctl daemon-reload
 
 #------------------------------------------------------------------------------------------------
 # Set up bind9 named.conf.options file to make it a DNS recursive resolver
 BIND9_NAMED_CONF_OPTIONS_FILE=/etc/bind/named.conf.options
 sudo bash -c "cat > $BIND9_NAMED_CONF_OPTIONS_FILE <<EOF
 options {
-        directory "/var/cache/bind";
+        directory '/var/cache/bind';
 
         recursion yes;
         allow-recursion { any; };
-        dnssec-validation auto;
-        auth-nxdomain no;
-        listen-on-v6 { any; };
-        allow-query-cache { none; };
-        max-cache-size 0;
 };
 EOF"
 

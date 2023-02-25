@@ -70,13 +70,13 @@ app.use(session({
  resetDataUsageDevicesStats()
 
 //This section contains functions that must run periodically
-// setInterval(enableDataUsageForIP,4000)
-// setInterval(collectTrafficDataIPs, 7000);
+ setInterval(enableDataUsageForIP,4000)
+ setInterval(collectTrafficDataIPs, 7000);
 
 // // enables the network monitor for the dashboard
   
-// setInterval(saveTrafficData,10000)
-// setInterval(monitorNetworkConnections,5000)
+ setInterval(saveTrafficData,10000)
+ setInterval(monitorNetworkConnections,5000)
 
 //enableFirwallLogs()
 
