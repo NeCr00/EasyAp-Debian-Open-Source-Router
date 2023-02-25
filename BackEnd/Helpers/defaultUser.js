@@ -4,8 +4,10 @@ async function insertDefaultUser(){
 
     let users = await User.find({})
 
-    if(users){
+
+    if(users.length > 0){
         console.log('Cannot insert default user. User already exists')
+        console.log(users)
         return;
     }
     else{
