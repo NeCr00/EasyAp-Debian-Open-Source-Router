@@ -338,6 +338,7 @@ sudo apt install build-essential
 
 cd ../BackEnd/
 npm install
+mkdir GeolocationData
 cd ../Installation/
 
 #------------------------------------------------------------------------------------------------

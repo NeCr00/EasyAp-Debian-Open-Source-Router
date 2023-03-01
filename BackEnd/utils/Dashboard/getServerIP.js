@@ -102,7 +102,7 @@ function FilterIP(data) {
 
 function getNetworkMonitorResults() {
 	//read the results for network monitoring from Log File to extract the ips
-	fs.readFile(__dirname + '/../../Logs/somefile.txt', 'utf8', (err, data) => {
+	fs.readFile(__dirname + '/../../GeolocationData/geolocationData.txt', 'utf8', (err, data) => {
 		if (err) {
 			console.error(err);
 			return;
@@ -134,7 +134,7 @@ var childPid;
 
 async function monitorNetworkConnections() {
 
-	let child = spawn('sh', ["-c", "sudo tcpdump -i wlan0 -nn -q ip --direction=in | tee " + __dirname + "/../../Logs/somefile.txt"]);
+	let child = spawn('sh', ["-c", "sudo tcpdump -i wlan0 -nn -q ip --direction=in | tee " + __dirname + "/../../GeolocationData/geolocationData.txt"]);
 	// Set a timeout to kill the child process after 5 seconds
 	setTimeout(async function () {
 		child.kill();
