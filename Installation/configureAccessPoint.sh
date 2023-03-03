@@ -6,8 +6,12 @@ read interface
 echo "Enter the interface which the Access Point will use to connect to the router: "
 read router_interface
 
-export EASYAP_INTERFACE=$interface
-export EASYAP_ROUTER_INTERFACE=$router_interface
+echo "export EASYAP_INTERFACE=$interface" >> ~/.bashrc
+echo "export EASYAP_ROUTER_INTERFACE=$router_interface" >> ~/.bashrc
+
+# Source the updated .bashrc file to apply the changes
+source ~/.bashrc
+
 
 echo "Your interface is set to $MY_INTERFACE and your router interface is set to $MY_ROUTER_INTERFACE"
 # TODO: wpa_supplicant configuration
