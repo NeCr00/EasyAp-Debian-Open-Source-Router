@@ -36,6 +36,9 @@ OVPN_CLIENT_AUTH_FILE=/etc/openvpn/client/auth
 
 sudo touch $OVPN_CLIENT_AUTH_FILE
 
+#Disable openvpn@client service to prevent it from starting on system boot-up
+sudo systemctl disable openvpn@client 
+
 #------------------------------------------------------------------------------------------------
 # Unmask hostapd
 echo "Unmasking hostapd..."
@@ -290,7 +293,7 @@ options {
 EOF"
 
 #------------------------------------------------------------------------------------------------
-#Create a blank configuration file for ddclient
+# Create a blank configuration file for ddclient
 DDCLIENT_CONF_FILE=/etc/ddclient.conf
 sudo bash -c "cat > $DDCLIENT_CONF_FILE <<EOF
 #ddns_enabled=false
@@ -308,8 +311,10 @@ else
   echo "Error: failed to add the configuration."
   exit 1
 fi
-
 sudo cp -f $DDCLIENT_CONF_FILE $DDCLIENT_CONF_FILE.default || { echo "Error: default ddclient file creation failed"; exit 1; }
+
+# Disable ddclient.service in order to prevent it from starting on system boot-up
+sudo systemctl disable ddclient
 
 #------------------------------------------------------------------------------------------------
 # Installing and Configuring the MongoDB

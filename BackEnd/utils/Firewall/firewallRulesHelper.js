@@ -301,7 +301,7 @@ async function getFirewallRules() {
 
 async function getFirewallLogs() {
 
-    let output = await executeCommand(`sudo tail -n 1000 ${IPTABLES_LOG_FILE}`)
+    let output = await executeCommand(`sudo tail -n 1000 ${IPTABLES_LOG_FILE} | tac`)
     return output.stdout
 }
 

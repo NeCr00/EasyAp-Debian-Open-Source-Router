@@ -148,7 +148,7 @@ async function editDnsmasqStaticIPs(requestAction, requestData) {
     }
 
     // Restart dnsmasq service
-    await executeCommand(restartDnsmasqCommand)
+    return await executeCommand(restartDnsmasqCommand)
 }
   
 
