@@ -1,6 +1,7 @@
+const {extractInterface,extractRouterInterface} = require('./exportConfig')
 
-const INTERFACE = process.env.EASYAP_INTERFACE
-const ROUTER_INTERFACE = process.env.EASYAP_ROUTER_INTERFACE
+const INTERFACE = extractInterface()
+const ROUTER_INTERFACE = extractRouterInterface()
 
 const EASYAP_CONF_FILE = '/etc/easyap.d/easyap.conf'
 

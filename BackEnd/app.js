@@ -66,7 +66,7 @@ app.use(session({
 
 
 //Initialization Functions that needs to run at the beginning
-insertDefaultUser()
+ insertDefaultUser()
  initializeTrafficMonitorData()
  resetDataUsageDevicesStats()
 
@@ -79,7 +79,7 @@ insertDefaultUser()
  setInterval(saveTrafficData,10000)
  setInterval(monitorNetworkConnections,5000)
 
-//enableFirwallLogs()
+
 
 // Unprotected Routes
 app.use('/',index) // if is authenticated redirects user to dashboard,otherwise redirect to login
