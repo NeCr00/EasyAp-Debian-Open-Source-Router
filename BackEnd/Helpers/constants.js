@@ -1,3 +1,7 @@
+
+const INTERFACE = process.env.EASYAP_INTERFACE
+const ROUTER_INTERFACE = process.env.EASYAP_ROUTER_INTERFACE
+
 const EASYAP_CONF_FILE = '/etc/easyap.d/easyap.conf'
 
 const HOSTS_FILE = '/etc/hosts'
@@ -44,4 +48,7 @@ module.exports = {
     DNSMASQ_CONF_DEFAULT_FILE,
     DNSMASQ_LEASES_FILE,
     DNSMASQ_STATIC_LEASES_FILE,
+
+    INTERFACE,
+    ROUTER_INTERFACE
 }

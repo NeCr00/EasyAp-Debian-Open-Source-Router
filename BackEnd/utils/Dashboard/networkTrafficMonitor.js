@@ -1,6 +1,8 @@
 const util = require('util');
 const dataUsage = require('../../Database/Model/DataUsage');
 const exec = util.promisify(require('child_process').exec)
+const { INTERFACE} = require('../../Helpers/constants')
+
 
 async function getTrafficStats() {
     const trafficStats = await dataUsage.find({})
@@ -24,7 +26,7 @@ async function getTrafficStats() {
 
 async function getCurrentTrafficData() {
     let network_stats = []
-    command = " ifconfig wlan0 | grep -E 'RX packets|TX packets'"
+    command = ` ifconfig ${INTERFACE} | grep -E 'RX packets|TX packets'`
     // run the `ls` command using exec
     const { stdout, stderr } = await exec(command);
 

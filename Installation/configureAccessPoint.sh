@@ -6,7 +6,10 @@ read interface
 echo "Enter the interface which the Access Point will use to connect to the router: "
 read router_interface
 
-echo "Configuring the Access Point using the $interface and $router_interface ..."
+export EASYAP_INTERFACE=$interface
+export EASYAP_ROUTER_INTERFACE=$router_interface
+
+echo "Your interface is set to $MY_INTERFACE and your router interface is set to $MY_ROUTER_INTERFACE"
 # TODO: wpa_supplicant configuration
 # TODO: try strict bash instead of checks after each command (set -euo pipefail)
 
@@ -19,7 +22,7 @@ sudo mkdir /etc/easyap.d/
 sudo touch $EASYAP_CONF_FILE
 
 sudo bash -c "cat > $EASYAP_CONF_FILE <<EOF
-interface=$interfac
+interface=$interface
 router_interface=$router_interface
 EOF"
 
@@ -334,12 +337,13 @@ sudo apt install nodejs
 sudo apt install build-essential
 
 #------------------------------------------------------------------------------------------------
-#Installing npm packages
+#Installing npm packages and create the folder for Geolocation data
 
 cd ../BackEnd/
 npm install
 mkdir GeolocationData
 cd ../Installation/
+
 
 #------------------------------------------------------------------------------------------------
 #Setup web server as system service

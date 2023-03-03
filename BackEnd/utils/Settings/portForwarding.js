@@ -2,6 +2,7 @@
 const { exec } = require('child_process');
 const PortForwarding = require('../../Database/Model/PortForwarding')
 const {getGatewayAddress} = require('../DHCP/getDHCPConfigs')
+const { INTERFACE, ROUTER_INTERFACE} = require('../../Helpers/constants')
 
 async function ruleExists(internalIP, internalPort, externalPort) {
     return await PortForwarding.findOne({
@@ -41,9 +42,9 @@ async function forwardPort(internalPort, machineIP, externalPort, addEntry) {
             }
 
             // Define the first iptables command
-            let command1 = `sudo iptables -t nat -A PREROUTING -i eth0 -p tcp  --dport ${internalPort} -j DNAT --to-destination ${machineIP}:${externalPort}`;
+            let command1 = `sudo iptables -t nat -A PREROUTING -i ${ROUTER_INTERFACE} -p tcp  --dport ${internalPort} -j DNAT --to-destination ${machineIP}:${externalPort}`;
             // Define the second iptables command
-            let command2 = `sudo iptables -t nat -A POSTROUTING -o wlan0 -p tcp --dport ${internalPort} -d ${machineIP} -j SNAT --to-source ${getGatewayAddress}`;
+            let command2 = `sudo iptables -t nat -A POSTROUTING -o ${INTERFACE} -p tcp --dport ${internalPort} -d ${machineIP} -j SNAT --to-source ${getGatewayAddress}`;
 
 
 
@@ -113,14 +114,14 @@ async function removeForwardPort(internalPort, machineIP, externalPort, removeEn
                 resolve({ error: true });
             }
 
-            let command1 = `sudo iptables -t nat -D PREROUTING -i eth0 -p tcp  --dport ${internalPort} -j DNAT --to-destination ${machineIP}:${externalPort}`;
+            let command1 = `sudo iptables -t nat -D PREROUTING -i ${ROUTER_INTERFACE} -p tcp  --dport ${internalPort} -j DNAT --to-destination ${machineIP}:${externalPort}`;
             exec(command1, (error, stdout, stderr) => {
                 if (error) {
                     console.error(`Error: ${error}`);
                     resolve({ error: true });
                 }
 
-                let command2 = `sudo iptables -t nat -D POSTROUTING -o wlan0 -p tcp --dport ${internalPort} -d ${machineIP} -j SNAT --to-source 192.168.4.1`;
+                let command2 = `sudo iptables -t nat -D POSTROUTING -o ${INTERFACE} -p tcp --dport ${internalPort} -d ${machineIP} -j SNAT --to-source 192.168.4.1`;
                 exec(command2, (error, stdout, stderr) => {
                     if (error) {
                         console.error(`Error: ${error}`);

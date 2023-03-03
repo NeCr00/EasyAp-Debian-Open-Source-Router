@@ -2,6 +2,7 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec)
 const { DNSMASQ_LEASES_FILE } = require('../../Helpers/constants')
 const { readFileSync } = require('fs');
+const { INTERFACE} = require('../../Helpers/constants')
 
 function extractDeviceInfo(string_devices) {
     let currentTimeSeconds = new Date() / 1000;
@@ -46,7 +47,7 @@ async function isHostUp(ipAddress, mac) {
     return new Promise((resolve, reject) => {
 
         // Execute the command to get connected devices
-        exec("sudo hostapd_cli -i wlan0 all_sta | grep -oE '([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}' | sort -u", async (error, stdout) => {
+        exec(`sudo hostapd_cli -i ${INTERFACE} all_sta | grep -oE '([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}' | sort -u`, async (error, stdout) => {
 
             try {
                 // Split the output by line
@@ -85,14 +86,14 @@ async function getStaticDevices(activeDevices) {
 
         // Get a list of MAC addresses from hostapd_cli
         try {
-            exec("sudo hostapd_cli -i wlan0 all_sta | grep -oE '([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}' | sort -u", (error, stdout) => {
+            exec(`sudo hostapd_cli -i ${INTERFACE} all_sta | grep -oE '([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}' | sort -u`, (error, stdout) => {
                 try {
                     let macList = stdout.trim().split('\n');
                     let devices = [];
                     console.log('mac list: ' + macList)
                     if (macList.length > 0) {
-                        // Get the ARP table for the wlan0 interface
-                        exec("sudo arp -a -i wlan0", (error, stdout) => {
+                        // Get the ARP table for the  interface
+                        exec(`sudo arp -a -i ${INTERFACE}`, (error, stdout) => {
                             try {
                                 const arpTable = stdout.trim().split('\n');
                                 for (let arpEntry of arpTable) {

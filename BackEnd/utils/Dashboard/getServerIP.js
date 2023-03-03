@@ -4,7 +4,7 @@ var geoip = require('geoip-lite');
 const fs = require('fs');
 const Geolocation = require('../../Database/Model/Geolocation');
 var kill = require('tree-kill');
-
+const { INTERFACE} = require('../../Helpers/constants')
 
 function insertServerData(item) {
 
@@ -134,7 +134,7 @@ var childPid;
 
 async function monitorNetworkConnections() {
 
-	let child = spawn('sh', ["-c", "sudo tcpdump -i wlan0 -nn -q ip --direction=in | tee " + __dirname + "/../../GeolocationData/geolocationData.txt"]);
+	let child = spawn('sh', ["-c", `sudo tcpdump -i ${INTERFACE} -nn -q ip --direction=in | tee ` + __dirname + `/../../GeolocationData/geolocationData.txt`]);
 	// Set a timeout to kill the child process after 5 seconds
 	setTimeout(async function () {
 		child.kill();
