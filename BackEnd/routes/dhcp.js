@@ -73,7 +73,7 @@ router.post('/submit', validateSettingsData, async function (req, res) {
   let status_dhcp = await editDnsmasqDHCPRange(req.body)
   // Restart the necessary services.
   // Restart dhcpcd, dnsmasq and hostapd twice to ensure that the changes are applied.
-  let status = await executeCommand('sudo systemctl restart NetworkManager && sudo systemctl dhcpcd dnsmasq hostapd && sudo systemctl dhcpcd dnsmasq hostapd')
+  let status = await executeCommand('sudo systemctl restart NetworkManager && sudo systemctl restart dhcpcd dnsmasq hostapd && sudo systemctl restart dhcpcd dnsmasq hostapd')
 
   if (status.error) {
     res.json({ "error": true, "message": 'Something happen, try again !' })
