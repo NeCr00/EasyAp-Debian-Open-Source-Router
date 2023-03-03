@@ -25,7 +25,6 @@ function validateSettingsData(req, res, next) {
   else
     next()
 
-
 }
 
 function validateStaticIP(req, res, next) {
