@@ -106,7 +106,7 @@ async function editDnsmasqDHCPRange(requestData) {
         writeFileSync(filePath, newFileContent, 'utf-8')
 
         // Restart dnsmasq service
-        command = `sudo systemctl restart dnsmasq`
+        command = `sudo systemctl restart dnsmasq hostapd`
         await executeCommand(command)
     }
 
@@ -116,7 +116,7 @@ async function editDnsmasqStaticIPs(requestAction, requestData) {
 
     let filePath = DNSMASQ_STATIC_LEASES_FILE
     let fileContent = readFileSync(filePath, 'utf-8')
-    let restartDnsmasqCommand = 'sudo systemctl restart dnsmasq'
+    let restartDnsmasqCommand = 'sudo systemctl restart dnsmasq hostapd'
 
     switch (requestAction) {
         case "POST":
@@ -174,7 +174,7 @@ async function setDhcpcdGatewayAddress(newIpAddress, newSubnetMask)  {
 
     // Write the updated contents back to the file
     writeFileSync(filePath, updatedFileContents, 'utf8');
-    let command = `sudo systemctl restart dhcpcd`
+    let command = `sudo systemctl restart dhcpcd hostapd`
     await executeCommand(command)
 }
 
