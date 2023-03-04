@@ -1,4 +1,8 @@
-# This repository contains the code for a project that aims to provide users with a customizable and secure access point solution based on the Debian operating system for single board computers.
+
+#EasyAp-Debian-Open-Source-Router 
+
+### This repository contains the code for a project that aims to provide users with a customizable and secure access point solution based on the Debian operating system for single board computers.
+---
 
 ## Prerequisites
 Before starting, you will need the following:
