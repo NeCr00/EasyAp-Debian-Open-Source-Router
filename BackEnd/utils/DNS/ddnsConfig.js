@@ -165,7 +165,7 @@ async function editDDnsConfigs(requestData){
 
     writeFileSync(filePath, newFileContent, 'utf-8')
     
-    await handleDdnsService(requestData)
+    return await handleDdnsService(requestData)
 }
 
 module.exports = {

@@ -76,7 +76,7 @@ async function editDnsServers(requestMethod, requestData){
         
         // Restart dnsmasq service
         command = `sudo systemctl restart dnsmasq`
-        await executeCommand(command)
+        return await executeCommand(command)
     }
 
 }

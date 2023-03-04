@@ -23,9 +23,13 @@ router.get("/ddns", (req, res) => {
 router.post("/ddns", async (req, res) => {
   console.log('posted ddns data:')
   console.log(req.body)
-  await editDDnsConfigs(req.body)
+  let status = await editDDnsConfigs(req.body)
 
-  if (0) {
+  if (!status.error) {
+    res.json({
+      error: false,
+      message: "Changes applied successfully",
+    });
   } else {
     res.json({
       error: true,
@@ -42,11 +46,10 @@ router.get("/dns", (req, res) => {
 });
 
 router.post("/dns", async (req, res) => {
-  //Add new dns entries
-  data = req.body;
-  await editDnsServers('POST', req.body)
 
-  if (1) {
+  let status = await editDnsServers('POST', req.body)
+
+  if (!status.error) {
     res.json({
       error: false,
       message: "Changes applied successfully",
@@ -61,9 +64,9 @@ router.post("/dns", async (req, res) => {
 
 router.delete("/dns", async (req, res) => {
 
-  await editDnsServers('DELETE', req.body)
+  let status = await editDnsServers('DELETE', req.body)
 
-  if (1) {
+  if (!status.error) {
     res.json({
       error: false,
       message: "Changes applied successfully",
