@@ -135,15 +135,13 @@ async function handleDdnsService(requestData){
     let currentDdnsConfigs = getDDnsConfigs()
 
     if (requestData['ddns_enabled'] === 'true' &&  currentDdnsConfigs['ddns_enabled'] === '1'){
-        await executeCommand('sudo systemctl restart ddclient')
+        return await executeCommand('sudo systemctl restart ddclient')
     } else if (requestData['ddns_enabled'] === 'true' &&  currentDdnsConfigs['ddns_enabled'] === '0') {
-        await executeCommand('sudo systemctl enable ddclinet')
-        await executeCommand('sudo systemctl start ddclient')
+        return await executeCommand('sudo systemctl enable ddclinet && sudo systemctl start ddclient')
     } else if (requestData['ddns_enabled'] === 'false' &&  currentDdnsConfigs['ddns_enabled'] === '1') {
-        await executeCommand('sudo systemctl disable ddclinet')
-        await executeCommand('sudo systemctl stop ddclient')
+        return await executeCommand('sudo systemctl disable ddclinet && sudo systemctl stop ddclient')
     } else if (requestData['ddns_enabled'] === 'false' &&  currentDdnsConfigs['ddns_enabled'] === '0'){
-        await executeCommand('sudo systemctl stop ddclient')
+        return await executeCommand('sudo systemctl stop ddclient')
     }
 }
 
