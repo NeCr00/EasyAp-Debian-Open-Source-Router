@@ -38,7 +38,7 @@ async function applyFirewallRule(options) {
             ipRange = options.ip_source.split("-");
             ipRange[0] = ipRange[0].replace(/\s+/g, ''); //remove spaces
             ipRange[1] = ipRange[1].replace(/\s+/g, '');
-            command += ` -s ${ipRange[0]}-${ipRange[1]}`;
+            command += ` -m iprange --src-range ${ipRange[0]}-${ipRange[1]}`;
         } else {
             options.ip_source = options.ip_source.replace(/\s+/g, '');
             command += ` -s ${options.ip_source}`;
@@ -51,7 +51,7 @@ async function applyFirewallRule(options) {
             ipRange = options.ip_dest.split("-");
             ipRange[0] = ipRange[0].replace(/\s+/g, ''); //remove spaces
             ipRange[1] = ipRange[1].replace(/\s+/g, '');
-            command += ` -d ${ipRange[0]}-${ipRange[1]}`;
+            command += ` -m iprange --dst-range ${ipRange[0]}-${ipRange[1]}`;
         } else {
             options.ip_dest = options.ip_dest.replace(/\s+/g, '');
             command += ` -d ${options.ip_dest}`;
@@ -122,7 +122,7 @@ async function applyFirewallRule(options) {
         }
         else {
             console.log("Rule or Name already exists")
-            resolve({ error: true, message: 'Rule Name Already Exists !' })
+            resolve({ error: true, message: 'Rule or Name Already Exists !' })
             return true
         }
     })

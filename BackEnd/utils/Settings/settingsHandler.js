@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { DNSMASQ_CONF_FILE, HOSTAPD_CONFIG_FILE } = require('../../Helpers/constants');
 const { executeCommand } = require('../../Helpers/executeCommand')
-
+const {disconnectAllDevices} = require('../../Helpers/disconnectDevices')
 
 // TODO: At change should restart service and return status 
 
@@ -72,6 +72,7 @@ async function addMACAddress(mac_add) {
 
     command = `sudo systemctl restart dnsmasq hostapd `
     output = await executeCommand(command)
+    disconnectAllDevices()
     if (output.error) {
 
         return { error: true, message: "Error Occureed" }
@@ -94,6 +95,7 @@ async function removeMACAddress(mac) {
     // Restart dnsmasq service
     command = `sudo systemctl restart dnsmasq hostapd`
     output = await executeCommand(command)
+    disconnectAllDevices()
     if (output.error) {
 
         return { error: true, message: "Error Occureed" }

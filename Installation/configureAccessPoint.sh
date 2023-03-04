@@ -79,13 +79,17 @@ echo "Script execution complete."
 #------------------------------------------------------------------------------------------------
 # Add the static IP address configuration
 echo "Adding the static IP address configuration..."
-if echo -e "interface $interface\n    static ip_address=192.168.4.1/24\n    nohook wpa_supplicant" | sudo tee -a /etc/dhcpcd.conf > /dev/null; then
+
+DHCPCD_CONF_FILE =/etc/dhcpcd.conf
+
+if echo -e "interface $interface\n    static ip_address=192.168.4.1/24\n    nohook wpa_supplicant" | sudo tee -a $DHCPCD_CONF_FILE > /dev/null; then
   echo "Static IP address configuration added successfully."
 else
   echo "Error: Static IP address configuration addition failed."
   exit 1
 fi
 
+sudo cp -f $DHCPCD_CONF_FILE $DNSMASQ_CONF_FILE.default || { echo "Error: default dnsmasq file creation failed"; exit 1; }
 #------------------------------------------------------------------------------------------------
 #Configuring ip forwarding for the access point
 
@@ -206,6 +210,9 @@ wpa_passphrase=$wpa_passphrase
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
+
+ieee80211n=1
+ieee80211ac=1
 
 #enabling hostapd client:
 

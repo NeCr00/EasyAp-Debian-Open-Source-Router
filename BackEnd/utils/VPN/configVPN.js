@@ -104,9 +104,10 @@ function readVPNConfig() {
 async function startVPN() {
     try {
         // Start the OpenVPN client
+        let status = await configureVpnRule()
         await exec('sudo systemctl restart openvpn@client');
         // adds the iptable rule to enable vpn tunneling
-        let status = await configureVpnRule()
+        
         return status
 
     } catch (error) {

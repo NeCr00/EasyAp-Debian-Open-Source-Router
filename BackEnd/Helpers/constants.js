@@ -8,6 +8,7 @@ const EASYAP_CONF_FILE = '/etc/easyap.d/easyap.conf'
 const HOSTS_FILE = '/etc/hosts'
 
 const DHCPCD_CONF_FILE = '/etc/dhcpcd.conf'
+const DHCPCD_CONF_DEFAULT_FILE = '/etc/dhcpcd.conf.default'
 
 const HOSTAPD_CONFIG_FILE = '/etc/hostapd/hostapd.conf'
 const HOSTAPD_CONFIG_DEFAULT_FILE = '/etc/hostapd/hostapd.conf.default'
@@ -26,12 +27,15 @@ const DNSMASQ_CONF_DEFAULT_FILE = '/etc/dnsmasq.conf.default'
 const DNSMASQ_LEASES_FILE = '/var/lib/misc/dnsmasq.leases'
 const DNSMASQ_STATIC_LEASES_FILE = '/etc/dnsmasq.d/static_leases'
 
+
+
 module.exports = {
     EASYAP_CONF_FILE,
 
     HOSTS_FILE,
 
     DHCPCD_CONF_FILE,
+    DHCPCD_CONF_DEFAULT_FILE,
 
     HOSTAPD_CONFIG_FILE,
     HOSTAPD_CONFIG_DEFAULT_FILE,

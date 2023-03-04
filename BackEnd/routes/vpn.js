@@ -22,7 +22,7 @@ router.get('/status', async (req, res) => {
 router.post('/connect', async (req, res) => {
   
   let connected = await startVPN()
-  console.log(connected)
+  
   if(connected.error){
     res.json({error:true, message:'Cannot connect to VPN'})
   }

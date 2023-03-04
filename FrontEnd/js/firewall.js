@@ -267,7 +267,10 @@ $(document).ready(function () {
       $("#firewall-logs").val("No Logs to Preview");
     }
   }
-
   getFirewallLogs()
+
+  $("#refresh-firewall-logs").click(function () {
+    getFirewallLogs()
+  });
   //-----------------------------------------------------------
 });

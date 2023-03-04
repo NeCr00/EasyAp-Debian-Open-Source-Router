@@ -9,6 +9,7 @@ const { getDHCPRangeInfo, getStaticIPs } = require('../utils/DHCP/getDHCPConfigs
 const { editDnsmasqDHCPRange, editDnsmasqStaticIPs, setDhcpcdGatewayAddress } = require('../utils/DHCP/setDHCPConfigs')
 const { executeCommand } = require('../Helpers/executeCommand');
 const { statSync } = require('fs');
+const {disconnectAllDevices} = require('../Helpers/disconnectDevices')
 
 function validateSettingsData(req, res, next) {
   let data = req.body
@@ -72,14 +73,37 @@ router.post('/submit', validateSettingsData, async function (req, res) {
   let status_dhcp = await editDnsmasqDHCPRange(req.body)
   // Restart the necessary services.
   // Restart dhcpcd, dnsmasq and hostapd twice to ensure that the changes are applied.
-  let status = await executeCommand('sudo systemctl restart NetworkManager && sudo systemctl restart dhcpcd dnsmasq hostapd && sudo systemctl restart dhcpcd dnsmasq hostapd')
 
-  if (status.error) {
-    res.json({ "error": true, "message": 'Something happen, try again !' })
+  currentStatus = await getDHCPRangeInfo().dhcp_enabled
+
+  if (req.body.dhcp_enabled === currentStatus) {
+    try {
+      await executeCommand('sudo systemctl restart NetworkManager')
+      await executeCommand('sudo systemctl restart dhcpcd')
+      await executeCommand('sudo systemctl restart dnsmasq')
+      await executeCommand('sudo systemctl restart hostapd')
+      await executeCommand('sudo systemctl restart dhcpcd')
+      await executeCommand('sudo systemctl restart dnsmasq')
+      await executeCommand('sudo systemctl restart hostapd')
+      
+    } catch (err) {
+      console.log(err)
+      res.json({ "error": true, "message": 'Something went wrong' })
+      return
+    }
+
   }
-  else {
+
+  try{
+
+    disconnectAllDevices()
     res.json({ "error": false, "message": 'Changes were applied successfully' })
+
+  } catch{
+    console.log("Error: Cannot change dhcp configuration")
+    res.json({ "error": true, "message":'Something went wrong' })
   }
+
 })
 
 
@@ -93,7 +117,8 @@ router.get('/static-ips', function (req, res) {
 
 router.post('/static-ips', validateStaticIP, async function (req, res) {
 
-  let status  = await editDnsmasqStaticIPs('POST', req.body)
+  let status = await editDnsmasqStaticIPs('POST', req.body)
+  disconnectAllDevices()
 
   if (!status.error) {
     res.json({ "message": "Changes Applied" })
@@ -107,7 +132,7 @@ router.post('/static-ips', validateStaticIP, async function (req, res) {
 router.delete('/static-ips', async function (req, res) {
 
   let status = await editDnsmasqStaticIPs('DELETE', req.body)
-
+  disconnectAllDevices()
   if (!status.error) {
     res.json({ "message": "Changes Applied" })
   }

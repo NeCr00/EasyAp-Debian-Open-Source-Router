@@ -85,9 +85,9 @@ $(document).ready(function () {
   });
 
   //  Modal Window
-  $("#submit-dhcp").on("click", function () {
-    $("#modal").modal("show");
-  });
+  // $("#submit-dhcp").on("click", function () {
+  //   $("#modal").modal("show");
+  // });
 
   $("#close_modal_header").on("click", function () {
     $("#modal").modal("hide");
@@ -179,8 +179,8 @@ $(document).ready(function () {
     //post data to server
     let res_status = await postData("dhcp/submit", data);
     let res_data = await res_status.json();
-    console.log(res_status);
-    console.log(res_data);
+
+
     if (res_data.error) {
       errorModal(res_data.message);
     } else {

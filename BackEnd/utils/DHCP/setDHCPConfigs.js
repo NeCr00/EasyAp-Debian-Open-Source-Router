@@ -107,7 +107,7 @@ async function editDnsmasqDHCPRange(requestData) {
 
         // Restart dnsmasq service
         command = `sudo systemctl restart dnsmasq hostapd`
-        await executeCommand(command)
+        return await executeCommand(command)
     }
 
 }

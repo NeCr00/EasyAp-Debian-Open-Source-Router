@@ -153,6 +153,10 @@ $(document).ready(function () {
   $("#submit-ddns").click(function () {
     SubmitDDns();
   });
+
+  $("#reset-ddns").click(function () {
+    $("input").val("");
+  });
   //------------------------------------------------------------------------------------------
 
   // Create Active IP Addresses

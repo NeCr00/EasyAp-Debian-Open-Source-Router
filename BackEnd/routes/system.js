@@ -60,7 +60,7 @@ router.post('/restart-services', async (req, res) => {
   } else {
     res.json({
       error: false,
-      message: "Configuration has been reset",
+      message: error.message,
     });
   }
 })

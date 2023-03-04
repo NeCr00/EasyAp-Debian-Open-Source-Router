@@ -62,18 +62,18 @@ $(document).ready(function () {
   //Error Modal
   function errorModal(msg) {
     $("#modal").modal("show");
-    $("#modal-title").html('<p style="color:red; font-weight:bold;">Error</p>');
-    $(".modal-body").html(
+    $("#modal-title-mess").html('<p style="color:red; font-weight:bold;">Error</p>');
+    $(".modal-body-mess").html(
       '<p style="color:red; font-weight:bold;">' + msg + "</p>"
     );
   }
 
   function successModal(msg) {
     $("#modal").modal("show");
-    $("#modal-title").html(
+    $("#modal-title-mess").html(
       '<p style="color:green; font-weight:bold;">Success</p>'
     );
-    $(".modal-body").html(
+    $(".modal-body-mess").html(
       '<p style="color:green; font-weight:bold;">' + msg + "</p>"
     );
   }

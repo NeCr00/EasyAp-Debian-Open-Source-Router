@@ -108,39 +108,41 @@ $(document).ready(function () {
   // Get VPN configuration-----------------------------------------
 
   async function SubmitVpnConf() {
-
     var username = $("#username").val();
     var password = $("#password").val();
     var file = $('#openVPNFileInput').prop('files')[0];
-
+  
     let data = {
       "file": '',
       "username": username,
       "password": password
-    }
-
-    var reader = new FileReader();
-    reader.onload = async function(e) {
-      var contents = e.target.result;
-      data['file'] = contents
-      response = await postData('vpn/config_file/upload', data);
-      response_data = await response.json();
     };
-
-    if (file) {
+  
+    // Create a new Promise object to wait for the file to load
+    const fileLoaded = new Promise(resolve => {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var contents = e.target.result;
+        data['file'] = contents;
+        resolve(); // Resolve the Promise once the file is loaded
+      };
       reader.readAsText(file);
-    } else {
-      response = await postData('vpn/config_file/upload', data);
-      response_data = await response.json();
-    }
-
+    });
+  
+    // Wait for the file to load before making the API call
+    await fileLoaded;
+  
+    response = await postData('vpn/config_file/upload', data);
+    response_data = await response.json();
+  
+    console.log(response_data);
     if (response_data.error) {
       errorModal(response_data.message);
     } else {
       successModal(response_data.message);
     }
-
   }
+  
 
   $("#apply-vpn-form").click(function () {
     SubmitVpnConf();
@@ -182,6 +184,10 @@ $(document).ready(function () {
     $("#vpn-logs").val(data.file);
   }
   getLogs()
+
+  $("#refresh-vpn-logs").click(function () {
+    getLogs()
+  });
 
   async function PostConfigFile() {
     let data = $("#vpn-config").val();
