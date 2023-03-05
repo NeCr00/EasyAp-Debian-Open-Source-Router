@@ -80,7 +80,7 @@ echo "Script execution complete."
 # Add the static IP address configuration
 echo "Adding the static IP address configuration..."
 
-DHCPCD_CONF_FILE =/etc/dhcpcd.conf
+DHCPCD_CONF_FILE=/etc/dhcpcd.conf
 
 if echo -e "interface $interface\n    static ip_address=192.168.4.1/24\n    nohook wpa_supplicant" | sudo tee -a $DHCPCD_CONF_FILE > /dev/null; then
   echo "Static IP address configuration added successfully."
