@@ -287,6 +287,10 @@ EOF
 sudo sed -i '/\[Unit\]/a After=dnsmasq.service' "/etc/systemd/system/bind9.service"
 sudo systemctl daemon-reload
 
+
+sudo sed -i '/\[Unit\]/a After=dnsmasq.service' "/etc/systemd/system/named.service"
+sudo systemctl daemon-reload
+
 # Set up bind9 named.conf.options file to make it a DNS recursive resolver
 sudo tee /etc/bind/named.conf.options > /dev/null <<EOF
 options {
@@ -296,7 +300,8 @@ options {
 };
 EOF
 
-#sudo systemctl disable named
+sudo systemctl disable named
+sudo systemctl stop named
 sudo systemctl enable bind9
 
 
