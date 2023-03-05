@@ -292,11 +292,11 @@ sudo systemctl daemon-reload
 BIND9_NAMED_CONF_OPTIONS_FILE=/etc/bind/named.conf.options
 sudo bash -c "cat > $BIND9_NAMED_CONF_OPTIONS_FILE <<EOF
 options {
-        directory '/var/cache/bind';
-
+        directory "/var/cache/bind";
         recursion yes;
         allow-recursion { any; };
 };
+
 EOF"
 
 #------------------------------------------------------------------------------------------------
