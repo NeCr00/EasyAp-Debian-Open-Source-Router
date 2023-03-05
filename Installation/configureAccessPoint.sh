@@ -287,17 +287,18 @@ EOF
 sudo sed -i '/\[Unit\]/a After=dnsmasq.service' "/etc/systemd/system/bind9.service"
 sudo systemctl daemon-reload
 
-#------------------------------------------------------------------------------------------------
 # Set up bind9 named.conf.options file to make it a DNS recursive resolver
-BIND9_NAMED_CONF_OPTIONS_FILE=/etc/bind/named.conf.options
-sudo bash -c "cat > $BIND9_NAMED_CONF_OPTIONS_FILE <<EOF
+sudo tee /etc/bind/named.conf.options > /dev/null <<EOF
 options {
         directory "/var/cache/bind";
         recursion yes;
         allow-recursion { any; };
 };
+EOF
 
-EOF"
+#sudo systemctl disable named
+sudo systemctl enable bind9
+
 
 #------------------------------------------------------------------------------------------------
 # Create a blank configuration file for ddclient
@@ -322,7 +323,6 @@ sudo cp -f $DDCLIENT_CONF_FILE $DDCLIENT_CONF_FILE.default || { echo "Error: def
 
 # Disable ddclient.service in order to prevent it from starting on system boot-up
 sudo systemctl disable ddclient
-
 #------------------------------------------------------------------------------------------------
 # Installing and Configuring the MongoDB
 echo "Adding MongoDB repository to sources list..."
