@@ -89,7 +89,7 @@ else
   exit 1
 fi
 
-sudo cp -f $DHCPCD_CONF_FILE $DNSMASQ_CONF_FILE.default || { echo "Error: default dnsmasq file creation failed"; exit 1; }
+sudo cp -f $DHCPCD_CONF_FILE $DHCPCD_CONF_FILE.default || { echo "Error: default dnsmasq file creation failed"; exit 1; }
 #------------------------------------------------------------------------------------------------
 #Configuring ip forwarding for the access point
 

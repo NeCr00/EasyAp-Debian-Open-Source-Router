@@ -18,7 +18,7 @@ $(document).ready(function () {
 
 
   function getData(url) {
-   let data = fetch(url)
+    let data = fetch(url)
       .then((data) => {
         return data.json();
       })
@@ -26,10 +26,10 @@ $(document).ready(function () {
         //console.log(post);
         return post;
       });
-      return data;
+    return data;
   }
 
-  
+
 
 
 
@@ -91,7 +91,7 @@ $(document).ready(function () {
       $("#geo-table-data").append(newRow);
     });
   }
- 
+
   //---------------------------------------------------------------------
 
   // Progress Circle Chart
@@ -101,15 +101,15 @@ $(document).ready(function () {
     var percentage_str = percentage.toString();
     var classes = "";
 
-    if (percentage >= 0 && percentage <=45) {
+    if (percentage >= 0 && percentage <= 45) {
       classes = "danger-stroke ";
     } else if (percentage <= 75) {
       classes = "warning-stroke";
     } else {
       classes = "success-stroke";
     }
-    var svg =''
-     svg =
+    var svg = ''
+    svg =
       '<svg class="circle-chart" viewbox="0 0 33.83098862 33.83098862" xmlns="http://www.w3.org/2000/svg">' +
       '<circle class="circle-chart__background" cx="16.9" cy="16.9" r="15.9" />' +
       '<circle class="circle-chart__circle ' +
@@ -131,13 +131,13 @@ $(document).ready(function () {
     }
 
     svg += " </g></svg>";
-    inner_text=''
+    inner_text = ''
     return svg;
-    
+
   }
 
   (function ($, data) {
-    
+
     $.fn.circlechart = function (data) {
       this.each(function (index) {
         var percentage = data[index].percentage;
@@ -151,25 +151,25 @@ $(document).ready(function () {
   async function createUsageChart() {
 
     var usage_data = await getData("/dashboard/usage_data")
-    
+
     $(".circlechart").circlechart(usage_data); // Initialization of Usage chart, passing data
 
   }
-  
- const intervalID = setInterval(createUsageChart, 1000);
-  
+
+  const intervalID = setInterval(createUsageChart, 1000);
+
   //---------------------------------------------------------------------
 
   //Devices Table
 
-   async function CreateDeviceTable() {
+  async function CreateDeviceTable() {
     var data = await getData("/dashboard/getDevices")
     console.log(data)
     data.forEach((item) => {
       var newRow = $('<tr class="border-bottom border-1">');
       var cols = "";
 
-      
+
       cols +=
         '  <td> <ion-icon class="desktop-icon" name="desktop-sharp"></ion-icon>' +
         item.host +
@@ -210,9 +210,7 @@ $(document).ready(function () {
         "-8:00",
         "-9:00",
         "-10:00",
-        "-11:00",
-        "-12:00",
-      ],
+        "-11:00"],
       datasets: [
         {
           label: "Packets Sent",

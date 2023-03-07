@@ -2,7 +2,7 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec)
 const { DNSMASQ_LEASES_FILE } = require('../../Helpers/constants')
 const { readFileSync } = require('fs');
-const { INTERFACE} = require('../../Helpers/constants')
+const { INTERFACE, DNSMASQ_STATIC_LEASES_FILE} = require('../../Helpers/constants')
 
 function extractDeviceInfo(string_devices) {
     let currentTimeSeconds = new Date() / 1000;
@@ -110,6 +110,10 @@ async function getStaticDevices(activeDevices) {
                                                 // If an existing device is found with the same MAC address, update its IP address
                                                 console.log("Found existing device");
                                                 existingDevice.ip = ip;
+                                                if(getStaticDevicesDnsmasqFile(ip)){
+                                                    existingDevice.lease_time = 'Infinity'
+                                                }
+
                                             } else {
                                                 // If an existing device is not found with the same MAC address, add a new device to the activeDevices array
                                                 console.log("Adding new device");
@@ -144,6 +148,24 @@ async function getStaticDevices(activeDevices) {
         }
 
     });
+    
+}
+
+function getStaticDevicesDnsmasqFile(ip){
+
+    const dnsmasqStaticFile = DNSMASQ_STATIC_LEASES_FILE
+    let  staticFile =  readFileSync(dnsmasqStaticFile, 'utf-8');
+
+    lines = staticFile.split('\n');
+
+    for (line of lines){
+
+        if (line.includes(ip)){
+            return true;
+        }
+    }
+
+    return false;
 }
 
 

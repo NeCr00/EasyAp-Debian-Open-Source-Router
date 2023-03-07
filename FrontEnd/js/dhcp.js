@@ -177,9 +177,10 @@ $(document).ready(function () {
     };
 
     //post data to server
+    $('#spinnerModal').modal('show');
     let res_status = await postData("dhcp/submit", data);
     let res_data = await res_status.json();
-
+    $('#spinnerModal').modal('hide');
 
     if (res_data.error) {
       errorModal(res_data.message);
@@ -263,10 +264,14 @@ $(document).ready(function () {
         hostname: hostname
       });
     })
+
+    $('#spinnerModal').modal('show');
     if (static_ip.length > 0) {
+      
       let response = await postData("dhcp/static-ips", static_ip);
       let response_data = await response.json();
       console.log(response_data);
+      $('#spinnerModal').modal('hide');
       if (response_data.error) {
         errorModal(response_data.message);
         $(".new-item-mac").parent().remove();
@@ -279,6 +284,8 @@ $(document).ready(function () {
     if (deleted.length > 0) {
       let res = await deleteData("dhcp/static-ips", deleted);
       let res_data = await res.json();
+
+      $('#spinnerModal').modal('hide');
       if (res_data.error) {
         errorModal(res_data.message);
       } else {

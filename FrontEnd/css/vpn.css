@@ -271,3 +271,10 @@ hr{
   border-radius: 10px;
   cursor: pointer;
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

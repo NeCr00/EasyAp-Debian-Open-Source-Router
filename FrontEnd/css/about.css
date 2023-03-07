@@ -8,6 +8,14 @@ body{
     background: linear-gradient(40deg,#606163,#0e1114);
     height: 200px;;
   }
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
   
   .page-title{
     background: linear-gradient(40deg,#0e1114,#606163);

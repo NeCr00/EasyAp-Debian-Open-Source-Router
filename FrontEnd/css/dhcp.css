@@ -204,3 +204,11 @@ input {
     color: rgba(255, 0, 0, 0.5) !important;
     transform: translateY(4px) !important;
 }
+
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

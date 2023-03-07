@@ -197,3 +197,10 @@ body{
 .btn-pass{
   width: 200px 
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

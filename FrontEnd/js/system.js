@@ -135,8 +135,10 @@ $(document).ready(function () {
 
   async function resetConfig() {
     // reset configuration
+    $('#spinnerModal').modal('show');
     let response = await postData('system/reset', {})
     let response_data = await response.json()
+    $('#spinnerModal').modal('hide');
     if (response_data.error) {
       errorModal(response_data.message);
     }
@@ -148,8 +150,10 @@ $(document).ready(function () {
   async function restartServices() {
     // restart services 
     // reset configuration
+    $('#spinnerModal').modal('show');
     let response = await postData('system/restart-services', {})
     let response_data = await response.json()
+    $('#spinnerModal').modal('hide');
     if (response_data.error) {
       errorModal(response_data.message);
     }

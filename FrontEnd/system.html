@@ -118,14 +118,14 @@
                         </li>
                     </ul>
 
-                    <hr/>
-                    
-                        <a href="logout" class="d-flex align-items-center fs-5 text-nav logout-hover"  aria-expanded="false">
-                            <ion-icon class="logout-icon" name="log-out-sharp"></ion-icon>
-                            <span class="">Logout</span>
-                        </a>
+                    <hr />
 
-                    
+                    <a href="logout" class="d-flex align-items-center fs-5 text-nav logout-hover" aria-expanded="false">
+                        <ion-icon class="logout-icon" name="log-out-sharp"></ion-icon>
+                        <span class="">Logout</span>
+                    </a>
+
+
                 </div>
             </div>
 
@@ -234,8 +234,10 @@
 
                                     <div
                                         class="col-10 ms-md-5 d-flex flex-row justify-content-md-end justify-content-sm-center mt-5">
-                                        <button id="submit-pass" class="btn btn-pass btn-dark me-4" type="button">Apply</button>
-                                        <button id="reset" class="btn  btn-pass btn-danger " type="button"> Reset</button>
+                                        <button id="submit-pass" class="btn btn-pass btn-dark me-4"
+                                            type="button">Apply</button>
+                                        <button id="reset" class="btn  btn-pass btn-danger " type="button">
+                                            Reset</button>
                                     </div>
                                 </div>
 
@@ -248,7 +250,8 @@
                                     <h4 class=" table-header fw-semibold ">Reset Configuration</h4>
                                 </div>
                             </div>
-                            <div class="container-fluid table-responsive rounded-bottom card-sizing position-relative shadow-lg">
+                            <div
+                                class="container-fluid table-responsive rounded-bottom card-sizing position-relative shadow-lg">
                                 <div class=" row row-cols-1 mt-md-3 mt-sm-1  justify-content-center ">
                                     <div class="col-md-11 col-sm-12 mb-1">
                                         <div class="d-flex flex-row">
@@ -269,16 +272,16 @@
                                     </div>
 
                                 </div>
-                                
-                                    <div class="col-md-12 col-sm-12 text-center position-absolute bottom-0 end-0  mb-lg-3">
-                                        <!-- Button trigger modal -->
-                                        <button class="btn btn-reset-reboot reset-reboot-font btn-danger shadow-lg" type="button"
-                                            id="reset_bt"> Reset
-                                            Config</button>
+
+                                <div class="col-md-12 col-sm-12 text-center position-absolute bottom-0 end-0  mb-lg-3">
+                                    <!-- Button trigger modal -->
+                                    <button class="btn btn-reset-reboot reset-reboot-font btn-danger shadow-lg"
+                                        type="button" id="reset_bt"> Reset
+                                        Config</button>
 
 
-                                    </div>
-                                
+                                </div>
+
                             </div>
                         </div>
 
@@ -288,7 +291,8 @@
                                     <h4 class=" table-header fw-semibold ">Reboot Services</h4>
                                 </div>
                             </div>
-                            <div class="container-fluid table-responsive rounded-bottom card-sizing  position-relative shadow-lg">
+                            <div
+                                class="container-fluid table-responsive rounded-bottom card-sizing  position-relative shadow-lg">
                                 <div class=" row row-cols-1 mt-md-3 mt-sm-1 justify-content-center ">
                                     <div class="col-md-11 col-sm-12 mb-1">
                                         <div class="d-flex flex-row">
@@ -303,26 +307,28 @@
                                     </div>
                                     <div class="col-md-11 col-sm-12  ">
                                         <div>
-                                            <p class=" reset-reboot-font">  The Extensive Configuration defined by the user will remain unchanged
+                                            <p class=" reset-reboot-font"> The Extensive Configuration defined by the
+                                                user will remain unchanged
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 col-sm-12 text-center position-absolute bottom-0 end-0  mb-lg-3 ">
-                           
-
-                                            <!-- Button trigger modal -->
-                                            <button class="btn btn-reset-reboot btn-danger reset-reboot-font shadow-lg" type="button"
-                                                id="reboot_bt">
-                                                Reboot Services</button>
+                                    <div
+                                        class="col-md-12 col-sm-12 text-center position-absolute bottom-0 end-0  mb-lg-3 ">
 
 
+                                        <!-- Button trigger modal -->
+                                        <button class="btn btn-reset-reboot btn-danger reset-reboot-font shadow-lg"
+                                            type="button" id="reboot_bt">
+                                            Reboot Services</button>
 
-                                        
+
+
+
 
                                     </div>
 
                                 </div>
-                             
+
 
                             </div>
                         </div>
@@ -350,77 +356,94 @@
             <script>
 
             </script>
-          
-         <!-- Modal -->
-         <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-         <div class="modal-dialog" role="document">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
-                     <button type="button" id="reset_close_modal_header" class="close" data-dismiss="modal"
-                         aria-label="Close">
-                         <span aria-hidden="true">&times;</span>
-                     </button>
-                 </div>
-                 <div class="modal-body">
-                     Are you sure you want to Reset Configuration?
-                 </div>
-                 <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                         id="reset_close_modal">Close</button>
-                     <button type="button" class="btn btn-danger" id="reset_proceed">Confirm</button>
-                 </div>
-             </div>
-         </div>
-     </div>
-     <!-- Modal -->
-     <div class="modal fade" id="rebootModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-         <div class="modal-dialog" role="document">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
-                     <button type="button" id="reboot_close_modal_header" class="close" data-dismiss="modal"
-                         aria-label="Close">
-                         <span aria-hidden="true">&times;</span>
-                     </button>
-                 </div>
-                 <div class="modal-body">
-                     Are you sure you want to Reboot Services?
-                 </div>
-                 <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                         id="reboot_close_modal">Close</button>
-                     <button type="button" class="btn btn-danger" id="reboot_proceed">Confirm</button>
-                 </div>
-             </div>
-         </div>
-     </div>
 
-           <!-- Modal -->
-           <div class="modal fade" id="modal" tabindex="-1" role="dialog"
-           aria-labelledby="exampleModalLabel" aria-hidden="true">
-           <div class="modal-dialog" role="document">
-               <div class="modal-content">
-                   <div class="modal-header">
-                       <h5 class="modal-title-mess" id="modal-title-mess">Warning!</h5>
-                       <button type="button" id="close_modal_header" class="close" data-dismiss="modal"
-                           aria-label="Close">
-                           <span aria-hidden="true">&times;</span>
-                       </button>
-                   </div>
-                   <div class="modal-body-mess">
-                       Are you sure you want to Reset Configuration?
-                   </div>
-                   <div class="modal-footer">
-                       <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                           id="close_modal">Close</button>
-                       <button type="button" class="btn btn-danger" id="proceed">Confirm</button>
-                   </div>
-               </div>
-           </div>
-       </div>
+            <!-- Modal -->
+            <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                            <button type="button" id="reset_close_modal_header" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to Reset Configuration?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                id="reset_close_modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="reset_proceed">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="rebootModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                            <button type="button" id="reboot_close_modal_header" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to Reboot Services?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                id="reboot_close_modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="reboot_proceed">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title-mess" id="modal-title-mess">Warning!</h5>
+                            <button type="button" id="close_modal_header" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body-mess">
+                            Are you sure you want to Reset Configuration?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                id="close_modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="proceed">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="spinnerModal" tabindex="-1" role="dialog" aria-labelledby="spinnerModalLabel"
+                aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="spinner-container">
+                                <div class="spinner-border spinner-border-lg text-black" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </body>
 
 </html>

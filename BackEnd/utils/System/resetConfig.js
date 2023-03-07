@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const { execSync } = require('child_process');
-const User = require('../../Database/Model/User');
+
 const { executeCommand } = require('../../Helpers/executeCommand');
-const { DNSMASQ_CONF_FILE, DNSMASQ_LEASES_FILE, DNSMASQ_STATIC_LEASES_FILE, 
-     HOSTAPD_CONFIG_FILE, DDCLIENT_CONF_FILE,DDCLIENT_CONF_DEFAULT_FILE,
+const { insertDefaultUser } = require('../../Helpers/defaultUser')
+const { initializeTrafficMonitorData } = require('../Dashboard/networkTrafficMonitor')
+const { DNSMASQ_CONF_FILE, DNSMASQ_LEASES_FILE, DNSMASQ_STATIC_LEASES_FILE,
+    HOSTAPD_CONFIG_FILE, DDCLIENT_CONF_FILE, DDCLIENT_CONF_DEFAULT_FILE,
     DNSMASQ_CONF_DEFAULT_FILE, HOSTAPD_CONFIG_DEFAULT_FILE, DHCPCD_CONF_FILE, DHCPCD_CONF_DEFAULT_FILE } = require('../../Helpers/constants');
 
 async function resetConfiguration() {
@@ -18,12 +20,10 @@ async function resetConfiguration() {
             // Loop through the array and drop each collection
             names.forEach(function (elem) {
 
-                    mongoose.connection.db.dropCollection(elem.name);
+                mongoose.connection.db.dropCollection(elem.name);
             });
         });
 
-        //Add the default user
-        await User.create({ username: 'admin', password: 'admin' })
 
         // Flush all the iptables rules
         execSync('sudo iptables -F');
@@ -63,6 +63,10 @@ async function resetConfiguration() {
         await executeCommand('sudo systemctl restart dnsmasq')
         await executeCommand('sudo systemctl restart hostapd')
 
+        await insertDefaultUser()
+        await initializeTrafficMonitorData()
+
+
     } catch (err) {
         error = true;
         message = `An error occurred: ${err.message}`;
@@ -70,7 +74,7 @@ async function resetConfiguration() {
         return { error, message };
     }
     // return an object with a success property and a message property
-    return { 'error':false, 'message':'Changes applied successfully' };
+    return { 'error': false, 'message': 'Changes applied successfully' };
 }
 
 

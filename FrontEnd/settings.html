@@ -125,13 +125,13 @@
                     </ul>
 
                     <hr />
-                   
-                        <a href="logout" class="d-flex align-items-center fs-5 text-nav logout-hover"  aria-expanded="false">
-                            <ion-icon class="logout-icon" name="log-out-sharp"></ion-icon>
-                            <span class="">Logout</span>
-                        </a>
 
-                    
+                    <a href="logout" class="d-flex align-items-center fs-5 text-nav logout-hover" aria-expanded="false">
+                        <ion-icon class="logout-icon" name="log-out-sharp"></ion-icon>
+                        <span class="">Logout</span>
+                    </a>
+
+
                 </div>
             </div>
 
@@ -181,8 +181,8 @@
                                                         <ion-icon name="finger-print-sharp"></ion-icon>
                                                     </div>
 
-                                                    <input id="ssid" type="text" class="form-control" placeholder="Type your SSID"
-                                                        aria-label="First name">
+                                                    <input id="ssid" type="text" class="form-control"
+                                                        placeholder="Type your SSID" aria-label="First name">
                                                 </div>
                                             </div>
                                         </div>
@@ -224,8 +224,8 @@
                                     </div>
 
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                        <div class="float-end"> <button id="updateWirelessSettings" class="btn btn-pass btn-dark me-4"
-                                                type="button">Apply</button>
+                                        <div class="float-end"> <button id="updateWirelessSettings"
+                                                class="btn btn-pass btn-dark me-4" type="button">Apply</button>
                                             <button id="reset-settings" class="btn  btn-pass btn-danger " type="button">
                                                 Reset</button>
                                         </div>
@@ -265,9 +265,9 @@
                                             </table>
 
                                             <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                <div class="float-end"> <button id="submit-forward-rules" class="btn btn-pass btn-dark me-4"
-                                                        type="button">Apply</button>
-                                                   
+                                                <div class="float-end"> <button id="submit-forward-rules"
+                                                        class="btn btn-pass btn-dark me-4" type="button">Apply</button>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -292,24 +292,23 @@
                                                     <tr class=" border-bottom border-2  fw-light table-text">
                                                         <th class="text-center pe-4 " scope="col"> <input
                                                                 class="form-check-input" type="checkbox" value=""
-                                                                id="check-all-devices" > </th>
+                                                                id="check-all-devices"> </th>
                                                         <th class="ps-3" scope="col">Host</th>
                                                         <th class="text-center" scope="col">IP</th>
                                                         <th class="text-center" scope="col">MAC Address</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-text">
-                                                   
+
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
 
                                     <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                        <div class="float-end"> <button id="submitConnectedDevices" class="btn btn-pass btn-dark me-4"
-                                                type="button">Ban</button>
-                                            <button class="btn  btn-pass btn-danger " type="button">
-                                                Reset</button>
+                                        <div class="float-end"> <button id="submitConnectedDevices"
+                                                class="btn btn-pass btn-dark me-4" type="button">Ban</button>
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -345,9 +344,9 @@
                                             </table>
 
                                             <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-                                                <div class="float-end"> <button id="submit-mac" class="btn btn-pass btn-dark me-4"
-                                                        type="button">Apply</button>
-                                                    
+                                                <div class="float-end"> <button id="submit-mac"
+                                                        class="btn btn-pass btn-dark me-4" type="button">Apply</button>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -374,29 +373,47 @@
 
                         </script>
 
-                                  <!-- Modal -->
-                                  <div class="modal fade" id="modal" tabindex="-1" role="dialog"
-                                  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                  <div class="modal-dialog" role="document">
-                                      <div class="modal-content">
-                                          <div class="modal-header">
-                                              <h5 class="modal-title" id="modal-title">Warning!</h5>
-                                              <button type="button" id="close_modal_header" class="close" data-dismiss="modal"
-                                                  aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                              </button>
-                                          </div>
-                                          <div class="modal-body">
-                                              Are you sure you want to Reset Configuration?
-                                          </div>
-                                          <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                  id="close_modal">Close</button>
-                                              <button type="button" class="btn btn-danger" id="proceed">Confirm</button>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="modal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modal-title">Warning!</h5>
+                                        <button type="button" id="close_modal_header" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to Reset Configuration?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                            id="close_modal">Close</button>
+                                        <button type="button" class="btn btn-danger" id="proceed">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="spinnerModal" tabindex="-1" role="dialog"
+                            aria-labelledby="spinnerModalLabel" aria-hidden="true" data-bs-backdrop="static"
+                            data-bs-keyboard="false">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="spinner-container">
+                                            <div class="spinner-border spinner-border-lg text-black" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 </body>
 
 </html>

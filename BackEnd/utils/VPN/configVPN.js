@@ -131,10 +131,13 @@ async function getVpnStatus() {
     let statusLine = output.stdout.split('\n')[2].split(': ')[1]
     if (statusLine.includes('inactive') || statusLine.includes('activating')){
         return {vpn_status : 'disconnected'}
-    } else {
+    } else if (statusLine.includes('active (running)')) {
         return {vpn_status : 'connected'}
+    } else {
+        return {vpn_status : 'Something went wrong'}
     }
-} 
+}
+
 
 async function readVpnLogs() {
     try {

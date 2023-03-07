@@ -167,17 +167,17 @@
 
                 <div class="container-fluid table-responsive rounded-bottom position-relative shadow-sm p-4">
                     <div class="row justify-content-between">
-                      <div class="col-lg-12 col-12 d-flex align-items-center mt-5">
-                        <span class="fs-5 fw-bold">Current Status: </span>
-                        <span class="ms-4 status-light disconnected bold"></span>
-                        <span class="fs-5 fw-bold ml-3" id="vpn-status">Disconnected</span>
-                        <div class="d-flex align-items-center ms-5 ml-auto">
-                            <button id="connect-btn" class="btn btn-success mx-3">Connect</button>
-                            <button id="disconnect-btn" class="btn btn-danger mx-3">Disconnect</button>
-                          </div>
-                      </div>
+                        <div class="col-lg-12 col-12 d-flex align-items-center mt-5">
+                            <span class="fs-5 fw-bold">Current Status: </span>
+                            <span class="ms-4 status-light disconnected bold"></span>
+                            <span class="fs-5 fw-bold ml-3" id="vpn-status">Disconnected</span>
+                            <div class="d-flex align-items-center ms-5 ml-auto">
+                                <button id="connect-btn" class="btn btn-success mx-3">Connect</button>
+                                <button id="disconnect-btn" class="btn btn-danger mx-3">Disconnect</button>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                </div>
 
 
                 <div class="container-fluid my-5">
@@ -197,7 +197,7 @@
                                 class="container-fluid table-responsive rounded-bottom  position-relative  card-sizing shadow-sm ">
                                 <div class="row row-cols-1  g-sm-2 g-md-4  ">
 
-                                    
+
                                     <div class=" col-sm-10  col-md-10  mt-md-5">
                                         <div class="container-fluid">
                                             <div class="row row-cols-1 ">
@@ -361,6 +361,23 @@
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                             id="close_modal">Close</button>
                                         <button type="button" class="btn btn-danger" id="proceed">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="spinnerModal" tabindex="-1" role="dialog"
+                            aria-labelledby="spinnerModalLabel" aria-hidden="true" data-bs-backdrop="static"
+                            data-bs-keyboard="false">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body-spinner">
+                                        <div class="spinner-container">
+                                            <div class="spinner-border spinner-border-lg text-black" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

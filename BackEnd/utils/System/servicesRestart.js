@@ -2,7 +2,7 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec)
 const { getVpnStatus } = require('../VPN/configVPN')
 const { getDDnsConfigs } = require('../DNS/ddnsConfig')
-const {initializeTrafficMonitorData} = require('../Dashboard/networkTrafficMonitor')
+
 
 async function restartServices() {
 
@@ -38,11 +38,10 @@ async function restartServices() {
     }
 
 
-    initializeTrafficMonitorData()
-    
+
 
     console.log('Done restarting services');
-    return { error: error, message: 'Services has been rebooted' };
+    return { error: error, message: 'Services have been rebooted' };
   } catch (error) {
     console.error(error);
     return { error: true, message: error.message };

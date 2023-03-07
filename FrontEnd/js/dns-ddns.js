@@ -215,7 +215,7 @@ $(document).ready(function () {
     };
 
     $("#dns-table-body tr").each(function (item) {
-      var item = $(this).find(".new-item").html();
+      var item = $(this).find(".new-item").text();
       if (item) dns_table.new_dns.push(item);
     });
 

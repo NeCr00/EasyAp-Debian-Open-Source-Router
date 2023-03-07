@@ -4,6 +4,13 @@ body{
     
   }
   
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
   .navbar1{
     background: linear-gradient(40deg,#606163,#0e1114);
   }

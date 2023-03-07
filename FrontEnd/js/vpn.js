@@ -69,6 +69,7 @@ $(document).ready(function () {
   });
   //Error Modal
   function errorModal(msg) {
+    $('#spinnerModal').modal('hide');
     $("#modal").modal("show");
     $("#modal-title").html('<p style="color:red; font-weight:bold;">Error</p>');
     $(".modal-body").html(
@@ -77,6 +78,7 @@ $(document).ready(function () {
   }
 
   function successModal(msg) {
+    $('#spinnerModal').modal('hide');
     $("#modal").modal("show");
     $("#modal-title").html(
       '<p style="color:green; font-weight:bold;">Success</p>'
@@ -96,10 +98,10 @@ $(document).ready(function () {
   log_textarea.scrollTop = log_textarea.scrollHeight;
 
   //On selecting a file, parse its content in the textarea
-  $("#openVPNFileInput").change(function() {
+  $("#openVPNFileInput").change(function () {
     var file = this.files[0];
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       $("#vpn-config").val(e.target.result);
     };
     reader.readAsText(file);
@@ -111,30 +113,42 @@ $(document).ready(function () {
     var username = $("#username").val();
     var password = $("#password").val();
     var file = $('#openVPNFileInput').prop('files')[0];
-  
+
     let data = {
       "file": '',
       "username": username,
       "password": password
     };
-  
+
+    // Check that the file is defined and is an object before calling readAsText
+    if (typeof file === 'undefined' || !file instanceof File) {
+      response = await postData('vpn/config_file/upload', data);
+      response_data = await response.json();
+      if (response_data.error) {
+        errorModal(response_data.message);
+      } else {
+        successModal("Credentials updated successfully");
+      }
+      return;
+    }
+
     // Create a new Promise object to wait for the file to load
-    const fileLoaded = new Promise(resolve => {
+    let fileLoaded = new Promise(resolve => {
       var reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         var contents = e.target.result;
         data['file'] = contents;
         resolve(); // Resolve the Promise once the file is loaded
       };
       reader.readAsText(file);
     });
-  
+
     // Wait for the file to load before making the API call
     await fileLoaded;
-  
+
     response = await postData('vpn/config_file/upload', data);
     response_data = await response.json();
-  
+
     console.log(response_data);
     if (response_data.error) {
       errorModal(response_data.message);
@@ -142,20 +156,20 @@ $(document).ready(function () {
       successModal(response_data.message);
     }
   }
-  
+
 
   $("#apply-vpn-form").click(function () {
     SubmitVpnConf();
-    $('#modal').modal('show');
+
   })
   //---------------------------------------------------
 
   //Get VPN configuration-----------------------------------------
 
   // Visualize if connected or disconnected to VPN
-  async function getVpnStatus(){
+  async function getVpnStatus() {
     let response = await getData("vpn/status");
-    if (response['vpn_status'] === 'connected'){
+    if (response['vpn_status'] === 'connected') {
       $(".status-light").removeClass("disconnected");
       $(".status-light").addClass("connected");
       $("#vpn-status").html("Connected");
@@ -166,14 +180,14 @@ $(document).ready(function () {
   // Configuration File overview
   async function getConfigFile() {
     let data = await getData("vpn/config_file");
-    
+
     $("#vpn-config").val(data.file);
-    
-    if (data.auth){
+
+    if (data.auth) {
       $("#username").val(data.auth.username);
       $("#password").val(data.auth.password);
     }
-    
+
   }
   getConfigFile()
 
@@ -218,36 +232,50 @@ $(document).ready(function () {
   })
   //--------------------------------------------------------------------------
 
-  $("#connect-btn").click(async function () {
+  $("#connect-btn").on('click', async function () {
 
     let connect = await postData('/vpn/connect', []);
     let connect_data = await connect.json();
 
+
+
     if (connect_data.error) {
-      errorModal(response_data.message);
+      errorModal(connect_data.message);
       return;
     }
-
+    successModal(connect_data.message)
     $(".status-light").removeClass("disconnected");
     $(".status-light").addClass("connected");
     $("#vpn-status").html("Connected");
-  });
+  })
+
+
+
 
   $("#disconnect-btn").click(async function () {
 
+    $('#spinnerModal').modal('show');
     let disconnect = await postData('/vpn/disconnect', []);
-    let connect_data = await disconnect.json();
-
-    if (connect_data.error) {
-      errorModal(response_data.message);
-      return;
-    }
-
-    $(".status-light").removeClass("connected");
-    $(".status-light").addClass("disconnected");
-    $("#vpn-status").html("Disconnected");
-  });
+    let disconnect_data = await disconnect.json();
 
 
+
+    setTimeout(function () {
+
+      $('#spinnerModal').modal('hide');
+
+      if (disconnect_data.error) {
+        errorModal(disconnect_data.message);
+
+        return;
+      }
+      successModal(disconnect_data.message)
+      $(".status-light").removeClass("connected");
+      $(".status-light").addClass("disconnected");
+      $("#vpn-status").html("Disconnected");
+    }, 1000); // Change the timeout duration as per your requirement
+  })
 
 });
+
+

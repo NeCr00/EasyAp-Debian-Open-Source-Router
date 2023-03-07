@@ -16,5 +16,6 @@ $(document).ready(function(){
       
     });
 
+    $('#spinnerModal').modal('show');
     
 });

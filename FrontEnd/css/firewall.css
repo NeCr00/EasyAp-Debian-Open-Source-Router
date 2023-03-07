@@ -221,3 +221,11 @@ textarea{
     height: 400px;
     background-color: #ffffff !important;
 }
+
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

@@ -174,3 +174,11 @@ input {
 th {
   position: sticky !important;
 }
+
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

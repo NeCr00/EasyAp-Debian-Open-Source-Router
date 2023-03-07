@@ -36,23 +36,26 @@ router.post('/disconnect', async (req, res) => {
   let disconnected = await stopVPN()
   console.log(disconnected)
   if(disconnected.error){
-    res.json({error:true, message:'Cannot disconnect to VPN'})
+    res.json({error:true, message:'Cannot disconnect from VPN'})
   }
   else{
-    res.json({error:false, message:'disconnected to VPN'})
+    res.json({error:false, message:'Disconnected from VPN'})
   }
 })
 
 
 
-router.post('/config_file/upload', (req, res) => {
+router.post('/config_file/upload', async (req, res) => {
 
   let config = req.body.file
   let username = req.body.username
   let password = req.body.password
 
-  applied = writeVPNConfigGUI(config, username, password)
-  
+
+  applied = await writeVPNConfigGUI(config, username, password)
+ 
+
+
   if(applied.error){
     res.json({error:true, message:applied.error})
   }
